@@ -2,7 +2,7 @@
 name: SETUP template
 about: 프로젝트 셋업
 title: "[SETUP] {이슈 이름} : {BE or FE or ES}"
-labels: SETUP
+labels: SETUP ⚙️
 assignees: ''
 
 ---

@@ -2,7 +2,7 @@
 name: Refactor template
 about: 코드 리펙토링 이슈
 title: "[REFACTOR] {이슈 이름} : {BE or FE or ES}"
-labels: REFACTOR
+labels: "REFACTOR \U0001F6E0️"
 assignees: ''
 
 ---

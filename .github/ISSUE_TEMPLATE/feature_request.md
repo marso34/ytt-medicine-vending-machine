@@ -2,7 +2,7 @@
 name: Feature request
 about: Suggest an idea for this project
 title: "[FEAT] {이슈 이름} : {BE or FE or ES}"
-labels: FEAT
+labels: FEAT ✨
 assignees: ''
 
 ---
