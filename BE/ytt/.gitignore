@@ -37,5 +37,6 @@ out/
 .vscode/
 
 ### Security ###
+**/application-common.yml
 **/application-secret.yml
 **/application-prod.yml
