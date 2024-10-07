@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: ytt
+
+  profiles:
+    active: local
+
+server:
+  port: 8080 # 임시 포트 설정
