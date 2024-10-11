@@ -22,6 +22,8 @@ public class GeometryUtil {
      */
     public static Point createPoint(final Double latitude, final Double longitude) {
         final GeometryFactory geometryFactory = new GeometryFactory();
-        return geometryFactory.createPoint(new Coordinate(longitude, latitude));
+        Point point = geometryFactory.createPoint(new Coordinate(longitude, latitude));
+        point.setSRID(4326);  // SRID를 4326으로 설정
+        return point;
     }
 }
