@@ -6,17 +6,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.naver.maps.geometry.LatLng
-import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
-import com.naver.maps.map.util.FusedLocationSource
 import com.wonchihyeon.ytt_android.R
 import com.wonchihyeon.ytt_android.databinding.FragmentHomeBinding
 import java.io.IOException
@@ -27,7 +26,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var naverMap: NaverMap
-    private lateinit var locationSource: FusedLocationSource
     private lateinit var marker: Marker
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,13 +99,24 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             if (addresses != null && addresses.isNotEmpty()) {
                 val address: Address = addresses[0]
                 val addressText = address.getAddressLine(0) ?: "주소를 찾을 수 없습니다."
-                Toast.makeText(requireContext(), addressText, Toast.LENGTH_LONG).show()
+                showAddressInBottomSheet(addressText) // 주소를 BottomSheet로 보여주기
             } else {
-                Toast.makeText(requireContext(), "주소를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+                showAddressInBottomSheet("주소를 찾을 수 없습니다.")
             }
         } catch (e: IOException) {
             e.printStackTrace()
-            Toast.makeText(requireContext(), "주소를 가져올 수 없습니다.", Toast.LENGTH_SHORT).show()
+            showAddressInBottomSheet("주소를 가져올 수 없습니다.")
         }
+    }
+
+    // 주소를 BottomSheet로 보여주는 함수
+    private fun showAddressInBottomSheet(addressText: String) {
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_address, null)
+        val addressTextView = bottomSheetView.findViewById<TextView>(R.id.addressTextView)
+        addressTextView.text = addressText
+
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        bottomSheetDialog.setContentView(bottomSheetView)
+        bottomSheetDialog.show()
     }
 }
