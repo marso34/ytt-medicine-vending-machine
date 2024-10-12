@@ -3,8 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,10 +18,31 @@
         android:theme="@style/Theme.Yttandroid"
         tools:targetApi="31">
         <activity
-            android:name=".failed.FailedActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".success.SuccessActivity"
+            android:name=".account.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".HomeFragment"
+            android:exported="false" />
+        <activity
+            android:name=".FindFragment"
+            android:exported="false" />
+        <activity
+            android:name=".MyFragment"
+            android:exported="false" />
+        <activity
+            android:name=".OrderFragment"
+            android:exported="false" />
+        <activity
+            android:name=".failed.FailedActivity"
             android:exported="false" />
         <activity
             android:name=".account.FindPasswordActivity"
@@ -41,15 +65,7 @@
         <activity
             android:name=".account.JoinActivity"
             android:exported="false" />
-        <activity
-            android:name=".account.LoginActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <meta-data android:name="com.kakao.sdk.AppKey" android:value="MAPS_API_KEY"/>
     </application>
 
 </manifest>
