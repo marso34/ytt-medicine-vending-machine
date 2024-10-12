@@ -4,13 +4,16 @@ import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.google.android.gms.maps.CameraUpdate
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.MapFragment
@@ -51,6 +54,18 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
         mapFragment.getMapAsync(this) // Naver Map 준비되면 콜백 실행
 
+        // 검색 바 클릭 이벤트 설정
+        binding.searchBar.setOnEditorActionListener { v, actionId, event ->
+            if (event?.action == KeyEvent.ACTION_DOWN || actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val address = binding.searchBar.text.toString()
+                searchAddress(address)
+                true
+            } else {
+                false
+            }
+        }
+
+
         binding.tipTap.setOnClickListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_tipFragment)
         }
@@ -68,6 +83,29 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }
 
         return binding.root
+    }
+
+    private fun searchAddress(address: String) {
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        try {
+            val addresses: List<Address>? = geocoder.getFromLocationName(address, 1)
+            if (addresses != null && addresses.isNotEmpty()) {
+                val location = addresses[0]
+                val latLng = LatLng(location.latitude, location.longitude)
+
+                // 마커 위치 설정 및 지도에 추가
+                marker.position = latLng
+                marker.map = naverMap
+
+                // 주소 하단 시트 표시
+                showAddressInBottomSheet(location.getAddressLine(0) ?: "주소를 찾을 수 없습니다.")
+            } else {
+                showAddressInBottomSheet("주소를 찾을 수 없습니다.")
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            showAddressInBottomSheet("주소를 가져올 수 없습니다.")
+        }
     }
 
     // Naver Map 준비가 완료되면 호출되는 콜백
