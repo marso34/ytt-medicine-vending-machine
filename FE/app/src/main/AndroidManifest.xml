@@ -21,9 +21,6 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".account.LoginActivity"
             android:exported="true">
             <intent-filter>
@@ -33,39 +30,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeFragment"
-            android:exported="false" />
-        <activity
-            android:name=".FindFragment"
-            android:exported="false" />
-        <activity
             android:name=".MyFragment"
-            android:exported="false" />
-        <activity
-            android:name=".OrderFragment"
-            android:exported="false" />
-        <activity
-            android:name=".failed.FailedActivity"
-            android:exported="false" />
-        <activity
-            android:name=".account.FindPasswordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".account.FindIdActivity"
-            android:exported="false" />
-        <activity
-            android:name=".order.InfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".order.OrderActivity"
             android:exported="false" />
         <activity
             android:name=".account.JoinActivity"
             android:exported="false" />
 
         <meta-data
-            android:name="com.kakao.vectormap.APP_KEY"
-            android:value="${KAKAO_API_KEY}" />
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="${NAVERMAP_CLIENT_ID}"  />
     </application>
 
 </manifest>

@@ -31,6 +31,17 @@ class HomeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
 
+
+
+
+
+
+
+
+
+
+
+
         binding.tipTap.setOnClickListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_tipFragment)
         }

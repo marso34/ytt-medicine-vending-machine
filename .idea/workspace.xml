@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="737e2c6a-9023-4dc2-8784-a6f628461575" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/account/FindIdActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/account/FindPasswordActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/account/JoinActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/account/LoginActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/failed/FailedActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/machine/FavoritesActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/machine/MainActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/order/InfoActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/order/OrderActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/success/SuccessActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/background_radius.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/background_radius_yellow.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/bookmark_color.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/bookmark_white.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/bottom_bookmark.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/bottom_goodtip.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/bottom_hometap.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/bottom_store.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/bottom_talk.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/btnwrite.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/ic_main_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/loginbg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/main_icon_all.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/main_icon_cook.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/main_icon_economy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/main_icon_else.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/main_icon_hobby.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/main_icon_interior.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/main_icon_life.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/main_icon_oneroom.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/main_menu.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/min_logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/plusbtn.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/drawable/upperbg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/layout/activity_failed.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/layout/activity_favorites.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/layout/activity_find_id.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/layout/activity_find_password.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/layout/activity_info.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/layout/activity_join.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/layout/activity_login.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/layout/activity_main2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/layout/activity_order.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/layout/activity_success.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FE/app/src/main/res/navigation/main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/FE/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE/app/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/FE/app/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/FE/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/FE/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/FindFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/FindFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/HomeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/HomeFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/MyFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/MyFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/OrderFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/FE/app/src/main/java/com/wonchihyeon/ytt_android/OrderFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/FE/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/FE/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/FE/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/FE/gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/FE/settings.gradle.kts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="2nJi1rFFUJXjZbBmOxxV7VZXtyj" />
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/src/ytt-medicine-vending-machine/FE",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="737e2c6a-9023-4dc2-8784-a6f628461575" name="Changes" comment="" />
+      <created>1728697367970</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1728697367970</updated>
+    </task>
+    <servers />
+  </component>
+</project>
