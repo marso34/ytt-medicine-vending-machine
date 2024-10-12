@@ -1,5 +1,6 @@
 package com.wonchihyeon.ytt_android.fragments
 
+import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
+import com.wonchihyeon.ytt_android.OrderActivity
 import com.wonchihyeon.ytt_android.R
 import com.wonchihyeon.ytt_android.databinding.FragmentHomeBinding
 import java.io.IOException
@@ -118,5 +120,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(bottomSheetView)
         bottomSheetDialog.show()
+
+        // TextView 클릭 이벤트 설정 - 새로운 액티비티로 이동
+        addressTextView.setOnClickListener {
+            val intent = Intent(requireContext(), OrderActivity::class.java)
+            intent.putExtra("ADDRESS", addressText)
+            startActivity(intent)
+            bottomSheetDialog.dismiss() // 클릭 후 바텀 시트 닫기
+        }
     }
 }
