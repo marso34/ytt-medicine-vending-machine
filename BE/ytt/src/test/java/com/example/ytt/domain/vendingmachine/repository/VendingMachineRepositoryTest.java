@@ -25,48 +25,72 @@ class VendingMachineRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        address = Address.builder()
-                .addressDetails("address")
-                .location(GeometryUtil.createPoint(37.123456, 127.123456))
-                .build();
+        address = createAddress("address", 37.305121, 127.922653);
+        sevedVendingMachine = createAndSaveVendingMachine("vendingMachine", address);
+    }
 
-        sevedVendingMachine = vendingMachineRepository.save(VendingMachine.builder()
-                .name("vendingMachine")
+    @DisplayName("자판기 저장 테스트")
+    @Test
+    void createVendingMachine() {
+        assertVendingMachine(sevedVendingMachine, "vendingMachine", address, MachineState.OPERATING, 10);
+    }
+
+    @DisplayName("자판기 저장 테스트2")
+    @Test
+    void createVendingMachine2() {
+        final VendingMachine vendingMachine = vendingMachineRepository.findById(sevedVendingMachine.getId()).orElse(null);
+
+        assertVendingMachine(vendingMachine, "vendingMachine", address, MachineState.OPERATING, 10);
+    }
+
+    @DisplayName("자판기 이름으로 찾기 테스트")
+    @Test
+    void findByNameContaining() {
+        final List<VendingMachine> vendingMachines = vendingMachineRepository.findByNameContaining("vending");
+
+        assertThat(vendingMachines)
+                .filteredOn(v -> v.getName().contains("vending"))
+                .isNotNull();
+    }
+
+    @DisplayName("주변 위치 자판기 찾기 테스트")
+    @Test
+    void findNearByLocation() {
+        // 자판기 좌표는 대략적인 좌표로 주석의 거리는 정확하지 않음
+        createAndSaveVendingMachine("vendingMachine2", createAddress("address2", 37.307899, 127.920770)); // 약 500m
+        createAndSaveVendingMachine("vendingMachine3", createAddress("address3", 37.311945, 127.927402)); // 약 1000m
+        createAndSaveVendingMachine("vendingMachine4", createAddress("address4", 37.319237, 127.935006)); // 약 2500m
+
+        // sevedVendingMachine의 주소로 검색해 항상 1개의 자판기가 검색되어야 함
+        assertThat(vendingMachineRepository.findNearByLocation(address.getLocation(), 0)).hasSize(1);
+        assertThat(vendingMachineRepository.findNearByLocation(address.getLocation(), 500)).hasSize(2);
+        assertThat(vendingMachineRepository.findNearByLocation(address.getLocation(), 1100)).hasSize(3);
+        assertThat(vendingMachineRepository.findNearByLocation(address.getLocation(), 2500)).hasSize(4);
+    }
+
+    // address 생성 메서드
+    private Address createAddress(String details, double latitude, double longitude) {
+        return Address.builder()
+                .addressDetails(details)
+                .location(GeometryUtil.createPoint(latitude, longitude))
+                .build();
+    }
+
+    // vendingMachine 생성 메서드
+    private VendingMachine createAndSaveVendingMachine(String name, Address address) {
+        return vendingMachineRepository.save(VendingMachine.builder()
+                .name(name)
                 .address(address)
                 .state(MachineState.OPERATING)
                 .capacity(10)
                 .build());
     }
 
-    @DisplayName("자판기 생성 테스트")
-    @Test
-    void createVendingMachine() {
-        assertThat(sevedVendingMachine).isNotNull();
-        assertThat(sevedVendingMachine.getName()).isEqualTo("vendingMachine");
-        assertThat(sevedVendingMachine.getAddress()).isEqualTo(address);
-        assertThat(sevedVendingMachine.getState()).isEqualTo(MachineState.OPERATING);
-        assertThat(sevedVendingMachine.getCapacity()).isEqualTo(10);
+    // assertions 메서드
+    private void assertVendingMachine(VendingMachine vendingMachine, String name, Address address, MachineState state, int capacity) {
+        assertThat(vendingMachine)
+                .isNotNull()
+                .extracting(VendingMachine::getName, VendingMachine::getAddress, VendingMachine::getState, VendingMachine::getCapacity)
+                .containsExactly(name, address, state, capacity);
     }
-
-    @DisplayName("자판기 생성 테스트2")
-    @Test
-    void createVendingMachine2() {
-        final VendingMachine vendingMachine = vendingMachineRepository.findById(sevedVendingMachine.getId()).orElse(null);
-
-        assertThat(vendingMachine).isNotNull();
-        assertThat(vendingMachine.getName()).isEqualTo("vendingMachine");
-        assertThat(vendingMachine.getAddress()).isEqualTo(address);
-        assertThat(vendingMachine.getState()).isEqualTo(MachineState.OPERATING);
-        assertThat(vendingMachine.getCapacity()).isEqualTo(10);
-    }
-
-    @DisplayName("자판기 이름으로 찾기 테스트")
-    @Test
-    void findByNameContaining() {
-        final List<VendingMachine> vendingMachine = vendingMachineRepository.findByNameContaining("vending");
-
-        assertThat(vendingMachine).isNotNull();
-        assertThat(vendingMachine.get(0).getName()).contains("vending");
-    }
-
 }
