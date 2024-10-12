@@ -10,15 +10,10 @@
         android:background="@color/white">
 
         <LinearLayout
+            android:id="@+id/linearLayout6"
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout2">
-
-            <LinearLayout
-                android:background="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -29,6 +24,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,9 +43,9 @@
 
         </LinearLayout>
 
-        <!--suppress AndroidUnknownAttribute -->
+
         <LinearLayout
-            android:id="@+id/linearLayout2"
+            android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@color/white"
@@ -56,8 +57,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/get"
-                android:background="#E0E0E0"/>
+                android:background="#E0E0E0"
+                android:src="@drawable/get" />
 
             <ImageView
                 android:id="@+id/tipTap"
@@ -72,8 +73,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/report"
-                android:background="#E0E0E0" />
+                android:background="#E0E0E0"
+                android:src="@drawable/report" />
 
             <ImageView
                 android:id="@+id/bookmarkTap"
@@ -92,5 +93,6 @@
                 android:background="#E0E0E0" />
 
         </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
