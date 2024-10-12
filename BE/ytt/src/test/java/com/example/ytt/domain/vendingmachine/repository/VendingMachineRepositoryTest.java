@@ -12,7 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 class VendingMachineRepositoryTest {
@@ -22,7 +22,7 @@ class VendingMachineRepositoryTest {
 
     private VendingMachine sevedVendingMachine;
     private Address address;
-    
+
     @BeforeEach
     void setUp() {
         address = Address.builder()
