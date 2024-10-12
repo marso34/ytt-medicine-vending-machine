@@ -37,8 +37,8 @@
             android:exported="false" />
 
         <meta-data
-            android:name="com.kakao.vectormap.APP_KEY"
-            android:value="" />
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="${NAVERMAP_CLIENT_ID}" />
     </application>
 
 </manifest>
