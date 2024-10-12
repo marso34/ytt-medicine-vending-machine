@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
 }
-// 추가
+
 val properties = Properties().apply {
     load(FileInputStream(rootProject.file("local.properties")))
 }
@@ -30,9 +30,7 @@ android {
             abiFilters.add("x86_64")
         }
 
-        //추가
-        buildConfigField("String", "KAKAO_MAP_KEY", properties.getProperty("KAKAO_MAP_KEY"))
-
+        addManifestPlaceholders(mapOf("NAVERMAP_CLIENT_ID" to properties.getProperty("NAVERMAP_CLIENT_ID")))
     }
 
     buildTypes {
@@ -75,5 +73,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("com.kakao.maps.open:android:2.9.5")
+    // 네이버 지도 SDK
+    implementation("com.naver.maps:map-sdk:3.12.0")
 }
