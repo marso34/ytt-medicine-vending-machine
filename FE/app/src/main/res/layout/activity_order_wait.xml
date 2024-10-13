@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <!-- 주문 이미지 -->
+    <ImageView
+        android:id="@+id/order_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+
+    <!-- 주문 정보 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="16dp">
+
+        <TextView
+            android:id="@+id/order_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="약 이름"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/order_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="가격: 2,000원" />
+    </LinearLayout>
+</LinearLayout>

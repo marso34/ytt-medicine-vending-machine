@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.wonchihyeon.ytt_android.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_talkFragment"
+            app:destination="@id/talkFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_bookmarkFragment"
+            app:destination="@id/bookmarkFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_storeFragment"
+            app:destination="@id/storeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_tipFragment"
+            app:destination="@id/tipFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookmarkFragment"
+        android:name="com.wonchihyeon.ytt_android.fragments.GptFragment"
+        android:label="fragment_bookmark"
+        tools:layout="@layout/fragment_gpt" >
+        <action
+            android:id="@+id/action_GptFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_GptFragment_to_talkFragment"
+            app:destination="@id/talkFragment" />
+        <action
+            android:id="@+id/action_GptFragment_to_storeFragment"
+            app:destination="@id/storeFragment" />
+        <action
+            android:id="@+id/action_GptFragment_to_tipFragment"
+            app:destination="@id/tipFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/storeFragment"
+        android:name="com.wonchihyeon.ytt_android.fragments.MyFragment"
+        android:label="fragment_store"
+        tools:layout="@layout/fragment_my" >
+        <action
+            android:id="@+id/action_myFragment_to_talkFragment"
+            app:destination="@id/talkFragment" />
+        <action
+            android:id="@+id/action_myFragment_to_tipFragment"
+            app:destination="@id/tipFragment" />
+        <action
+            android:id="@+id/action_myFragment_to_bookmarkFragment"
+            app:destination="@id/bookmarkFragment" />
+        <action
+            android:id="@+id/action_myFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tipFragment"
+        android:name="com.wonchihyeon.ytt_android.fragments.StarFragment"
+        android:label="fragment_tip"
+        tools:layout="@layout/fragment_star" >
+        <action
+            android:id="@+id/action_StarFragment_to_storeFragment"
+            app:destination="@id/storeFragment" />
+        <action
+            android:id="@+id/action_StarFragment_to_talkFragment"
+            app:destination="@id/talkFragment" />
+        <action
+            android:id="@+id/action_StarFragment_to_bookmarkFragment"
+            app:destination="@id/bookmarkFragment" />
+        <action
+            android:id="@+id/action_StarFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/talkFragment"
+        android:name="com.wonchihyeon.ytt_android.fragments.ReportFragment"
+        android:label="fragment_talk"
+        tools:layout="@layout/fragment_report" >
+        <action
+            android:id="@+id/action_talkFragment_to_storeFragment"
+            app:destination="@id/storeFragment" />
+        <action
+            android:id="@+id/action_talkFragment_to_tipFragment"
+            app:destination="@id/tipFragment" />
+        <action
+            android:id="@+id/action_talkFragment_to_bookmarkFragment"
+            app:destination="@id/bookmarkFragment" />
+        <action
+            android:id="@+id/action_talkFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+</navigation>
