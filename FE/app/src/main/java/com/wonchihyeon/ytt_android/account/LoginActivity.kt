@@ -34,6 +34,23 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // 로그인에 성공하면 홈프래그먼트로 이동
+        binding.join.setOnClickListener {
+            val intent = Intent(this, JoinActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 로그인에 성공하면 홈프래그먼트로 이동
+        binding.findId.setOnClickListener {
+            val intent = Intent(this, FindIdActivity::class.java)
+            startActivity(intent)
+        }
+        // 로그인에 성공하면 홈프래그먼트로 이동
+        binding.findPassword.setOnClickListener {
+            val intent = Intent(this, FindPasswordActivity::class.java)
+            startActivity(intent)
+        }
+
         getHashKey()
 
 
