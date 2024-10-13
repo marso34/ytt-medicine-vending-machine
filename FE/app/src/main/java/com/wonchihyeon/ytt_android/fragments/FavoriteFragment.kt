@@ -8,13 +8,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.wonchihyeon.ytt_android.R
-import com.wonchihyeon.ytt_android.databinding.FragmentStarBinding
+import com.wonchihyeon.ytt_android.databinding.FragmentFavoriteBinding
+
 
 
 // 즐겨찾기 페이지
-class StarFragment : Fragment() {
+class FavoriteFragment : Fragment() {
 
-    private lateinit var binding: FragmentStarBinding
+    private lateinit var binding: FragmentFavoriteBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +29,7 @@ class StarFragment : Fragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_star, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorite, container, false)
 
         binding.bookmarkTap.setOnClickListener {
             it.findNavController().navigate(R.id.action_StarFragment_to_bookmarkFragment)

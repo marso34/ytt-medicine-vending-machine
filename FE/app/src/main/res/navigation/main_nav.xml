@@ -61,9 +61,9 @@
     </fragment>
     <fragment
         android:id="@+id/tipFragment"
-        android:name="com.wonchihyeon.ytt_android.fragments.StarFragment"
+        android:name="com.wonchihyeon.ytt_android.fragments.FavoriteFragment"
         android:label="fragment_tip"
-        tools:layout="@layout/fragment_star" >
+        tools:layout="@layout/fragment_favorite" >
         <action
             android:id="@+id/action_StarFragment_to_storeFragment"
             app:destination="@id/storeFragment" />
