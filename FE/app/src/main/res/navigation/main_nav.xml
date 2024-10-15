@@ -79,9 +79,9 @@
     </fragment>
     <fragment
         android:id="@+id/talkFragment"
-        android:name="com.wonchihyeon.ytt_android.fragments.ReportFragment"
+        android:name="com.wonchihyeon.ytt_android.fragments.OrderFragment"
         android:label="fragment_talk"
-        tools:layout="@layout/fragment_report" >
+        tools:layout="@layout/fragment_order" >
         <action
             android:id="@+id/action_talkFragment_to_storeFragment"
             app:destination="@id/storeFragment" />
