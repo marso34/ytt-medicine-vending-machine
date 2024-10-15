@@ -31,21 +31,6 @@ class FavoriteFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorite, container, false)
 
-        binding.bookmarkTap.setOnClickListener {
-            it.findNavController().navigate(R.id.action_StarFragment_to_bookmarkFragment)
-        }
-
-        binding.homeTap.setOnClickListener {
-            it.findNavController().navigate(R.id.action_StarFragment_to_homeFragment)
-        }
-
-        binding.talkTap.setOnClickListener {
-            it.findNavController().navigate(R.id.action_StarFragment_to_talkFragment)
-        }
-
-        binding.storeTap.setOnClickListener {
-            it.findNavController().navigate(R.id.action_StarFragment_to_storeFragment)
-        }
 
         return binding.root
     }
