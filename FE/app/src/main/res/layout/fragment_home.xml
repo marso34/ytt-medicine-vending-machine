@@ -30,53 +30,5 @@
               app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-        <!-- 하단 버튼 레이아웃 -->
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <ImageView
-                android:id="@+id/homeTap"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/get"
-                android:background="#E0E0E0"/>
-
-            <ImageView
-                android:id="@+id/tipTap"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#E0E0E0"
-                android:src="@drawable/lost" />
-
-            <ImageView
-                android:id="@+id/talkTap"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#E0E0E0" />
-
-            <ImageView
-                android:id="@+id/bookmarkTap"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/qa"
-                android:background="#E0E0E0" />
-
-            <ImageView
-                android:id="@+id/storeTap"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/user"
-                android:background="#E0E0E0" />
-
-        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
