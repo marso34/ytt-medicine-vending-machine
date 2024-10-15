@@ -65,23 +65,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-
-        binding.tipTap.setOnClickListener {
-            it.findNavController().navigate(R.id.action_homeFragment_to_tipFragment)
-        }
-
-        binding.talkTap.setOnClickListener {
-            it.findNavController().navigate(R.id.action_homeFragment_to_talkFragment)
-        }
-
-        binding.bookmarkTap.setOnClickListener {
-            it.findNavController().navigate(R.id.action_homeFragment_to_bookmarkFragment)
-        }
-
-        binding.storeTap.setOnClickListener {
-            it.findNavController().navigate(R.id.action_homeFragment_to_storeFragment)
-        }
-
         return binding.root
     }
 
