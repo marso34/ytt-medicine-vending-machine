@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.wonchihyeon.ytt_android.R
-import com.wonchihyeon.ytt_android.databinding.FragmentReportBinding
+import com.wonchihyeon.ytt_android.databinding.FragmentOrderBinding
+
 
 // 주문내역
 class OrderFragment : Fragment() {
-    private lateinit var binding: FragmentReportBinding
+    private lateinit var binding: FragmentOrderBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
