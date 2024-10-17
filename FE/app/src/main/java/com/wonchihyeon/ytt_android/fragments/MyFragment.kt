@@ -26,22 +26,6 @@ class MyFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my, container, false)
 
-        binding.tipTap.setOnClickListener {
-            it.findNavController().navigate(R.id.action_myFragment_to_tipFragment)
-        }
-
-        binding.talkTap.setOnClickListener {
-            it.findNavController().navigate(R.id.action_myFragment_to_talkFragment)
-        }
-
-        binding.bookmarkTap.setOnClickListener {
-            it.findNavController().navigate(R.id.action_myFragment_to_bookmarkFragment)
-        }
-
-        binding.homeTap.setOnClickListener {
-            it.findNavController().navigate(R.id.action_myFragment_to_homeFragment)
-        }
-
 
         return binding.root
     }

@@ -6,32 +6,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import com.wonchihyeon.ytt_android.R
-import com.wonchihyeon.ytt_android.databinding.FragmentFavoriteBinding
+import com.wonchihyeon.ytt_android.databinding.FragmentOrderBinding
 
 
-
-// 즐겨찾기 페이지
-class FavoriteFragment : Fragment() {
-
-    private lateinit var binding: FragmentFavoriteBinding
-
+// 주문내역
+class OrderFragment : Fragment() {
+    private lateinit var binding: FragmentOrderBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
+        // Inflate the layout for this fragment
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_order, container, false)
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorite, container, false)
 
 
         return binding.root
     }
+
 }
