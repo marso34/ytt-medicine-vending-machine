@@ -11,7 +11,7 @@ import com.wonchihyeon.ytt_android.databinding.FragmentOrderBinding
 
 
 // 주문내역
-class OrderFragment : Fragment() {
+class OrderListFragment : Fragment() {
     private lateinit var binding: FragmentOrderBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

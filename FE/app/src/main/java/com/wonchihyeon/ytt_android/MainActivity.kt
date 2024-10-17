@@ -6,7 +6,7 @@ import com.wonchihyeon.ytt_android.databinding.ActivityMainBinding
 import com.wonchihyeon.ytt_android.fragments.FavoriteFragment
 import com.wonchihyeon.ytt_android.fragments.HomeFragment
 import com.wonchihyeon.ytt_android.fragments.MyFragment
-import com.wonchihyeon.ytt_android.fragments.OrderFragment
+import com.wonchihyeon.ytt_android.fragments.OrderListFragment
 
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.fragment_order -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.main_container, OrderFragment()).commit()
+                    supportFragmentManager.beginTransaction().replace(R.id.main_container, OrderListFragment()).commit()
                     true
                 }
                 R.id.fragment_my -> {
