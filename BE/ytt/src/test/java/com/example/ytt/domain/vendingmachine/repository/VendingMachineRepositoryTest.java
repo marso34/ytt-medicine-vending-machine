@@ -3,7 +3,6 @@ package com.example.ytt.domain.vendingmachine.repository;
 import com.example.ytt.domain.model.Address;
 import com.example.ytt.domain.vendingmachine.domain.MachineState;
 import com.example.ytt.domain.vendingmachine.domain.VendingMachine;
-import com.example.ytt.global.util.GeometryUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,7 @@ class VendingMachineRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        address = createAddress("address", 37.305121, 127.922653);
+        address = Address.from("address", 37.305121, 127.922653);
         sevedVendingMachine = createAndSaveVendingMachine("vendingMachine", address);
     }
 
@@ -57,23 +56,15 @@ class VendingMachineRepositoryTest {
     @Test
     void findNearByLocation() {
         // 자판기 좌표는 대략적인 좌표로 주석의 거리는 정확하지 않음
-        createAndSaveVendingMachine("vendingMachine2", createAddress("address2", 37.307899, 127.920770)); // 약 500m
-        createAndSaveVendingMachine("vendingMachine3", createAddress("address3", 37.311945, 127.927402)); // 약 1000m
-        createAndSaveVendingMachine("vendingMachine4", createAddress("address4", 37.319237, 127.935006)); // 약 2500m
+        createAndSaveVendingMachine("vendingMachine2", Address.from("address2", 37.307899, 127.920770)); // 약 500m
+        createAndSaveVendingMachine("vendingMachine3", Address.from("address3", 37.311945, 127.927402)); // 약 1000m
+        createAndSaveVendingMachine("vendingMachine4", Address.from("address4", 37.319237, 127.935006)); // 약 2500m
 
         // sevedVendingMachine의 주소로 검색해 항상 1개의 자판기가 검색되어야 함
         assertThat(vendingMachineRepository.findNearByLocation(address.getLocation(), 0)).hasSize(1);
         assertThat(vendingMachineRepository.findNearByLocation(address.getLocation(), 500)).hasSize(2);
         assertThat(vendingMachineRepository.findNearByLocation(address.getLocation(), 1100)).hasSize(3);
         assertThat(vendingMachineRepository.findNearByLocation(address.getLocation(), 2500)).hasSize(4);
-    }
-
-    // address 생성 메서드
-    private Address createAddress(String details, double latitude, double longitude) {
-        return Address.builder()
-                .addressDetails(details)
-                .location(GeometryUtil.createPoint(latitude, longitude))
-                .build();
     }
 
     // vendingMachine 생성 메서드

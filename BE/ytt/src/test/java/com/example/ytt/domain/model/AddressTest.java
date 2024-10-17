@@ -36,17 +36,15 @@ class AddressTest {
         final Point newLocation = GeometryUtil.createPoint(37.654321, 127.654321);
         address.updateAddress("new address", newLocation);
 
-        assertThat(address.getAddressDetails()).isEqualTo("new address");
-        assertThat(address.getLocation()).isEqualTo(newLocation);
+        assertThat(address)
+                .extracting("addressDetails", "location")
+                .contains("new address", newLocation);
     }
 
     @DisplayName("Equals & HashCode 테스트")
     @Test
     void equalsAndHashCode() {
-        final Address newAddress = Address.builder()
-                .addressDetails("address")
-                .location(location)
-                .build();
+        final Address newAddress = Address.from("address", location);
 
         System.out.println(address.hashCode());
 

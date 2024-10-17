@@ -1,7 +1,6 @@
 package com.example.ytt.domain.vendingmachine.domain;
 
 import com.example.ytt.domain.model.Address;
-import com.example.ytt.global.util.GeometryUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,10 +14,7 @@ class VendingMachineTest {
 
     @BeforeEach
     void setUp() {
-         address = Address.builder()
-                .addressDetails("address")
-                .location(GeometryUtil.createPoint(37.123456, 127.123456))
-                .build();
+         address = Address.from("address", 37.123456, 127.123456);
 
         vendingMachine = VendingMachine.builder()
                 .name("name")
@@ -49,10 +45,7 @@ class VendingMachineTest {
     @DisplayName("자판기 주소 수정 테스트")
     @Test
     void updateVendingMachineAddress() {
-        final Address newAddress = Address.builder()
-                .addressDetails("new address")
-                .location(GeometryUtil.createPoint(37.654321, 127.654321))
-                .build();
+        final Address newAddress = Address.from("new address", 37.654321, 127.654321);
 
         vendingMachine.updateAddress(newAddress);
 
