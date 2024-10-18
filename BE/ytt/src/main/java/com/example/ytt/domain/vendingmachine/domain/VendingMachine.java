@@ -3,6 +3,7 @@ package com.example.ytt.domain.vendingmachine.domain;
 import com.example.ytt.domain.model.Address;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.util.Assert;
 
 @Entity
 @Table(name = "vending_machine")
@@ -33,6 +34,11 @@ public class VendingMachine {
 
     @Builder
     public VendingMachine(final String name, final Address address, final MachineState state, final Integer capacity) {
+        Assert.hasText(name, "자판기 이름은 필수입니다.");
+        Assert.notNull(address, "자판기 주소는 필수입니다.");
+        Assert.notNull(state, "자판기 상태는 필수입니다.");
+        Assert.notNull(capacity, "자판기 용량은 필수입니다.");
+
         this.name = name;
         this.address = address;
         this.state = state;
