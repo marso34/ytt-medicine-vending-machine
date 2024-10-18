@@ -1,12 +1,13 @@
-package com.wonchihyeon.ytt_android
+package com.wonchihyeon.ytt_android.order
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.wonchihyeon.ytt_android.R
 
-class OrderActivity : AppCompatActivity() {
+class OrderDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

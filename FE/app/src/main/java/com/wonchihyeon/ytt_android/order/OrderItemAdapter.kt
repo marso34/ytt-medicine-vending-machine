@@ -1,10 +1,11 @@
-package com.wonchihyeon.ytt_android
+package com.wonchihyeon.ytt_android.order
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.wonchihyeon.ytt_android.R
 
 class OrderItemsAdapter(private val items: List<OrderItem>) :
     RecyclerView.Adapter<OrderItemsAdapter.OrderItemViewHolder>() {
