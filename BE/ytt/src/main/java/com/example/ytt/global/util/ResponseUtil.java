@@ -2,6 +2,7 @@ package com.example.ytt.global.util;
 
 
 import com.example.ytt.global.common.response.ResponseDto;
+import com.example.ytt.global.error.BaseExceptionType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -30,6 +31,34 @@ public class ResponseUtil {
         return ResponseEntity
                 .status(status)
                 .body(ResponseDto.of(status.value(), message, body));
+    }
+
+    /**
+     * 임시 에러 응답, ExceptionType 방식으로 수정
+     */
+    public static <T> ResponseEntity<ResponseDto<T>> error(HttpStatus status) {
+        return ResponseEntity
+                .status(status)
+                .body(ResponseDto.of(status.value(), status.getReasonPhrase(), null));
+    }
+
+    /**
+     * 임시 에러 응답, ExceptionType 방식으로 수정
+     */
+    public static <T> ResponseEntity<ResponseDto<T>> error(int code, String message, HttpStatus status) {
+        return ResponseEntity
+                .status(status)
+                .body(ResponseDto.of(code, message, null));
+    }
+
+    public static <T> ResponseEntity<ResponseDto<T>> error(BaseExceptionType status, T body) {
+        return error(status, status.getErrorMessage(), body);
+    }
+
+    public static <T> ResponseEntity<ResponseDto<T>> error(BaseExceptionType status, String message, T body) {
+        return ResponseEntity
+                .status(status.getHttpStatus())
+                .body(ResponseDto.of(status.getErrorCode(), message, body));
     }
 
 }
