@@ -12,15 +12,13 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import com.google.android.gms.maps.CameraUpdate
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
-import com.wonchihyeon.ytt_android.OrderActivity
+import com.wonchihyeon.ytt_android.order.OrderDetailsActivity
 import com.wonchihyeon.ytt_android.R
 import com.wonchihyeon.ytt_android.databinding.FragmentHomeBinding
 import java.io.IOException
@@ -144,7 +142,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
         // TextView 클릭 이벤트 설정 - 새로운 액티비티로 이동
         addressTextView.setOnClickListener {
-            val intent = Intent(requireContext(), OrderActivity::class.java)
+            val intent = Intent(requireContext(), OrderDetailsActivity::class.java)
             intent.putExtra("ADDRESS", addressText)
             startActivity(intent)
             bottomSheetDialog.dismiss() // 클릭 후 바텀 시트 닫기
