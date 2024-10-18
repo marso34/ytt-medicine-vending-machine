@@ -1,6 +1,7 @@
 package com.example.ytt.domain.vendingmachine.domain;
 
 import com.example.ytt.domain.model.Address;
+import com.example.ytt.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.util.Assert;
@@ -11,7 +12,7 @@ import org.springframework.util.Assert;
 @Getter
 @EqualsAndHashCode(of = "id")
 @ToString(of = {"name", "address", "state", "capacity"})
-public class VendingMachine {
+public class VendingMachine extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

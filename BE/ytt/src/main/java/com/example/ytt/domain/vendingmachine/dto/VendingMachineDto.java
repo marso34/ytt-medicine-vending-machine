@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(title = "자판기 Respone DTO", description = "자판기 정보를 담은 DTO")
 public record VendingMachineDto(
-        @Schema(description = "자판기 식별자", example = "1")                 Long id,
+        @Schema(description = "자판기 ID", example = "1")                     Long id,
         @Schema(description = "자판기 이름", example = "강릉원주대 자판기")   String name,
         @Schema(description = "자판기 상태", example = "OPERATING")           MachineState state,
         @Schema(description = "자판기 주소", example = "남원로 150")          String address,
