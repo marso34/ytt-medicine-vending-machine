@@ -24,7 +24,7 @@ class VendingMachineRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        address = Address.from("address", 37.305121, 127.922653);
+        address = Address.of("address", 37.305121, 127.922653);
         sevedVendingMachine = createAndSaveVendingMachine("vendingMachine", address);
     }
 
@@ -56,9 +56,9 @@ class VendingMachineRepositoryTest {
     @Test
     void findNearByLocation() {
         // 자판기 좌표는 대략적인 좌표로 주석의 거리는 정확하지 않음
-        createAndSaveVendingMachine("vendingMachine2", Address.from("address2", 37.307899, 127.920770)); // 약 500m
-        createAndSaveVendingMachine("vendingMachine3", Address.from("address3", 37.311945, 127.927402)); // 약 1000m
-        createAndSaveVendingMachine("vendingMachine4", Address.from("address4", 37.319237, 127.935006)); // 약 2500m
+        createAndSaveVendingMachine("vendingMachine2", Address.of("address2", 37.307899, 127.920770)); // 약 500m
+        createAndSaveVendingMachine("vendingMachine3", Address.of("address3", 37.311945, 127.927402)); // 약 1000m
+        createAndSaveVendingMachine("vendingMachine4", Address.of("address4", 37.319237, 127.935006)); // 약 2500m
 
         // sevedVendingMachine의 주소로 검색해 항상 1개의 자판기가 검색되어야 함
         assertThat(vendingMachineRepository.findNearByLocation(address.getLocation(), 0)).hasSize(1);

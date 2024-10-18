@@ -14,17 +14,17 @@ public record VendingMachineDto(
         @Schema(description = "자판기 위도", example = "37.305121")           Double latitude,
         @Schema(description = "자판기 경도", example = "127.922653")          Double longitude
 ) {
-    public static VendingMachineDto from(Long id, String name, MachineState state, String address, Double latitude, Double longitude) {
+    public static VendingMachineDto of(Long id, String name, MachineState state, String address, Double latitude, Double longitude) {
         return new VendingMachineDto(id, name, state, address, latitude, longitude);
     }
 
     // Point(address.getLocation)는 경도, 위도 순이라 getY(), getX() 순서로 작성
-    public static VendingMachineDto from(Long id, String name, MachineState state, Address address) {
+    public static VendingMachineDto of(Long id, String name, MachineState state, Address address) {
         return new VendingMachineDto(id, name, state, address.getAddressDetails(), address.getLocation().getY(), address.getLocation().getX());
     }
 
     public static VendingMachineDto from(VendingMachine vendingMachine) {
-        return from(vendingMachine.getId(), vendingMachine.getName(), vendingMachine.getState(), vendingMachine.getAddress());
+        return of(vendingMachine.getId(), vendingMachine.getName(), vendingMachine.getState(), vendingMachine.getAddress());
     }
 
 }
