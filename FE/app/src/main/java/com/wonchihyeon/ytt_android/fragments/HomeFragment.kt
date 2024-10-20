@@ -134,4 +134,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         val bottomSheetFragment = AddressBottomSheetFragment(addressText)
         bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
+
+    // HomeFragment 클래스에 추가
+    fun showFavoriteBottomSheet() {
+        // 바텀 시트를 호출하는 코드
+        val bottomSheetFragment = AddressBottomSheetFragment("Favorite Items") // 원하는 텍스트로 변경
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+    }
+
 }
