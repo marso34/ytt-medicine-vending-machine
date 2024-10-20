@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.wonchihyeon.ytt_android.OrderDetailsActivity
@@ -31,6 +32,9 @@ class AddressBottomSheetFragment(private val addressText: String) : BottomSheetD
             dismiss() // 바텀 시트 닫기
         }
 
+        // 포커스를 막기 위한 설정
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+
         return view
     }
 
@@ -42,5 +46,7 @@ class AddressBottomSheetFragment(private val addressText: String) : BottomSheetD
             layoutParams?.height = (resources.displayMetrics.heightPixels - 500) // 하단에서 500dp 만큼 높이 조정
             dialog.window?.attributes = layoutParams
         }
+        dialog?.setCancelable(true)
+        dialog?.setCanceledOnTouchOutside(true)
     }
 }
