@@ -30,7 +30,7 @@
             android:name=".OrderFailureActivity"
             android:exported="false" />
         <activity
-            android:name=".OrderActivity"
+            android:name=".OrderDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
