@@ -43,7 +43,7 @@
                 android:id="@+id/persistent_bottom_sheet"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:background="#ebebeb"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:padding="16dp"
                 app:behavior_hideable="false"
@@ -51,6 +51,7 @@
                 app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
                 <TextView
+                    android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=" Pull me up! "
