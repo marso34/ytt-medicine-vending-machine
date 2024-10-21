@@ -1,4 +1,4 @@
-package com.wonchihyeon.ytt_android.account
+package com.wonchihyeon.ytt_android.view.account
 
 import android.content.Intent
 import android.content.pm.PackageInfo

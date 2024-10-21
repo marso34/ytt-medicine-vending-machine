@@ -1,7 +1,6 @@
-package com.wonchihyeon.ytt_android.fragments
+package com.wonchihyeon.ytt_android.view
 
 import android.content.ContentValues.TAG
-import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
@@ -12,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior

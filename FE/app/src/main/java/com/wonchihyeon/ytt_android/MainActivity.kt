@@ -9,13 +9,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.wonchihyeon.ytt_android.R
-import com.wonchihyeon.ytt_android.account.LoginActivity
+import com.wonchihyeon.ytt_android.view.account.LoginActivity
 import com.wonchihyeon.ytt_android.databinding.ActivityMainBinding
-import com.wonchihyeon.ytt_android.fragments.FavoriteFragment
-import com.wonchihyeon.ytt_android.fragments.HomeFragment
-import com.wonchihyeon.ytt_android.fragments.MyFragment
-import com.wonchihyeon.ytt_android.fragments.OrderFragment
+import com.wonchihyeon.ytt_android.view.HomeFragment
+import com.wonchihyeon.ytt_android.view.MyFragment
+import com.wonchihyeon.ytt_android.view.OrderFragment
 
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
@@ -67,11 +65,12 @@ class MainActivity : AppCompatActivity() {
                     if (homeFragment == null) {
                         homeFragment = HomeFragment()
                     }
-                    // 하단 다이얼로그 업데이트
-                    homeFragment?.updateBottomSheet("즐겨찾기한 자판기 목록")
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_container, homeFragment!!)
                         .commit()
+                    true
+                    // 하단 다이얼로그 업데이트
+                    homeFragment?.updateBottomSheet("즐겨찾기한 자판기 목록")
                     true
                 }
                 R.id.fragment_order -> {

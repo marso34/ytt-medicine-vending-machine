@@ -18,25 +18,25 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".account.FindPasswordActivity"
+            android:name=".view.account.FindPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".account.FindIdActivity"
+            android:name=".view.account.FindIdActivity"
             android:exported="false" />
         <activity
-            android:name=".account.JoinActivity"
+            android:name=".view.account.JoinActivity"
             android:exported="false" />
         <activity
             android:name=".OrderFailureActivity"
             android:exported="false" />
         <activity
-            android:name=".OrderDetailsActivity"
+            android:name=".view.order.OrderDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".account.LoginActivity"
+            android:name=".view.account.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

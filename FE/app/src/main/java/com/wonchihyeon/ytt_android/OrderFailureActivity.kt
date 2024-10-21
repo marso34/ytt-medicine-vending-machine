@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wonchihyeon.ytt_android.databinding.ActivityOrderFailureBinding
+import com.wonchihyeon.ytt_android.view.order.OrderItem
+import com.wonchihyeon.ytt_android.view.order.OrderItemsAdapter
 
 class OrderFailureActivity : AppCompatActivity() {
 

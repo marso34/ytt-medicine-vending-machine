@@ -1,4 +1,4 @@
-package com.wonchihyeon.ytt_android.fragments
+package com.wonchihyeon.ytt_android.view
 
 import android.os.Bundle
 import android.view.LayoutInflater

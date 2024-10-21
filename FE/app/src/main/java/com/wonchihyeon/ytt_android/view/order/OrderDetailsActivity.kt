@@ -1,10 +1,12 @@
-package com.wonchihyeon.ytt_android
+package com.wonchihyeon.ytt_android.view.order
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.wonchihyeon.ytt_android.OrderFailureActivity
+import com.wonchihyeon.ytt_android.R
 
 class OrderDetailsActivity : AppCompatActivity() {
 

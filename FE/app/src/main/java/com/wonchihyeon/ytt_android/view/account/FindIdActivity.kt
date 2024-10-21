@@ -1,4 +1,4 @@
-package com.wonchihyeon.ytt_android.account
+package com.wonchihyeon.ytt_android.view.account
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
