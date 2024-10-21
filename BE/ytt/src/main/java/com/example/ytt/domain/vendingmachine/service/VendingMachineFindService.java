@@ -52,7 +52,7 @@ public class VendingMachineFindService {
         // TODO: 즐겨찾기 여부 확인 로직 필요
         boolean isFavorite = false;
 
-        return VendingMachineDetailDto.from(vendingMachine, isFavorite);
+        return VendingMachineDetailDto.of(vendingMachine, isFavorite);
     }
 
 }

@@ -14,7 +14,7 @@ class VendingMachineTest {
 
     @BeforeEach
     void setUp() {
-         address = Address.from("address", 37.123456, 127.123456);
+         address = Address.of("address", 37.123456, 127.123456);
 
         vendingMachine = VendingMachine.builder()
                 .name("name")
@@ -45,7 +45,7 @@ class VendingMachineTest {
     @DisplayName("자판기 주소 수정 테스트")
     @Test
     void updateVendingMachineAddress() {
-        final Address newAddress = Address.from("new address", 37.654321, 127.654321);
+        final Address newAddress = Address.of("new address", 37.654321, 127.654321);
 
         vendingMachine.updateAddress(newAddress);
 

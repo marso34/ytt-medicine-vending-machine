@@ -33,10 +33,10 @@ class VendingMachineFindServiceTest {
     @BeforeEach
     void setUp() {
         vendingMachines = List.of(
-                createVendingMachine("강릉원주대 자판기1", Address.from("address1", 37.305121, 127.922653)),
-                createVendingMachine("강릉원주대 자판기2", Address.from("address2", 37.307899, 127.920770)),
-                createVendingMachine("강릉원주대 자판기3", Address.from("address3", 37.311945, 127.927402)),
-                createVendingMachine("강릉원주대 자판기4", Address.from("address4", 37.319237, 127.935006))
+                createVendingMachine("강릉원주대 자판기1", Address.of("address1", 37.305121, 127.922653)),
+                createVendingMachine("강릉원주대 자판기2", Address.of("address2", 37.307899, 127.920770)),
+                createVendingMachine("강릉원주대 자판기3", Address.of("address3", 37.311945, 127.927402)),
+                createVendingMachine("강릉원주대 자판기4", Address.of("address4", 37.319237, 127.935006))
         );
     }
 
@@ -101,7 +101,7 @@ class VendingMachineFindServiceTest {
         // then
         assertThat(vendingMachineDetailDto)
                 .isNotNull()
-                .isEqualTo(VendingMachineDetailDto.from(vendingMachine, false));
+                .isEqualTo(VendingMachineDetailDto.of(vendingMachine, false));
     }
 
     // vendingMachine 생성 메서드

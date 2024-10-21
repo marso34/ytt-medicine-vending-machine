@@ -44,7 +44,7 @@ class AddressTest {
     @DisplayName("Equals & HashCode 테스트")
     @Test
     void equalsAndHashCode() {
-        final Address newAddress = Address.from("address", location);
+        final Address newAddress = Address.of("address", location);
 
         System.out.println(address.hashCode());
 
