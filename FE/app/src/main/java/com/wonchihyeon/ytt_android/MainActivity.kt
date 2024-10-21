@@ -4,10 +4,9 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.wonchihyeon.ytt_android.databinding.ActivityMainBinding
-import com.wonchihyeon.ytt_android.fragments.FavoriteFragment
 import com.wonchihyeon.ytt_android.fragments.HomeFragment
-import com.wonchihyeon.ytt_android.fragments.MyFragment
-import com.wonchihyeon.ytt_android.fragments.OrderFragment
+import com.wonchihyeon.ytt_android.view.MyFragment
+import com.wonchihyeon.ytt_android.view.OrderListFragment
 
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
@@ -43,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.fragment_order -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, OrderFragment())
+                        .replace(R.id.main_container, OrderListFragment())
                         .commit()
                     true
                 }
@@ -57,5 +56,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }
