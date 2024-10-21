@@ -54,7 +54,7 @@
                     android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=" Pull me up! "
+                    android:text="등록된 자판기 목록"
                     android:textSize="24sp"
                     android:gravity="center"/>
 
