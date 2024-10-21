@@ -1,4 +1,4 @@
-package com.wonchihyeon.ytt_android.fragments
+package com.wonchihyeon.ytt_android.view
 
 import android.content.Intent
 import android.location.Address
@@ -18,7 +18,7 @@ import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
-import com.wonchihyeon.ytt_android.order.OrderDetailsActivity
+import com.wonchihyeon.ytt_android.view.order.OrderDetailsActivity
 import com.wonchihyeon.ytt_android.R
 import com.wonchihyeon.ytt_android.databinding.FragmentHomeBinding
 import java.io.IOException

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.wonchihyeon.ytt_android.fragments.HomeFragment"
+        android:name="com.wonchihyeon.ytt_android.view.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/storeFragment"
-        android:name="com.wonchihyeon.ytt_android.fragments.MyFragment"
+        android:name="com.wonchihyeon.ytt_android.view.MyFragment"
         android:label="fragment_store"
         tools:layout="@layout/fragment_my" >
         <action
@@ -61,7 +61,7 @@
     </fragment>
     <fragment
         android:id="@+id/tipFragment"
-        android:name="com.wonchihyeon.ytt_android.fragments.FavoriteFragment"
+        android:name="com.wonchihyeon.ytt_android.view.FavoriteFragment"
         android:label="fragment_tip"
         tools:layout="@layout/fragment_favorite" >
         <action
@@ -79,7 +79,7 @@
     </fragment>
     <fragment
         android:id="@+id/talkFragment"
-        android:name="com.wonchihyeon.ytt_android.fragments.OrderListFragment"
+        android:name="com.wonchihyeon.ytt_android.view.OrderListFragment"
         android:label="fragment_talk"
         tools:layout="@layout/fragment_order" >
         <action

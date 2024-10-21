@@ -1,4 +1,4 @@
-package com.wonchihyeon.ytt_android.order
+package com.wonchihyeon.ytt_android.view.order
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

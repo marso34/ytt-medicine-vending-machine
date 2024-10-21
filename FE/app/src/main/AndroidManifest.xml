@@ -27,10 +27,10 @@
             android:name=".auth.JoinActivity"
             android:exported="false" />
         <activity
-            android:name=".order.OrderFailureActivity"
+            android:name=".view.order.OrderFailureActivity"
             android:exported="false" />
         <activity
-            android:name=".order.OrderDetailsActivity"
+            android:name=".view.order.OrderDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

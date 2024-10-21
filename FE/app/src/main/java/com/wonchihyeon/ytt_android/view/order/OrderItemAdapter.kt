@@ -1,4 +1,4 @@
-package com.wonchihyeon.ytt_android.order
+package com.wonchihyeon.ytt_android.view.order
 
 import android.view.LayoutInflater
 import android.view.View
