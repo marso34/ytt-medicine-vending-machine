@@ -20,16 +20,21 @@ public class Ingredient {
     @Column(name = "ingredient_name", nullable = false)
     private String name; // 성분명
 
-    @Column(name = "efficacy", nullable = false)
+    @Setter
+    @Column(name = "efficacy", columnDefinition = "TEXT")
     private String efficacy; // 효능
 
     @Builder
     public Ingredient(final String name, final String efficacy) {
         Assert.hasText(name, "성분명은 필수입니다.");
-        Assert.hasText(efficacy, "효능은 필수입니다.");
+//        Assert.hasText(efficacy, "효능은 필수입니다.");
 
         this.name = name;
         this.efficacy = efficacy;
+    }
+
+    public static Ingredient of(final String name) {
+        return of(name, null);
     }
 
     public static Ingredient of(final String name, final String efficacy) {
