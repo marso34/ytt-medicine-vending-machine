@@ -27,10 +27,10 @@
             android:name=".auth.JoinActivity"
             android:exported="false" />
         <activity
-            android:name=".view.order.OrderFailureActivity"
+            android:name=".OrderFailureActivity"
             android:exported="false" />
         <activity
-            android:name=".view.order.OrderDetailsActivity"
+            android:name=".OrderDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MyFragment"
+            android:name=".view.MyFragment"
             android:exported="false" />
 
         <meta-data

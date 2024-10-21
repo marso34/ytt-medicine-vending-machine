@@ -1,4 +1,4 @@
-package com.wonchihyeon.ytt_android.view
+package com.wonchihyeon.ytt_android.fragments
 
 import android.content.Intent
 import android.location.Address
@@ -13,12 +13,12 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
-import com.wonchihyeon.ytt_android.view.order.OrderDetailsActivity
 import com.wonchihyeon.ytt_android.R
 import com.wonchihyeon.ytt_android.databinding.FragmentHomeBinding
 import java.io.IOException
@@ -132,20 +132,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     // 주소를 BottomSheet로 보여주는 함수
     private fun showAddressInBottomSheet(addressText: String) {
-        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_address, null)
-        val addressTextView = bottomSheetView.findViewById<TextView>(R.id.addressTextView)
-        addressTextView.text = addressText
-
-        val bottomSheetDialog = BottomSheetDialog(requireContext())
-        bottomSheetDialog.setContentView(bottomSheetView)
-        bottomSheetDialog.show()
-
-        // TextView 클릭 이벤트 설정 - 새로운 액티비티로 이동
-        addressTextView.setOnClickListener {
-            val intent = Intent(requireContext(), OrderDetailsActivity::class.java)
-            intent.putExtra("ADDRESS", addressText)
-            startActivity(intent)
-            bottomSheetDialog.dismiss() // 클릭 후 바텀 시트 닫기
-        }
+        val bottomSheetFragment = AddressBottomSheetFragment(addressText)
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
+
+    // HomeFragment 클래스에 추가
+    fun showFavoriteBottomSheet() {
+        // 바텀 시트를 호출하는 코드
+        val bottomSheetFragment = AddressBottomSheetFragment("Favorite Items") // 원하는 텍스트로 변경
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+    }
+
 }

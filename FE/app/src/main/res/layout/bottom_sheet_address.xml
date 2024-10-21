@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:clickable="true"> <!-- 클릭 가능하게 설정 -->
 
     <TextView
         android:id="@+id/addressTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="주소가 표시됩니다."
+        android:text="주소를 여기에 표시합니다."
         android:textSize="16sp"
-        android:padding="8dp"/>
+        android:padding="16dp"/>
 </LinearLayout>
