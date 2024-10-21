@@ -13,6 +13,8 @@ class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+    private var homeFragment: HomeFragment? = null // HomeFragment의 인스턴스를 저장할 변수
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -21,7 +23,10 @@ class MainActivity : AppCompatActivity() {
 
         // 앱 초기 실행 시 홈화면으로 설정
         if (savedInstanceState == null) {
-            binding.bottomNavigationView.selectedItemId = R.id.fragment_main
+            homeFragment = HomeFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.main_container, homeFragment!!)
+                .commit()
         }
     }
 
@@ -30,14 +35,27 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.fragment_main -> {
+                    // 홈 프래그먼트가 null이 아니면 재사용
+                    if (homeFragment == null) {
+                        homeFragment = HomeFragment()
+                    }
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, HomeFragment())
+                        .replace(R.id.main_container, homeFragment!!)
                         .commit()
+                    // 하단 다이얼로그 업데이트
+                    homeFragment?.updateBottomSheet("홈 화면입니다.")
                     true
                 }
                 R.id.fragment_favorite -> {
-                    // HomeFragment의 인스턴스를 가져와서 바텀 시트 호출
-                    val homeFragment = supportFragmentManager.findFragmentById(R.id.main_container) as? HomeFragment
+                    // 홈 프래그먼트의 인스턴스를 가져와서 하단 다이얼로그 업데이트
+                    if (homeFragment == null) {
+                        homeFragment = HomeFragment()
+                    }
+                    // 하단 다이얼로그 업데이트
+                    homeFragment?.updateBottomSheet("즐겨찾기에서 돌아왔습니다.")
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_container, homeFragment!!)
+                        .commit()
                     true
                 }
                 R.id.fragment_order -> {
@@ -56,5 +74,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }

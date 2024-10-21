@@ -154,4 +154,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             e.printStackTrace()
         }
     }
+
+    // 즐겨찾기 탭 눌렀을 때 즐겨찾기한 자판기를 보여주도록 수정
+    fun updateBottomSheet(data: String) {
+        // Bottom Sheet의 내용을 업데이트하는 로직을 추가합니다.
+        // 예를 들어, 텍스트를 업데이트할 수 있습니다.
+        binding.address.text = data // 데이터에 따라 적절히 수정
+    }
+
 }
