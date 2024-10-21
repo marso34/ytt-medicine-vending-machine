@@ -30,14 +30,14 @@ public class VendingMachine {
     private MachineState state;
 
     @Column(name = "capacity", nullable = false)
-    private Integer capacity;
+    private int capacity;
 
     @Builder
     public VendingMachine(final String name, final Address address, final MachineState state, final Integer capacity) {
         Assert.hasText(name, "자판기 이름은 필수입니다.");
         Assert.notNull(address, "자판기 주소는 필수입니다.");
         Assert.notNull(state, "자판기 상태는 필수입니다.");
-        Assert.notNull(capacity, "자판기 용량은 필수입니다.");
+        Assert.isTrue(capacity > 0, "자판기 용량은 0보다 커야합니다.");
 
         this.name = name;
         this.address = address;
@@ -57,7 +57,7 @@ public class VendingMachine {
         this.state = state;
     }
 
-    public void updateCapacity(final Integer capacity) {
+    public void updateCapacity(final int capacity) {
         this.capacity = capacity;
     }
 }
