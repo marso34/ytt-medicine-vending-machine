@@ -1,5 +1,6 @@
 package com.wonchihyeon.ytt_android
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.wonchihyeon.ytt_android.databinding.ActivityMainBinding
@@ -24,27 +25,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("ResourceType")
     fun setBottomNavigationView() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.fragment_main -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.main_container, HomeFragment()).commit()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_container, HomeFragment())
+                        .commit()
                     true
                 }
                 R.id.fragment_favorite -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.main_container, FavoriteFragment()).commit()
+                    // HomeFragment의 인스턴스를 가져와서 바텀 시트 호출
+                    val homeFragment = supportFragmentManager.findFragmentById(R.id.main_container) as? HomeFragment
+                    homeFragment?.showFavoriteBottomSheet() // 바텀 시트 호출
                     true
                 }
                 R.id.fragment_order -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.main_container, OrderFragment()).commit()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_container, OrderFragment())
+                        .commit()
                     true
                 }
                 R.id.fragment_my -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.main_container, MyFragment()).commit()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_container, MyFragment())
+                        .commit()
                     true
                 }
                 else -> false
             }
         }
     }
+
 }
