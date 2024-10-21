@@ -117,14 +117,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 marker.position = latLng
                 marker.map = naverMap
 
-                // 주소 하단 시트 표시
-                showAddressInBottomSheet(location.getAddressLine(0) ?: "주소를 찾을 수 없습니다.")
             } else {
-                showAddressInBottomSheet("주소를 찾을 수 없습니다.")
             }
         } catch (e: IOException) {
             e.printStackTrace()
-            showAddressInBottomSheet("주소를 가져올 수 없습니다.")
         }
     }
 
@@ -146,40 +142,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         // 마커 위치 설정 및 지도에 추가
         marker.position = latLng
         marker.map = naverMap
-
-        // 주소 가져오기
-        getAddressFromLatLng(latLng)
-    }
-
-    // 좌표를 주소로 변환하는 함수
-    private fun getAddressFromLatLng(latLng: LatLng) {
-        val geocoder = Geocoder(requireContext(), Locale.getDefault())
-        try {
-            val addresses: List<Address>? = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-            if (addresses != null && addresses.isNotEmpty()) {
-                val address: Address = addresses[0]
-                val addressText = address.getAddressLine(0) ?: "주소를 찾을 수 없습니다."
-                showAddressInBottomSheet(addressText) // 주소를 BottomSheet로 보여주기
-            } else {
-                showAddressInBottomSheet("주소를 찾을 수 없습니다.")
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            showAddressInBottomSheet("주소를 가져올 수 없습니다.")
-        }
-    }
-
-    // 주소를 BottomSheet로 보여주는 함수
-    private fun showAddressInBottomSheet(addressText: String) {
-        val bottomSheetFragment = AddressBottomSheetFragment(addressText)
-        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
-    }
-
-    // HomeFragment 클래스에 추가
-    fun showFavoriteBottomSheet() {
-        // 바텀 시트를 호출하는 코드
-        val bottomSheetFragment = AddressBottomSheetFragment("Favorite Items") // 원하는 텍스트로 변경
-        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 
 }

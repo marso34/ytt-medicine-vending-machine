@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.fragment_favorite -> {
                     // HomeFragment의 인스턴스를 가져와서 바텀 시트 호출
                     val homeFragment = supportFragmentManager.findFragmentById(R.id.main_container) as? HomeFragment
-                    homeFragment?.showFavoriteBottomSheet() // 바텀 시트 호출
                     true
                 }
                 R.id.fragment_order -> {
