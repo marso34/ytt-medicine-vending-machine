@@ -32,19 +32,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var naverMap: NaverMap
     private lateinit var marker: Marker
-    lateinit var behavior: BottomSheetBehavior<LinearLayout>
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var behavior: BottomSheetBehavior<LinearLayout>
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
         // Naver Map 초기화
@@ -78,32 +72,29 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         behavior = BottomSheetBehavior.from(binding.persistentBottomSheet)
         behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                // 슬라이드 되는 도중 계속 호출
-                // called continuously while dragging
                 Log.d(TAG, "onStateChanged: 드래그 중")
             }
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when(newState) {
-                    BottomSheetBehavior.STATE_COLLAPSED-> {
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
                         Log.d(TAG, "onStateChanged: 접음")
                     }
-                    BottomSheetBehavior.STATE_DRAGGING-> {
+                    BottomSheetBehavior.STATE_DRAGGING -> {
                         Log.d(TAG, "onStateChanged: 드래그")
                     }
-                    BottomSheetBehavior.STATE_EXPANDED-> {
+                    BottomSheetBehavior.STATE_EXPANDED -> {
                         Log.d(TAG, "onStateChanged: 펼침")
                     }
-                    BottomSheetBehavior.STATE_HIDDEN-> {
+                    BottomSheetBehavior.STATE_HIDDEN -> {
                         Log.d(TAG, "onStateChanged: 숨기기")
                     }
-                    BottomSheetBehavior.STATE_SETTLING-> {
+                    BottomSheetBehavior.STATE_SETTLING -> {
                         Log.d(TAG, "onStateChanged: 고정됨")
                     }
                 }
             }
         })
     }
-
 
     private fun searchAddress(address: String) {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
@@ -117,14 +108,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 marker.position = latLng
                 marker.map = naverMap
 
+                // 주소 텍스트 업데이트
+                binding.address.text = location.getAddressLine(0)
             } else {
+                binding.address.text = "주소를 찾을 수 없습니다."
             }
         } catch (e: IOException) {
             e.printStackTrace()
         }
     }
 
-    // Naver Map 준비가 완료되면 호출되는 콜백
     override fun onMapReady(map: NaverMap) {
         naverMap = map
 
@@ -137,11 +130,28 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         marker = Marker()
     }
 
-    // 지도 클릭 시 처리하는 함수
     private fun handleMapClick(latLng: LatLng) {
         // 마커 위치 설정 및 지도에 추가
         marker.position = latLng
         marker.map = naverMap
+
+        // 클릭한 위치의 주소를 가져오기
+        getAddressFromLatLng(latLng)
     }
 
+    private fun getAddressFromLatLng(latLng: LatLng) {
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        try {
+            val addresses: List<Address>? = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+            if (addresses != null && addresses.isNotEmpty()) {
+                val address = addresses[0].getAddressLine(0)
+                // 주소 텍스트 업데이트
+                binding.address.text = address
+            } else {
+                binding.address.text = "주소를 찾을 수 없습니다."
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
 }
