@@ -7,17 +7,8 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <!-- 지도 추가 -->
-        <com.naver.maps.map.MapView
-            android:id="@+id/map_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_bar"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"/>
-
         <!-- 검색 바 추가 -->
         <EditText
-            android:layout_margin="25dp"
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,42 +16,29 @@
             android:background="@color/white"
             android:padding="20dp"
             android:textColor="@color/black"
-            android:layout_marginBottom="8dp"
+            android:layout_margin="25dp"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints" />
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <!-- 지도 추가 -->
+        <com.naver.maps.map.MapView
+            android:id="@+id/map_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".persistent.PersistentActivity">
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/search_bar"
+            app:layout_constraintBottom_toTopOf="@+id/persistent_bottom_sheet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="100dp">
-
-                <Button
-                    android:id="@+id/btn_collapsed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="20dp"
-                    android:text="collapsed" />
-
-                <Button
-                    android:id="@+id/btn_expanded"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="20dp"
-                    android:text="expanded" />
-            </LinearLayout>
+        <!-- Persistent Bottom Sheet을 위한 CoordinatorLayout -->
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <!-- Persistent Bottom Sheet -->
-            <!-- behavior 속성을 여기서 적용합니다 -->
             <LinearLayout
                 android:id="@+id/persistent_bottom_sheet"
                 android:layout_width="match_parent"
@@ -72,11 +50,10 @@
                 app:behavior_peekHeight="100dp"
                 app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-                <!-- persistent bottom sheet의 Content -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="🔼 Pull me up! 🔼"
+                    android:text=" Pull me up! "
                     android:textSize="24sp"
                     android:gravity="center"/>
 
@@ -87,9 +64,9 @@
                     android:textSize="24sp"
                     android:paddingTop="100dp"
                     android:gravity="center"/>
-
             </LinearLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
