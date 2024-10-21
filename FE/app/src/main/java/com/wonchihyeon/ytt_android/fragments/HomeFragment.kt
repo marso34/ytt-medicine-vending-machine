@@ -1,14 +1,17 @@
 package com.wonchihyeon.ytt_android.fragments
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -29,6 +32,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var naverMap: NaverMap
     private lateinit var marker: Marker
+    lateinit var behavior: BottomSheetBehavior<LinearLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,9 +65,45 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 false
             }
         }
+        initEvent()
 
         return binding.root
     }
+
+    private fun initEvent() {
+        persistentBottomSheetEvent()
+    }
+
+    private fun persistentBottomSheetEvent() {
+        behavior = BottomSheetBehavior.from(binding.persistentBottomSheet)
+        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                // 슬라이드 되는 도중 계속 호출
+                // called continuously while dragging
+                Log.d(TAG, "onStateChanged: 드래그 중")
+            }
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when(newState) {
+                    BottomSheetBehavior.STATE_COLLAPSED-> {
+                        Log.d(TAG, "onStateChanged: 접음")
+                    }
+                    BottomSheetBehavior.STATE_DRAGGING-> {
+                        Log.d(TAG, "onStateChanged: 드래그")
+                    }
+                    BottomSheetBehavior.STATE_EXPANDED-> {
+                        Log.d(TAG, "onStateChanged: 펼침")
+                    }
+                    BottomSheetBehavior.STATE_HIDDEN-> {
+                        Log.d(TAG, "onStateChanged: 숨기기")
+                    }
+                    BottomSheetBehavior.STATE_SETTLING-> {
+                        Log.d(TAG, "onStateChanged: 고정됨")
+                    }
+                }
+            }
+        })
+    }
+
 
     private fun searchAddress(address: String) {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
