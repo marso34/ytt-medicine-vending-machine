@@ -32,11 +32,11 @@ public class Address {
             this.location = location;
         }
 
-        public static Address from(String addressDetails, double latitude, double longitude) {
-            return from(addressDetails, GeometryUtil.createPoint(latitude, longitude));
+        public static Address of(String addressDetails, double latitude, double longitude) {
+            return of(addressDetails, GeometryUtil.createPoint(latitude, longitude));
         }
 
-        public static Address from(String addressDetails, Point location) {
+        public static Address of(String addressDetails, Point location) {
             return Address.builder()
                     .addressDetails(addressDetails)
                     .location(location)
