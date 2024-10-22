@@ -24,23 +24,32 @@ public class Ingredient {
     @Column(name = "efficacy", columnDefinition = "TEXT")
     private String efficacy; // 효능
 
+    @Enumerated(EnumType.STRING)
+    private Pharmacopeia pharmacopeia;
+
     @Builder
-    public Ingredient(final String name, final String efficacy) {
+    public Ingredient(final String name, final String efficacy, final Pharmacopeia pharmacopeia) {
         Assert.hasText(name, "성분명은 필수입니다.");
-//        Assert.hasText(efficacy, "효능은 필수입니다.");
+        Assert.notNull(pharmacopeia, "약전은 필수입니다.");
 
         this.name = name;
         this.efficacy = efficacy;
+        this.pharmacopeia = pharmacopeia;
     }
 
-    public static Ingredient of(final String name) {
-        return of(name, null);
+    public static Ingredient of(final String name, final Pharmacopeia pharmacopeia) {
+        return of(name, null, pharmacopeia);
     }
 
-    public static Ingredient of(final String name, final String efficacy) {
+    public static Ingredient of(final String name, final String efficacy, final String pharmacopeia) {
+        return of(name, efficacy, Pharmacopeia.from(pharmacopeia));
+    }
+
+    public static Ingredient of(final String name, final String efficacy, final Pharmacopeia pharmacopeia) {
         return Ingredient.builder()
                 .name(name)
                 .efficacy(efficacy)
+                .pharmacopeia(pharmacopeia)
                 .build();
     }
 }

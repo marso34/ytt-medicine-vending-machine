@@ -77,12 +77,12 @@ public class Medicine {
         this.price = price;
     }
 
-    public void addIngredient(Ingredient ingredient, int quantity, String unit, String pharmacopeia) {
-        addIngredient(MedicineIngredient.of(this, ingredient, quantity, unit, pharmacopeia));
+    public void addIngredient(Ingredient ingredient, int quantity, String unit) {
+        addIngredient(MedicineIngredient.of(this, ingredient, quantity, unit));
     }
 
-    public void addIngredient(Ingredient ingredient, int quantity, Unit unit, Pharmacopeia pharmacopeia) {
-        addIngredient(MedicineIngredient.of(this, ingredient, quantity, unit, pharmacopeia));
+    public void addIngredient(Ingredient ingredient, int quantity, Unit unit) {
+        addIngredient(MedicineIngredient.of(this, ingredient, quantity, unit));
     }
 
     public void addIngredient(MedicineIngredient medicineIngredient) {
