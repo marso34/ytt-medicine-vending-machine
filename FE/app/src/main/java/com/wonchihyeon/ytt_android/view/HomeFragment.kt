@@ -1,6 +1,5 @@
 package com.wonchihyeon.ytt_android.fragments
 
-import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
@@ -9,11 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
@@ -33,6 +29,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
@@ -65,7 +62,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
         return binding.root
     }
-
     private fun searchAddress(address: String) {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
         try {
@@ -78,14 +74,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 marker.position = latLng
                 marker.map = naverMap
 
-                // 주소 하단 시트 표시
-                showAddressInBottomSheet(location.getAddressLine(0) ?: "주소를 찾을 수 없습니다.")
             } else {
-                showAddressInBottomSheet("주소를 찾을 수 없습니다.")
             }
         } catch (e: IOException) {
             e.printStackTrace()
-            showAddressInBottomSheet("주소를 가져올 수 없습니다.")
         }
     }
 
@@ -120,27 +112,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             if (addresses != null && addresses.isNotEmpty()) {
                 val address: Address = addresses[0]
                 val addressText = address.getAddressLine(0) ?: "주소를 찾을 수 없습니다."
-                showAddressInBottomSheet(addressText) // 주소를 BottomSheet로 보여주기
             } else {
-                showAddressInBottomSheet("주소를 찾을 수 없습니다.")
             }
         } catch (e: IOException) {
             e.printStackTrace()
-            showAddressInBottomSheet("주소를 가져올 수 없습니다.")
         }
-    }
-
-    // 주소를 BottomSheet로 보여주는 함수
-    private fun showAddressInBottomSheet(addressText: String) {
-        val bottomSheetFragment = AddressBottomSheetFragment(addressText)
-        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
-    }
-
-    // HomeFragment 클래스에 추가
-    fun showFavoriteBottomSheet() {
-        // 바텀 시트를 호출하는 코드
-        val bottomSheetFragment = AddressBottomSheetFragment("Favorite Items") // 원하는 텍스트로 변경
-        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 
 }

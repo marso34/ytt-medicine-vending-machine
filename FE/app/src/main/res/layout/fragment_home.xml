@@ -26,9 +26,20 @@
             android:background="@color/white"
             android:padding="20dp"
             android:textColor="@color/black"
-             android:layout_marginBottom="8dp"
-              app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+            android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <fragment
+            android:id="@+id/address_bottom_sheet"
+            android:name="com.wonchihyeon.ytt_android.fragments.AddressBottomSheetFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
