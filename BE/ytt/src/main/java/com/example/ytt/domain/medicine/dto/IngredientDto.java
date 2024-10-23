@@ -20,7 +20,9 @@ public record IngredientDto(
         return new IngredientDto(id, name, efficacy, quantity, unit, pharmacopeia);
     }
 
-    public static IngredientDto of(Ingredient ingredient, MedicineIngredient medicineIngredient) {
+    public static IngredientDto from(MedicineIngredient medicineIngredient) {
+        Ingredient ingredient = medicineIngredient.getIngredient();
+
         return of(ingredient.getId(), ingredient.getName(), ingredient.getEfficacy(), medicineIngredient.getQuantity(), medicineIngredient.getUnit(), ingredient.getPharmacopeia());
     }
 
