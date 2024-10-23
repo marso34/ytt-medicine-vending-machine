@@ -1,16 +1,14 @@
 package com.example.ytt.domain.medicine.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.util.Assert;
 
 @Entity
 @Getter
 @Table(name = "medicine_ingredient")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(of = {"id", "medicine", "ingredient", "quantity", "unit"})
 public class MedicineIngredient {
 
     @Id
