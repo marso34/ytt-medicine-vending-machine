@@ -12,7 +12,7 @@ class IngredientTest {
 
     @BeforeEach
     void setUp() {
-        ingredient = Ingredient.of("ingredient", "efficacy");
+        ingredient = Ingredient.of("ingredient", "efficacy", "KP");
     }
 
     @DisplayName("성분 생성 테스트")
