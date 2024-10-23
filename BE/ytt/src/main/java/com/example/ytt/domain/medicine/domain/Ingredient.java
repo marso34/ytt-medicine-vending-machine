@@ -9,7 +9,7 @@ import org.springframework.util.Assert;
 @Table(name = "ingredient")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = {"id", "name"})
-@ToString(of = {"name"})
+@ToString(of = {"name", "pharmacopeia"})
 public class Ingredient {
 
     @Id
@@ -17,7 +17,7 @@ public class Ingredient {
     @Column(name = "ingredient_id", nullable = false)
     private Long id;
 
-    @Column(name = "ingredient_name", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name; // 성분명
 
     @Setter
@@ -25,6 +25,7 @@ public class Ingredient {
     private String efficacy; // 효능
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "pharmacopeia", nullable = false)
     private Pharmacopeia pharmacopeia;
 
     @Builder
