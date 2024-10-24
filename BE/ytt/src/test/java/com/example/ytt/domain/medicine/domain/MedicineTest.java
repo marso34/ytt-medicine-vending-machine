@@ -26,9 +26,9 @@ class MedicineTest {
                 .price(1000)
                 .build();
 
-        medicine.addIngredient(Ingredient.of("ingredient1"), 1, Unit.MG, Pharmacopeia.KP);
-        medicine.addIngredient(Ingredient.of("ingredient2"), 1, Unit.G, Pharmacopeia.KHP);
-        medicine.addIngredient(Ingredient.of("ingredient3"), 1, Unit.G, Pharmacopeia.KHP);
+        medicine.addIngredient(Ingredient.of("ingredient1", Pharmacopeia.KP), 1, Unit.MG);
+        medicine.addIngredient(Ingredient.of("ingredient2", Pharmacopeia.KHP), 1, Unit.G);
+        medicine.addIngredient(Ingredient.of("ingredient3", Pharmacopeia.KHP), 1, Unit.G);
     }
 
     @DisplayName("약 생성 테스트")
@@ -57,11 +57,11 @@ class MedicineTest {
     @DisplayName("성분 추가")
     @Test
     void addIngredient() {
-        final Ingredient ingredient = Ingredient.of("ingredient4", "efficacy");
+        final Ingredient ingredient = Ingredient.of("ingredient4", "efficacy", Pharmacopeia.KHP);
 
-        medicine.addIngredient(ingredient, 1, "mg", "KP");
-        medicine.addIngredient(ingredient, 2, "mg", "KP");
-        medicine.addIngredient(ingredient, 3, "mg", "KP");
+        medicine.addIngredient(ingredient, 1, "mg");
+        medicine.addIngredient(ingredient, 2, "mg");
+        medicine.addIngredient(ingredient, 3, "mg");
 
         assertThat(medicine.getIngredients())
                 .hasSize(6)
@@ -72,11 +72,11 @@ class MedicineTest {
     @DisplayName("성분 삭제")
     @Test
     void removeIngredient() {
-        final Ingredient ingredient = Ingredient.of("ingredient4", "efficacy");
+        final Ingredient ingredient = Ingredient.of("ingredient4", "efficacy", "KP");
 
-        medicine.addIngredient(ingredient, 1, "mg", "KP");
-        medicine.addIngredient(Ingredient.of("ingredient5", "efficacy"), 2, "mg", "KP");
-        medicine.addIngredient(Ingredient.of("ingredient6", "efficacy"), 3, "mg", "KP");
+        medicine.addIngredient(ingredient, 1, "mg");
+        medicine.addIngredient(Ingredient.of("ingredient5", "efficacy", "KP"), 2, "mg");
+        medicine.addIngredient(Ingredient.of("ingredient6", "efficacy", "KP"), 3, "mg");
 
         assertThat(medicine.getIngredients()).hasSize(6);
         assertThat(medicine.getIngredients())
