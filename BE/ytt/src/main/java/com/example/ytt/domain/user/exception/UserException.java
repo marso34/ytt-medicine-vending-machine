@@ -7,6 +7,7 @@ public class UserException extends BaseException {
     private BaseExceptionType exceptionType;
 
     public UserException(BaseExceptionType exceptionType) {
+        super(exceptionType.getErrorMessage());
         this.exceptionType = exceptionType;
     }
 

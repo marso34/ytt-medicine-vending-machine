@@ -16,10 +16,10 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    public GroupedOpenApi testApi() {
+    public GroupedOpenApi vendingMachine() {
         return GroupedOpenApi.builder()
-                .group("test")     // 그룹 이름
-                .pathsToMatch("/test/**")  // 그룹에 속하는 경로
+                .group("vending-machine")     // 그룹 이름
+                .pathsToMatch("/vending-machine/**")  // 그룹에 속하는 경로
                 .build();
     }
 }
