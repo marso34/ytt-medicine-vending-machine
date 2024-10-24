@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -91,6 +92,8 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.fragment_favorite -> {
+                    // 바텀 시트의 TextView 값을 "즐겨찾기"로 수정
+                    findViewById<TextView>(R.id.address).text = "즐겨찾기"
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_container, HomeFragment())
                         .commit()

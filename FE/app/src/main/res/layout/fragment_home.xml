@@ -9,14 +9,16 @@
         android:background="@color/white">
 
         <!-- 지도 추가 -->
+
+        <!-- 검색 바 추가 -->
         <com.naver.maps.map.MapView
             android:id="@+id/map_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
             app:layout_constraintTop_toBottomOf="@+id/search_bar"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"/>
+            tools:layout_editor_absoluteX="16dp" />
 
-        <!-- 검색 바 추가 -->
         <EditText
             android:layout_margin="25dp"
             android:id="@+id/search_bar"
