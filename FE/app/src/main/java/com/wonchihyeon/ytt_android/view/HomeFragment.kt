@@ -60,6 +60,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
+
+
         return binding.root
     }
     private fun searchAddress(address: String) {
