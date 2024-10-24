@@ -60,15 +60,17 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        return binding.root
-    }
-    private fun searchAddress(address: String) {
-        val geocoder = Geocoder(requireContext(), Locale.getDefault())
-        try {
-            val addresses: List<Address>? = geocoder.getFromLocationName(address, 1)
-            if (addresses != null && addresses.isNotEmpty()) {
-                val location = addresses[0]
-                val latLng = LatLng(location.latitude, location.longitude)
+
+
+            return binding.root
+        }
+        private fun searchAddress(address: String) {
+            val geocoder = Geocoder(requireContext(), Locale.getDefault())
+            try {
+                val addresses: List<Address>? = geocoder.getFromLocationName(address, 1)
+                if (addresses != null && addresses.isNotEmpty()) {
+                    val location = addresses[0]
+                    val latLng = LatLng(location.latitude, location.longitude)
 
                 // 마커 위치 설정 및 지도에 추가
                 marker.position = latLng
@@ -119,4 +121,4 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-}
+    }
