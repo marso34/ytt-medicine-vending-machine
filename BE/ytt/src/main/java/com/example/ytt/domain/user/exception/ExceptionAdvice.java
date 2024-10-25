@@ -10,16 +10,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
-@RestControllerAdvice
 @Slf4j
+@ControllerAdvice
 public class ExceptionAdvice {
 
     // UserExceptionType 예외 핸들링
+
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<ResponseDto<Object>> handleBaseEx(BaseException exception) {
 
@@ -34,17 +36,21 @@ public class ExceptionAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResponseDto<Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-        String errorMessage = fieldErrors.isEmpty() ? "유효성 검증 오류" : fieldErrors.get(0).getDefaultMessage();
 
-        UserExceptionType exceptionType = UserExceptionType.SIGNUP_FORMAT_INVALID; // 기본 형식 오류 타입
+        UserExceptionType exceptionType = UserExceptionType.SIGNUP_FORMAT_INVALID; // 형식 오류 default
 
         for (FieldError fieldError : fieldErrors) {
-            if (fieldError.getField().equals("password")) {
-                exceptionType = UserExceptionType.PASSWORD_FORMAT_INVALID; // 비밀번호 형식 오류
-            } else if (fieldError.getField().equals("name") || fieldError.getField().equals("phoneNumber")) {
+            // @NotBlank 에러 처리
+            if (fieldError.getCode().equals("NotBlank")) {
                 exceptionType = UserExceptionType.NOTBLANK_FORMAT_INVALID; // 공백 필드 오류
+                break;
+            }
+            // 비밀번호 형식 에러 처리
+            else if (fieldError.getField().equals("password")) {
+                exceptionType = UserExceptionType.PASSWORD_FORMAT_INVALID; // 비밀번호 형식 오류
             }
         }
+
 
         return ResponseUtil.error(exceptionType, null);
 //        return new ResponseEntity<>(new ExceptionDto(
@@ -70,7 +76,6 @@ public class ExceptionAdvice {
         log.error("Json을 파싱하는 과정에서 예외 발생! {}", exception.getMessage() );
         return ResponseUtil.error(3000, "JSON 파싱과정 에러", HttpStatus.BAD_REQUEST);
     }
-    
 
     // 기타 일반적인 예외 처리
     @ExceptionHandler(Exception.class)
@@ -81,4 +86,3 @@ public class ExceptionAdvice {
     }
 
 }
-
