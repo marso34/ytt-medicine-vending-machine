@@ -11,12 +11,12 @@ public record IngredientDto(
         @Schema(description = "ID")     Long id,
         @Schema(description = "이름")    String name,
         @Schema(description = "효능")    String efficacy,
-        @Schema(description = "분량")    int quantity,
+        @Schema(description = "분량")    double quantity,
         @Schema(description = "단위")    Unit unit,
         @Schema(description = "약전")    Pharmacopeia pharmacopeia
 ) {
 
-    public static IngredientDto of(Long id, String name, String efficacy, int quantity, Unit unit, Pharmacopeia pharmacopeia) {
+    public static IngredientDto of(Long id, String name, String efficacy, double quantity, Unit unit, Pharmacopeia pharmacopeia) {
         return new IngredientDto(id, name, efficacy, quantity, unit, pharmacopeia);
     }
 
