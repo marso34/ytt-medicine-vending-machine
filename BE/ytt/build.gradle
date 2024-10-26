@@ -34,15 +34,18 @@ dependencies {
 
 	// Swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
-
 
 	// GIS
 	implementation 'org.hibernate:hibernate-spatial:6.5.3.Final'
 	implementation 'org.locationtech.jts:jts-core:1.20.0'
 	implementation 'org.orbisgis:h2gis:2.2.3'
+
+	// XML 파싱
+	implementation 'org.jsoup:jsoup:1.18.1'
 
 	compileOnly 'org.projectlombok:lombok'
 
