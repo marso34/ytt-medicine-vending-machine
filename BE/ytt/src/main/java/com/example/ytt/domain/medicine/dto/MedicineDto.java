@@ -9,7 +9,7 @@ public record MedicineDto(
         @Schema(description = "이름")    String name,
         @Schema(description = "설명")    String description,
         @Schema(description = "가격")    int price,
-        @Schema(description = "이미지")  String imageURL
+        @Schema(description = "이미지")   String imageURL
 ) {
     public static MedicineDto of(Long id, String name, String description, int price, String imageURL) {
         return new MedicineDto(id, name, description, price, imageURL);

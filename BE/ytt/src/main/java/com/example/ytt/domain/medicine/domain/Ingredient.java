@@ -17,7 +17,7 @@ public class Ingredient {
     @Column(name = "ingredient_id", nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name; // 성분명
 
     @Setter
@@ -40,6 +40,10 @@ public class Ingredient {
 
     public static Ingredient of(final String name, final Pharmacopeia pharmacopeia) {
         return of(name, null, pharmacopeia);
+    }
+
+    public static Ingredient of(final String name, final String pharmacopeia) {
+        return of(name, null, Pharmacopeia.from(pharmacopeia));
     }
 
     public static Ingredient of(final String name, final String efficacy, final String pharmacopeia) {

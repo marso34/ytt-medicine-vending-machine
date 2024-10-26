@@ -9,7 +9,7 @@ import java.util.List;
 public record MedicineDetailDto(
         @Schema(description = "약 ID")      Long id,
         @Schema(description = "제품이름")     String name,
-        @Schema(description = "품목기존코드")  String productCode,
+        @Schema(description = "품목기준코드")  String productCode,
         @Schema(description = "제조업체")     String manufacturer,
         @Schema(description = "효능효과")     String efficacy,
         @Schema(description = "용법용량")     String usage,

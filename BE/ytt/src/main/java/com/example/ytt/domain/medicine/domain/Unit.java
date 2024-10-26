@@ -6,10 +6,10 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum Unit {
-    MG("mg"),
-    G("g"),
-    ML("ml"),
-    L("l"),
+    MG("밀리그램"),
+    G("그램"),
+    ML("밀리리터"),
+    L("리터"),
     EA("개");
 
     private final String info;
