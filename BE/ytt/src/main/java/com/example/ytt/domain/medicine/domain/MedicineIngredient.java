@@ -25,13 +25,13 @@ public class MedicineIngredient {
     private Ingredient ingredient;
 
     @Column(name = "quantity", nullable = false)
-    private int quantity;
+    private double quantity;
 
     @Enumerated(EnumType.STRING)
     private Unit unit;
 
     @Builder
-    public MedicineIngredient(final Medicine medicine, final Ingredient ingredient, final int quantity, final Unit unit) {
+    public MedicineIngredient(final Medicine medicine, final Ingredient ingredient, final double quantity, final Unit unit) {
         Assert.notNull(medicine, "약은 필수입니다.");
         Assert.notNull(ingredient, "성분은 필수입니다.");
         Assert.isTrue(quantity > 0, "수량은 0보다 커야합니다.");
@@ -43,7 +43,7 @@ public class MedicineIngredient {
         this.unit = unit;
     }
 
-    public static MedicineIngredient of(final Medicine medicine, final Ingredient ingredient, final int quantity, final Unit unit) {
+    public static MedicineIngredient of(final Medicine medicine, final Ingredient ingredient, final double quantity, final Unit unit) {
         return MedicineIngredient.builder()
                 .medicine(medicine)
                 .ingredient(ingredient)
@@ -52,7 +52,7 @@ public class MedicineIngredient {
                 .build();
     }
 
-    public static MedicineIngredient of(final Medicine medicine, final Ingredient ingredient, final int quantity, final String unit) {
+    public static MedicineIngredient of(final Medicine medicine, final Ingredient ingredient, final double quantity, final String unit) {
         return of(medicine, ingredient, quantity, Unit.from(unit));
     }
 }

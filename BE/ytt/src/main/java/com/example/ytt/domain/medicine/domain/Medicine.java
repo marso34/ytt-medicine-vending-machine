@@ -23,7 +23,7 @@ public class Medicine {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "product_code", nullable = false)
+    @Column(name = "product_code", nullable = false, unique = true)
     private String productCode;
 
     @Column(name = "manufacturer", nullable = false)
@@ -45,9 +45,11 @@ public class Medicine {
     @Column(name = "validity_period", nullable = false)
     private String validityPeriod;
 
+    @Setter
     @Column(name = "image_url")
     private String imageURL;
 
+    @Setter
     @Column(name = "price", nullable = false)
     private int price;
 
