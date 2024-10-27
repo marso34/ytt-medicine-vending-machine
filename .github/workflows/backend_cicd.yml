@@ -44,6 +44,7 @@ jobs:
         key: ${{ secrets.SERVER_PRIVATE_KEY }}
         source: BE/ytt/build/libs/ytt.jar
         target: /home/ubuntu/ytt/temp
+        debug: true
 
     - name: Start Application
       uses: appleboy/ssh-action@master
