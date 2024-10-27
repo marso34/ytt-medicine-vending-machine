@@ -42,8 +42,8 @@ jobs:
         host: ${{ secrets.SERVER_HOST }}
         username: ${{ secrets.SERVER_USERNAME }}
         key: ${{ secrets.SERVER_PRIVATE_KEY }}
-        source: BE/ytt/build/libs/ytt.jar
-        target: /home/ubuntu/ytt/temp
+        source: "BE/ytt/build/libs/ytt.jar"
+        target: "/home/ubuntu/ytt/temp"
         debug: true
 
     - name: Start Application
