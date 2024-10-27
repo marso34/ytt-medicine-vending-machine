@@ -42,7 +42,7 @@ jobs:
         host: ${{ secrets.SERVER_HOST }}
         username: ${{ secrets.SERVER_USERNAME }}
         key: ${{ secrets.SERVER_PRIVATE_KEY }}
-        source: build/libs/ytt.jar
+        source: BE/ytt/build/libs/ytt.jar
         target: /ytt/new-ytt.jar
 
     - name: Start Application
