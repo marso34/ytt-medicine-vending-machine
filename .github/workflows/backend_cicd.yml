@@ -43,7 +43,7 @@ jobs:
         username: ${{ secrets.SERVER_USERNAME }}
         key: ${{ secrets.SERVER_PRIVATE_KEY }}
         source: BE/ytt/build/libs/ytt.jar
-        target: /ytt/temp
+        target: /home/ubuntu/ytt/temp
 
     - name: Start Application
       uses: appleboy/ssh-action@master
@@ -54,8 +54,8 @@ jobs:
         script_stop: true
         script: |
           sudo fuser -k -n tcp 8080 || true
-          if [ -f /ytt/ytt.jar ]: then
-            mv /ytt/ytt.jar /ytt/ytt_backup/ytt_$(date +%Y%m%d%H%M%S).jar
+          if [ -f /home/ubuntu/ytt/ytt.jar ]: then
+            mv /home/ubuntu/ytt/ytt.jar /home/ubuntu/ytt/ytt_backup/ytt_$(date +%Y%m%d%H%M%S).jar
           fi
-          mv /ytt/temp/ytt.jar /ytt/ytt.jar
-          nohup java -jar /ytt/*.jar > ./output.log 2>&1 &
+          mv /home/ubuntu/ytt/temp/ytt.jar /home/ubuntu/ytt/ytt.jar
+          nohup java -jar /home/ubuntu/ytt/*.jar > /home/ubuntu/ytt/output.log 2>&1 &
