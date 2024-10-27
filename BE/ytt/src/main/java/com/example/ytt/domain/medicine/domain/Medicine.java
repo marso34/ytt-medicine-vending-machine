@@ -34,8 +34,8 @@ public class Medicine {
     private String efficacy;
 
     // UD, Usage and Dosage (용법용량)
-    @Column(name = "usage", columnDefinition = "TEXT", nullable = false)
-    private String usage;
+    @Column(name = "usages", columnDefinition = "TEXT", nullable = false)
+    private String usages;
 
     // NB, Nota Bene (주의사항)
     @Column(name = "precautions", columnDefinition = "TEXT", nullable = false)
@@ -58,12 +58,12 @@ public class Medicine {
     private List<MedicineIngredient> ingredients = new ArrayList<>();                   // 성분
 
     @Builder
-    public Medicine(final String name, final String productCode, final String manufacturer, final String efficacy, final String usage, final String precautions, final String validityPeriod, final String imageURL, final int price) {
+    public Medicine(final String name, final String productCode, final String manufacturer, final String efficacy, final String usages, final String precautions, final String validityPeriod, final String imageURL, final int price) {
         Assert.hasText(name, "약품명은 필수입니다.");
         Assert.hasText(productCode, "제품코드는 필수입니다.");
         Assert.hasText(manufacturer, "제조사는 필수입니다.");
         Assert.hasText(efficacy, "효능효과는 필수입니다.");
-        Assert.hasText(usage, "용법용량은 필수입니다.");
+        Assert.hasText(usages, "용법용량은 필수입니다.");
         Assert.hasText(precautions, "주의사항은 필수입니다.");
         Assert.hasText(validityPeriod, "유효기간은 필수입니다.");
         Assert.isTrue(price > 0, "가격은 0보다 커야합니다.");
@@ -72,7 +72,7 @@ public class Medicine {
         this.productCode = productCode;
         this.manufacturer = manufacturer;
         this.efficacy = efficacy;
-        this.usage = usage;
+        this.usages = usages;
         this.precautions = precautions;
         this.validityPeriod = validityPeriod;
         this.imageURL = imageURL;

@@ -8,8 +8,7 @@ public record ResponseDto<T>(
         @Schema(description = "message")  String message,
         @Schema(description = "body")     T body
 ) {
-
-        public static <T> ResponseDto<T> of(int code, String message, T body) {
-            return new ResponseDto<>(code, message, body);
-        }
+    public static <T> ResponseDto<T> of(int code, String message, T body) {
+        return new ResponseDto<>(code, message, body);
+    }
 }

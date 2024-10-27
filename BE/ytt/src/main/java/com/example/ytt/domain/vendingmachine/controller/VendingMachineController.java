@@ -30,13 +30,13 @@ public class VendingMachineController {
         return ResponseUtil.success(vendingMachineFindService.getAllVendingMachines());
     }
 
-    @GetMapping("/name")
+    @PostMapping("/name")
     @SwaggerApi(summary = "이름으로 자판기 조회", description = "이름에 포함되어 있는 자판기 리스트 조회", implementation = ResponseDto.class)
     public ResponseEntity<ResponseDto<List<VendingMachineDto>>> getVendingMachinesByName(@Parameter(description = "자판기 이름", example = "강릉원주대 자판기") @RequestParam("name") String name) {
         return ResponseUtil.success(vendingMachineFindService.getVendingMachinesByName(name));
     }
 
-    @GetMapping("/nearby")
+    @PostMapping("/nearby")
     @SwaggerApi(summary = "주변 자판기 조회", description = "주어진 값으로부터 반경 2.5km 내 자판기 리스트 조회", implementation = ResponseDto.class)
     public ResponseEntity<ResponseDto<List<VendingMachineDto>>>getVendingMachinesNearByLocation(
             @Parameter(description = "자판기의 위도", example = "37.305121")
