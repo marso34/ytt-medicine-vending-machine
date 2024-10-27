@@ -137,7 +137,7 @@ public class MedicineRegisterService {
                 .productCode(item.select("ITEM_SEQ").text())            // 품목기준코드
                 .manufacturer(item.select("ENTP_NAME").text())          // 업체명
                 .efficacy(parseDocData(item.select("EE_DOC_DATA")))     // 효능효과
-                .usage(parseDocData(item.select("UD_DOC_DATA")))        // 용법용량
+                .usages(parseDocData(item.select("UD_DOC_DATA")))        // 용법용량
                 .precautions(parseDocData(item.select("NB_DOC_DATA")))  // 주의사항
                 .validityPeriod(item.select("VALID_TERM").text())       // 유효기간
                 .imageURL(null)                                                 // 이미지 URL은 추가로 기져와야 함

@@ -25,7 +25,7 @@ public record MedicineDetailDto(
     }
 
     public static MedicineDetailDto of(Medicine medicine, List<IngredientDto> ingredients) {
-        return of(medicine.getId(), medicine.getName(), medicine.getProductCode(), medicine.getManufacturer(), medicine.getEfficacy(), medicine.getUsage(), medicine.getPrecautions(), medicine.getValidityPeriod(), medicine.getPrice(), medicine.getImageURL(), ingredients);
+        return of(medicine.getId(), medicine.getName(), medicine.getProductCode(), medicine.getManufacturer(), medicine.getEfficacy(), medicine.getUsages(), medicine.getPrecautions(), medicine.getValidityPeriod(), medicine.getPrice(), medicine.getImageURL(), ingredients);
     }
 
 
