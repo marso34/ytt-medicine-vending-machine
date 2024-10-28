@@ -2,6 +2,7 @@ package com.example.ytt.domain.vendingmachine.domain;
 
 import com.example.ytt.domain.inventory.domain.Inventory;
 import com.example.ytt.domain.model.Address;
+import com.example.ytt.domain.vendingmachine.dto.VendingMachineReqDto;
 import com.example.ytt.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -51,6 +52,15 @@ public class VendingMachine extends BaseEntity {
         this.address = address;
         this.state = state;
         this.capacity = capacity;
+    }
+
+    public static VendingMachine from(final VendingMachineReqDto reqDto) {
+        return VendingMachine.builder()
+                .name(reqDto.name())
+                .address(Address.of(reqDto.location(), reqDto.latitude(), reqDto.longitude()))
+                .state(MachineState.MAINTENANCE)
+                .capacity(reqDto.quantity())
+                .build();
     }
 
     public void updateName(final String name) {
