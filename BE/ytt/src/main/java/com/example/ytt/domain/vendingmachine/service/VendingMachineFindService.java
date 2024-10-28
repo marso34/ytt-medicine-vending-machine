@@ -1,5 +1,6 @@
 package com.example.ytt.domain.vendingmachine.service;
 
+import com.example.ytt.domain.inventory.repository.InventoryRepository;
 import com.example.ytt.domain.vendingmachine.domain.VendingMachine;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDetailDto;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDto;
@@ -17,6 +18,7 @@ import java.util.List;
 public class VendingMachineFindService {
 
     private final VendingMachineRepository vendingMachineRepository;
+    private final InventoryRepository inventoryRepository;
 
     // TODO: 자판기가 없을 때 예외 처리도 고려해야 함
 
@@ -41,11 +43,17 @@ public class VendingMachineFindService {
                 .toList();
     }
 
+    public List<VendingMachineDto> getVendingMachinesByMedicine(Long medicine_id) {
+        return inventoryRepository.findByMedicineId(medicine_id)
+                .stream()
+                .map(inventory -> VendingMachineDto.from(inventory.getVendingMachine()))
+                .toList();
+    }
+
     public VendingMachineDetailDto getVendingMachineDetail(Long id) { // Long id -> Long id, Long userId
         VendingMachine vendingMachine = vendingMachineRepository.findById(id).orElseThrow();
 
         return convertToVendingMachineDetailDto(vendingMachine);
-
     }
 
     public VendingMachineDetailDto convertToVendingMachineDetailDto(VendingMachine vendingMachine) { // VendingMachine vendingMachine -> VendingMachine vendingMachine, Long userId
