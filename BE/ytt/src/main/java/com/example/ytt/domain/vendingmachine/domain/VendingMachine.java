@@ -1,10 +1,14 @@
 package com.example.ytt.domain.vendingmachine.domain;
 
+import com.example.ytt.domain.inventory.domain.Inventory;
 import com.example.ytt.domain.model.Address;
 import com.example.ytt.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.util.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "vending_machine")
@@ -33,6 +37,9 @@ public class VendingMachine extends BaseEntity {
     @Column(name = "capacity", nullable = false)
     private int capacity;
 
+    @OneToMany(mappedBy = "vendingMachine", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Inventory> inventories = new ArrayList<>();
+
     @Builder
     public VendingMachine(final String name, final Address address, final MachineState state, final Integer capacity) {
         Assert.hasText(name, "자판기 이름은 필수입니다.");
@@ -60,5 +67,13 @@ public class VendingMachine extends BaseEntity {
 
     public void updateCapacity(final int capacity) {
         this.capacity = capacity;
+    }
+
+    public void addInventory(Inventory inventory) {
+        this.inventories.add(inventory);
+    }
+
+    public void removeInventory(Inventory inventory) {
+        this.inventories.remove(inventory);
     }
 }
