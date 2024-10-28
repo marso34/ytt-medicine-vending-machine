@@ -28,5 +28,7 @@ public record MedicineDetailDto(
         return of(medicine.getId(), medicine.getName(), medicine.getProductCode(), medicine.getManufacturer(), medicine.getEfficacy(), medicine.getUsages(), medicine.getPrecautions(), medicine.getValidityPeriod(), medicine.getPrice(), medicine.getImageURL(), ingredients);
     }
 
-
+    public static MedicineDetailDto from(Medicine medicine) {
+        return of(medicine, medicine.getIngredients().stream().map(IngredientDto::from).toList());
+    }
 }
