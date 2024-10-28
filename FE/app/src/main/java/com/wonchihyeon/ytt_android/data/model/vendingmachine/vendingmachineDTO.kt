@@ -1,4 +1,4 @@
-package com.wonchihyeon.ytt_android.data.model
+package com.wonchihyeon.ytt_android.data.model.vendingmachine
 
 data class vendingmachineDTO(
     val id : Int,
