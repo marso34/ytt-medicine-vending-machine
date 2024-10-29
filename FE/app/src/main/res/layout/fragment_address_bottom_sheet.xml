@@ -23,11 +23,13 @@
         android:textSize="24sp" />
 
     <TextView
+        android:id="@+id/vending_machine_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="자판기 목록이 여기에 표시됩니다."
+        android:padding="16dp"
         android:gravity="center"
-        android:paddingTop="100dp"
-        android:text="Persistent Bottom Sheet"
-        android:textSize="24sp" />
+        android:textAppearance="?attr/textAppearanceListItem" />
+
 
 </LinearLayout>
