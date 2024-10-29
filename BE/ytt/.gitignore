@@ -42,5 +42,5 @@ out/
 **/application-prod.yml
 **/application-local.yml
 
-**/sql/dat.sql
+**/sql/data.sql
 **/sql/schema.sql
