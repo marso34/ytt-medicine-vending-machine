@@ -21,7 +21,7 @@ public class VendingMachine extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "vending_machine_id", nullable = false)
     private Long id;
 
     @Column(name = "name", nullable = false)
