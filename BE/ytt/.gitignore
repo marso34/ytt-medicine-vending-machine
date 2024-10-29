@@ -41,3 +41,6 @@ out/
 **/application-secret.yml
 **/application-prod.yml
 **/application-local.yml
+
+**/sql/dat.sql
+**/sql/schema.sql
