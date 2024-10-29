@@ -49,12 +49,11 @@ public class Medicine {
     @Column(name = "image_url")
     private String imageURL;
 
-    @Setter
     @Column(name = "price", nullable = false)
     private int price;
 
     @Setter
-    @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "medicine", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MedicineIngredient> ingredients = new ArrayList<>();                   // 성분
 
     @Builder
@@ -93,5 +92,10 @@ public class Medicine {
 
     public void removeIngredient(Ingredient ingredient) {
         this.ingredients.removeIf(medicineIngredient -> medicineIngredient.getIngredient().equals(ingredient));
+    }
+
+    public void setPrice(int price) {
+        Assert.isTrue(price > 0, "가격은 0보다 커야합니다."); // 예외 처리 나중에
+        this.price = price;
     }
 }

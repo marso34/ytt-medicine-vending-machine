@@ -54,10 +54,9 @@ public class MedicineFindService {
         }
 
         // MedicineIngredient에서 ingredientId로 검색하여 medicineId를 가져옴
-        List<MedicineIngredient> medicineIngredients = medicineIngredientRepository.findByIngredientId(ingredientId);
-
-        return medicineIngredients.stream()
-                .map(medicineIngredient -> MedicineDto.from(medicineIngredient.getMedicine()))
+        return medicineIngredientRepository.findByIngredientId(ingredientId)
+                .stream()
+                .map(MedicineDto::from)
                 .toList();
     }
 
@@ -70,11 +69,7 @@ public class MedicineFindService {
             return null;
         }
 
-        List<IngredientDto> ingredients = medicine.getIngredients().stream()
-                .map(IngredientDto::from)
-                .toList();
-
-        return MedicineDetailDto.of(medicine, ingredients);
+        return MedicineDetailDto.from(medicine);
     }
 
     public MedicineDetailDto getMedicinesByProductCode(String productCode) {
@@ -84,11 +79,7 @@ public class MedicineFindService {
             return null;
         }
 
-        List<IngredientDto> ingredients = medicine.getIngredients().stream()
-                .map(IngredientDto::from)
-                .toList();
-
-        return MedicineDetailDto.of(medicine, ingredients);
+        return MedicineDetailDto.from(medicine);
     }
 
 }
