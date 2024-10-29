@@ -53,9 +53,11 @@ public class Inventory {
                 .build();
     }
 
-    public void setQuantity(int quantity) {
+    public Inventory setQuantity(int quantity) {
         Assert.isTrue(quantity >= 0, "수량은 0보다 크거나 같아야합니다."); // 예외 처리 나중에
         this.quantity = quantity;
+
+        return this;
     }
 
 }
