@@ -40,3 +40,4 @@ out/
 **/application-common.yml
 **/application-secret.yml
 **/application-prod.yml
+**/application-local.yml
