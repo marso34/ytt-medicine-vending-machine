@@ -1,5 +1,6 @@
 package com.example.ytt.domain.medicine.dto;
 
+import com.example.ytt.domain.inventory.domain.Inventory;
 import com.example.ytt.domain.medicine.domain.Medicine;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -16,19 +17,25 @@ public record MedicineDetailDto(
         @Schema(description = "주의사항")     String precautions,
         @Schema(description = "유효기간")     String validityPeriod,
         @Schema(description = "제픔가격")     int price,
-        @Schema(description = "이미지")      String imageURL,
+        @Schema(description = "재고")        int stock,
+        @Schema(description = "이미지")       String imageURL,
         @Schema(description = "성분목록")     List<IngredientDto> ingredients
 ) {
-
-    public static MedicineDetailDto of(Long id, String name, String productCode, String manufacturer, String efficacy, String usage, String precautions, String validityPeriod, int price, String imgURL, List<IngredientDto> ingredients) {
-        return new MedicineDetailDto(id, name, productCode, manufacturer, efficacy, usage, precautions, validityPeriod, price, imgURL, ingredients);
+    public static MedicineDetailDto of(Medicine medicine, List<IngredientDto> ingredients) {
+        return new MedicineDetailDto(medicine.getId(), medicine.getName(), medicine.getProductCode(), medicine.getManufacturer(), medicine.getEfficacy(), medicine.getUsages(), medicine.getPrecautions(), medicine.getValidityPeriod(), medicine.getPrice(), 0, medicine.getImageURL(), ingredients);
     }
 
-    public static MedicineDetailDto of(Medicine medicine, List<IngredientDto> ingredients) {
-        return of(medicine.getId(), medicine.getName(), medicine.getProductCode(), medicine.getManufacturer(), medicine.getEfficacy(), medicine.getUsages(), medicine.getPrecautions(), medicine.getValidityPeriod(), medicine.getPrice(), medicine.getImageURL(), ingredients);
+    public static MedicineDetailDto of(Medicine medicine, List<IngredientDto> ingredients, int stock) {
+        return new MedicineDetailDto(medicine.getId(), medicine.getName(), medicine.getProductCode(), medicine.getManufacturer(), medicine.getEfficacy(), medicine.getUsages(), medicine.getPrecautions(), medicine.getValidityPeriod(), medicine.getPrice(), stock, medicine.getImageURL(), ingredients);
     }
 
     public static MedicineDetailDto from(Medicine medicine) {
-        return of(medicine, medicine.getIngredients().stream().map(IngredientDto::from).toList());
+        return of(medicine, medicine.getIngredients().stream().map(IngredientDto::from).toList(), 0);
+    }
+
+    public static MedicineDetailDto from(Inventory inventory) {
+        Medicine medicine = inventory.getMedicine();
+
+        return of(medicine, medicine.getIngredients().stream().map(IngredientDto::from).toList(), inventory.getQuantity());
     }
 }
