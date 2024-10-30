@@ -1,6 +1,7 @@
 package com.example.ytt.domain.user.domain;
 
 import com.example.ytt.domain.user.dto.Role;
+import com.example.ytt.domain.vendingmachine.domain.Favorite;
 import com.example.ytt.global.common.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -8,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -38,6 +41,8 @@ public class User extends BaseEntity{
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // orphanRemoval = true
+    private List<Favorite> favorites;
 
 
 }
