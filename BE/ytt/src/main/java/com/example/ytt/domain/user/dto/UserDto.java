@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class UserDto {
 
-    private Long id;
+    private Long userid;
     private String email;
     @JsonIgnore
     private String password;

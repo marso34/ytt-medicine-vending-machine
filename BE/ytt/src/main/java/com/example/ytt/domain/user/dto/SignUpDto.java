@@ -1,5 +1,6 @@
 package com.example.ytt.domain.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
@@ -24,5 +25,6 @@ public class SignUpDto {
     @NotBlank
     private String phoneNumber;
 
+    @JsonIgnore
     private Role role = Role.CUSTOMER;
 }
