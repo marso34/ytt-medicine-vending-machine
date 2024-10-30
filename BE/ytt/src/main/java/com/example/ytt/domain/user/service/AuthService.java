@@ -67,7 +67,7 @@ public class AuthService implements UserDetailsService {
         Role role = Role.valueOf(roleString.toUpperCase());
 
         // 새로운 JWT 생성
-        String newAccess = jwtUtil.createAuthorizationToken("Authorization", user.getId(), email, role);
+        String newAuthorization = jwtUtil.createAuthorizationToken("Authorization", user.getId(), email, role);
         String newRefresh = jwtUtil.createRefreshToken("refresh", user.getId(), email, role);
 
         // 기존 Refresh 토큰 삭제 후 새 Refresh 토큰 저장
@@ -75,10 +75,10 @@ public class AuthService implements UserDetailsService {
         addRefreshEntity(user, newRefresh, jwtUtil.getRefreshTokenExpiration());
 
         // 응답 헤더에 새로운 토큰 설정
-        response.setHeader("access", newAccess);
+        response.setHeader("Authorization", "Bearer " + newAuthorization);
         response.setHeader("refresh", newRefresh);
 
-        return new TokenResponseDto(newAccess, newRefresh);
+        return new TokenResponseDto(newAuthorization, newRefresh);
     }
 
     // [로그인 실행 3] security DB 로그인 인증

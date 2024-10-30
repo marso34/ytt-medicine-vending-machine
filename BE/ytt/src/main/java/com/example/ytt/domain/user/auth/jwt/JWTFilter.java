@@ -31,10 +31,13 @@ public class JWTFilter extends OncePerRequestFilter {
         String authorizationToken = request.getHeader("Authorization");
 
         // 토큰이 없다면 다음 필터로 넘김
-        if (authorizationToken == null) {
+        if (authorizationToken == null || !authorizationToken.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
+
+        // Bearer 접두사 제거
+        authorizationToken = authorizationToken.substring(7); // "Bearer " 부분 제거
 
         // 토큰 만료 여부 확인, 만료시 다음 필터로 넘기지 않음
         try {
@@ -64,13 +67,14 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        // username, role 값을 획득
+        // 사용자 정보 가져오기
+        Long userId = jwtUtil.getUserId(authorizationToken);
         String email = jwtUtil.getEmail(authorizationToken);
-        String roleString = jwtUtil.getRole(authorizationToken); // 역할 문자열 가져오기
-        // Role 객체로 변환
+        String roleString = jwtUtil.getRole(authorizationToken);
         Role role = Role.valueOf(roleString.toUpperCase());
 
         UserDto user = new UserDto();
+        user.setUserid(userId);
         user.setEmail(email);
         user.setRole(role);
         CustomUserDetails customUserDetails = new CustomUserDetails(user);

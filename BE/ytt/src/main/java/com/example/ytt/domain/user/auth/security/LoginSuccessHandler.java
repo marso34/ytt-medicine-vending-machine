@@ -48,9 +48,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
-
-        // Role을 String에서 enum으로 변환
-        Role role = Role.valueOf(auth.getAuthority()); // auth.getAuthority()는 String을 반환하므로 Role로 변환
+        Role role = Role.valueOf(auth.getAuthority());
 
         // 토큰 생성
         String Authorization = jwtUtil.createAuthorizationToken("Authorization", user.getId(), email, role);
@@ -60,7 +58,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         addRefreshEntity(user, refresh);
 
         // 응답 설정
-        response.setHeader("Authorization", Authorization);
+        response.setHeader("Authorization", "Bearer " + Authorization);
         response.addHeader("refresh", refresh);
 
         response.setStatus(HttpStatus.OK.value());
