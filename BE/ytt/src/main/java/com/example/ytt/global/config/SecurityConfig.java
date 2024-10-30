@@ -29,6 +29,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final String[] allowedUrls ={"/user/signUp","/user/signIn", "/h2-console/**","/auth/**","/swagger-ui/**", "/v3/api-docs/**"};
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
     private final LoginSuccessHandler loginSuccessHandler;
@@ -94,8 +95,7 @@ public class SecurityConfig {
         // 경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/user/signUp","/user/signIn", "/h2-console/**").permitAll()
-                        .requestMatchers("/user/reissue").permitAll()
+                        .requestMatchers(allowedUrls).permitAll()
                         .anyRequest().authenticated());
 
         // 로그인 필터 설정
