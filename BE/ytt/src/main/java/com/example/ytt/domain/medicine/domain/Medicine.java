@@ -45,7 +45,6 @@ public class Medicine {
     @Column(name = "validity_period", nullable = false)
     private String validityPeriod;
 
-    @Setter
     @Column(name = "image_url")
     private String imageURL;
 
@@ -94,8 +93,16 @@ public class Medicine {
         this.ingredients.removeIf(medicineIngredient -> medicineIngredient.getIngredient().equals(ingredient));
     }
 
-    public void setPrice(int price) {
+    public Medicine setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+
+        return this;
+    }
+
+    public Medicine setPrice(int price) {
         Assert.isTrue(price > 0, "가격은 0보다 커야합니다."); // 예외 처리 나중에
         this.price = price;
+
+        return this;
     }
 }

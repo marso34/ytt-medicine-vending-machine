@@ -60,4 +60,11 @@ public class Inventory {
         return this;
     }
 
+    public Inventory addQuantity(int quantity) {
+        Assert.isTrue(quantity > 0, "수량은 0보다 커야합니다."); // 예외 처리 나중에
+        this.quantity += quantity;
+
+        return this;
+    }
+
 }
