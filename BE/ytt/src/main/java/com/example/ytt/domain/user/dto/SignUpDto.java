@@ -1,6 +1,5 @@
 package com.example.ytt.domain.user.dto;
 
-import com.example.ytt.domain.user.domain.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
@@ -26,14 +25,4 @@ public class SignUpDto {
     private String phoneNumber;
 
     private Role role = Role.CUSTOMER;
-
-    public User toEntity(SignUpDto signUpDto) {
-        return User.builder()
-                .email(signUpDto.getEmail())
-                .password(signUpDto.getPassword())
-                .name(signUpDto.getName())
-                .phoneNumber(signUpDto.getPhoneNumber())
-                .role(role)
-                .build();
-    }
 }

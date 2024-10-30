@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
@@ -37,6 +36,16 @@ public class User extends BaseEntity{
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    @Builder
+    public User(String email, String password, String name, String phoneNumber, Role role) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+    }
 
-
+    public void updatePassword(String newPassword) {
+        this.password = newPassword;
+    }
 }
