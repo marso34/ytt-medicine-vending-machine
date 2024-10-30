@@ -15,8 +15,19 @@ public class JWTUtil {
 
     private SecretKey secretKey;
 
+    @Value("${jwt.expiration.authorization}")
+    private Long AUTHORIZATION_TOKEN_EXPIRATION;
+
+    @Value("${jwt.expiration.refresh}")
+    private Long REFRESH_TOKEN_EXPIRATION;
     public JWTUtil(@Value("${jwt.secret}")String secret){
         secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
+    }
+    public Long getAuthorizationTokenExpiration() {
+        return AUTHORIZATION_TOKEN_EXPIRATION;
+    }
+    public Long getRefreshTokenExpiration() {
+        return REFRESH_TOKEN_EXPIRATION;
     }
 
     // 토큰에서 추출
@@ -37,14 +48,28 @@ public class JWTUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    // 토큰 생성
-    public String createJwt(String category, String email, Role role, Long expiredMs) {
+    // AuthorizationToken 생성
+    public String createAuthorizationToken(String category, Long userId, String email, Role role) {
         return Jwts.builder()
-                .claim("category",category)
+                .claim("category", category)
+                .claim("userId", userId)
                 .claim("email",email)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + expiredMs))
+                .expiration(new Date(System.currentTimeMillis() + AUTHORIZATION_TOKEN_EXPIRATION))
+                .signWith(secretKey)
+                .compact();
+    }
+
+    // RefreshToken 생성
+    public String createRefreshToken(String category, Long userId, String email, Role role) {
+        return Jwts.builder()
+                .claim("category", category)
+                .claim("userId", userId)
+                .claim("email",email)
+                .claim("role", role)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION))
                 .signWith(secretKey)
                 .compact();
     }
