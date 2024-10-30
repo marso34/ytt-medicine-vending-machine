@@ -1,20 +1,18 @@
 package com.example.ytt.domain.user.controller;
 
 import com.example.ytt.domain.user.dto.SignUpDto;
-import com.example.ytt.domain.user.dto.TokenResponseDto;
+import com.example.ytt.domain.user.dto.UpdatePasswordDto;
+import com.example.ytt.domain.user.dto.UserDto;
 import com.example.ytt.domain.user.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -40,14 +38,32 @@ public class UserController {
         return ResponseEntity.ok("회원가입이 완료되었습니다.");
     }
 
+    /*
+     비밀번호 수정
+     */
+    @PostMapping("/password")
+    public ResponseEntity<?> updatePassword(@Validated @RequestBody UpdatePasswordDto updatePasswordDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        userService.updatePassword(email, updatePasswordDto.getCurrentPassword(), updatePasswordDto.getNewPassword());
+        return ResponseEntity.ok("비밀번호가 성공적으로 수정되었습니다.");
+    }
 
     /*
-    토큰 갱신
+     마이페이지 정보(현재 이메일만 표시)
      */
-    @PostMapping("/reissue")
-    public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
-        TokenResponseDto tokenResponseDto = userService.reissueTokens(request, response);
-        return ResponseEntity.ok(tokenResponseDto);
+    @GetMapping("/mypage")
+    public ResponseEntity<UserDto> getCurrentUser() {
+        // 현재 로그인한 사용자 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        UserDto userDto = userService.getUserByEmail(email);
+        return ResponseEntity.ok(userDto);
     }
+
+
+
 
 }
