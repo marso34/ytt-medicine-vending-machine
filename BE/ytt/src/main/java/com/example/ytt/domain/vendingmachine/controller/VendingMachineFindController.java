@@ -1,5 +1,8 @@
 package com.example.ytt.domain.vendingmachine.controller;
 
+import com.example.ytt.domain.inventory.service.InventoryService;
+import com.example.ytt.domain.medicine.dto.MedicineDetailDto;
+import com.example.ytt.domain.user.auth.security.CustomUserDetails;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDetailDto;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDto;
 import com.example.ytt.domain.vendingmachine.service.VendingMachineFindService;
@@ -9,11 +12,14 @@ import com.example.ytt.global.util.ResponseUtil;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/vending-machine")
 @RequiredArgsConstructor
@@ -21,6 +27,7 @@ import java.util.List;
 public class VendingMachineFindController {
 
     private final VendingMachineFindService vendingMachineFindService;
+    private final InventoryService inventoryService;
 
     // TODO: path 경로 수정 필요 (현재 임의로 설정)
 
@@ -46,7 +53,7 @@ public class VendingMachineFindController {
 
     @GetMapping("/nearby")
     @SwaggerApi(summary = "주변 자판기 조회", description = "주어진 값으로부터 반경 2.5km 내 자판기 리스트 조회", implementation = ResponseDto.class)
-    public ResponseEntity<ResponseDto<List<VendingMachineDto>>>getVendingMachinesNearByLocation(
+    public ResponseEntity<ResponseDto<List<VendingMachineDto>>> getVendingMachinesNearByLocation(
             @Parameter(description = "자판기의 위도", example = "37.305121")
             @RequestParam("latitude") Double latitude,
             @Parameter(description = "자판기의 경도", example = "127.922653")
@@ -62,7 +69,22 @@ public class VendingMachineFindController {
 
     @GetMapping("/{id}")
     @SwaggerApi(summary = "자판기 ID로 조회", description = "자판기 ID로 자판기 조회", implementation = ResponseDto.class)
-    public  ResponseEntity<ResponseDto<VendingMachineDetailDto>> getVendingMachineById(@PathVariable(value = "id") Long id) {
-        return ResponseUtil.success(vendingMachineFindService.getVendingMachineDetail(id));
+    public  ResponseEntity<ResponseDto<VendingMachineDetailDto>> getVendingMachineById(@PathVariable(value = "id") Long machineId, @AuthenticationPrincipal CustomUserDetails user) {
+        log.info("user: {}", user.getUsername());
+
+        return ResponseUtil.success(vendingMachineFindService.getVendingMachineDetail(machineId, 1L)); // user.getId()로 수정 필요
     }
+
+    @GetMapping("/{id}/inventory")
+    @SwaggerApi(summary = "자판기 재고 조회", description = "자판기 ID로 자판기의 재고 조회", implementation = ResponseDto.class)
+    public ResponseEntity<ResponseDto<List<MedicineDetailDto>>> getVendingMachineInventory(@PathVariable(value = "id") Long id) {
+        return ResponseUtil.success(inventoryService.getMedicinesByVendingMachine(id));
+    }
+
+    @GetMapping("/{id}/medicine")
+    @SwaggerApi(summary = "자판기의 특정 약 조회", description = "자판기의 특정 약 상세 조회", implementation = ResponseDto.class)
+    public ResponseEntity<ResponseDto<MedicineDetailDto>> getVendingMachineById(@PathVariable(value = "id") Long machineId, @RequestParam("medicineId") Long medicineId) {
+        return ResponseUtil.success(inventoryService.getMedicineByInventory(machineId, medicineId));
+    }
+
 }
