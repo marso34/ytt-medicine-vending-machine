@@ -36,8 +36,7 @@ class JoinActivity : AppCompatActivity() {
         viewModel.navigateToLogin.observe(this, Observer { shouldNavigate ->
             if (shouldNavigate == true) {
                 // 로그인 페이지로 이동
-                startActivity(Intent(this, LoginActivity::class.java))
-                viewModel.onNavigationComplete()  // 네비게이션 완료 처리
+                startActivity(Intent(this, LoginActivity::class.java)) // 네비게이션 완료 처리
                 finish() // 현재 Activity 종료 (선택 사항)
             }
         })
