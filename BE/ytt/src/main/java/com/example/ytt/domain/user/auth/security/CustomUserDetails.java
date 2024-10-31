@@ -29,7 +29,7 @@ public class CustomUserDetails implements UserDetails {
     }
 
     public Long getId() {
-        return user.getId();
+        return user.getUserid();
     }
 
     public String getEmail() {

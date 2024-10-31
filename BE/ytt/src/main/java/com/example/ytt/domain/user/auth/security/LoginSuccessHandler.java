@@ -1,16 +1,17 @@
 package com.example.ytt.domain.user.auth.security;
 
 import com.example.ytt.domain.user.auth.jwt.JWTUtil;
-import com.example.ytt.domain.user.domain.RefreshEntity;
+import com.example.ytt.domain.user.domain.JwtRefresh;
+import com.example.ytt.domain.user.domain.User;
 import com.example.ytt.domain.user.dto.Role;
 import com.example.ytt.domain.user.repository.RefreshRepository;
+import com.example.ytt.domain.user.repository.UserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,12 +31,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Autowired
     private final JWTUtil jwtUtil;
     private final RefreshRepository refreshRepository;
-
-    @Value("${jwt.expiration.access}")
-    private Long ACCESS_TOKEN_EXPIRATION;
-
-    @Value("${jwt.expiration.refresh}")
-    private Long REFRESH_TOKEN_EXPIRATION;
+    private final UserRepository userRepository;
 
 
     // [로그인 실행 5] 인증 성공하여 로그인 성공하면 실행하는 핸들러
@@ -45,39 +41,39 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         String email = userDetails.getUsername();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
         // 권한 정보 추출
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
-
-        // Role을 String에서 enum으로 변환
-        Role role = Role.valueOf(auth.getAuthority()); // auth.getAuthority()는 String을 반환하므로 Role로 변환
+        Role role = Role.valueOf(auth.getAuthority());
 
         // 토큰 생성
-        String access = jwtUtil.createJwt("access", email, role, ACCESS_TOKEN_EXPIRATION);
-        String refresh = jwtUtil.createJwt("refresh", email, role, REFRESH_TOKEN_EXPIRATION);
+        String Authorization = jwtUtil.createAuthorizationToken("Authorization", user.getId(), email, role);
+        String refresh = jwtUtil.createRefreshToken("refresh", user.getId(), email, role);
 
         //Refresh 토큰 저장
-        addRefreshEntity(email, refresh, 86400000L);
+        addRefreshEntity(user, refresh);
 
         // 응답 설정
-        response.setHeader("access", access);
+        response.setHeader("Authorization", "Bearer " + Authorization);
         response.addHeader("refresh", refresh);
 
         response.setStatus(HttpStatus.OK.value());
     }
 
-    private void addRefreshEntity(String email, String refresh, Long expiredMs) {
+    private void addRefreshEntity(User user, String refresh) {
 
-        Date date = new Date(System.currentTimeMillis() + expiredMs);
+        Date date = new Date(System.currentTimeMillis() + jwtUtil.getRefreshTokenExpiration());
 
-        RefreshEntity refreshEntity = new RefreshEntity();
-        refreshEntity.setEmail(email);
-        refreshEntity.setRefresh(refresh);
-        refreshEntity.setExpiration(date.toString());
+        JwtRefresh jwtRefresh = new JwtRefresh();
+        jwtRefresh.setUser(user);
+        jwtRefresh.setRefresh(refresh);
+        jwtRefresh.setExpiration(date);
 
-        refreshRepository.save(refreshEntity);
+        refreshRepository.save(jwtRefresh);
     }
 
 }
