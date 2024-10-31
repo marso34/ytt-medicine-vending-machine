@@ -1,13 +1,16 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.wonchihyeon.ytt_android.viewmodel.SignInViewModel" />
+    </data>
 
     <LinearLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".auth.LoginActivity">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_marginTop="60dp"
@@ -21,12 +24,8 @@
             android:layout_height="60dp"
             android:layout_margin="30dp"
             android:background="@drawable/background_radius"
-            app:layout_constraintBottom_toTopOf="@+id/editText2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.505"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"></EditText>
+            android:hint="이메일"
+            android:text="@={viewModel.email}" />
 
         <EditText
             android:id="@+id/password"
@@ -34,10 +33,8 @@
             android:layout_height="60dp"
             android:layout_margin="30dp"
             android:background="@drawable/background_radius"
-            app:layout_constraintBottom_toTopOf="@+id/stay"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"></EditText>
-
+            android:hint="비밀번호"
+            android:text="@={viewModel.password}" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -47,34 +44,22 @@
                 android:id="@+id/check"
                 android:layout_marginLeft="20dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:src="@android:drawable/checkbox_on_background"></CheckBox>
+                android:layout_height="wrap_content" />
 
             <TextView
-
                 android:layout_marginLeft="20dp"
                 android:id="@+id/stay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="로그인 유지"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"></TextView>
-
-
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button"
-            app:layout_constraintVertical_bias="0.195"
-            tools:ignore="MissingConstraints">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/join"
@@ -82,11 +67,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="회원가입"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/findId"
@@ -94,11 +75,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="아이디찾기"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/findPassword"
@@ -106,13 +83,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="비밀번호 찾기"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
+                android:textStyle="bold" />
         </LinearLayout>
 
         <Button
@@ -123,9 +94,6 @@
             android:background="@drawable/background_radius_yellow"
             android:text="로그인"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stay"
-            tools:ignore="MissingConstraints"></Button>
+            android:onClick="@{() -> viewModel.login()}" />
     </LinearLayout>
 </layout>
