@@ -1,22 +1,17 @@
 package com.wonchihyeon.ytt_android.data.network
 
+import com.wonchihyeon.ytt_android.data.model.SignInDTO
+import com.wonchihyeon.ytt_android.data.model.SignUpDTO
+import retrofit2.Call
+import retrofit2.http.Body
+import retrofit2.http.POST
 
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+interface ApiService {
 
-object RetrofitInstance {
-    private const val BASE_URL = "end_point"
-    private val retrofit by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(
-                OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
-                }).build()
-            )
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
+    @POST("/user/signUp")
+    fun signUp(@Body signUpDTO: SignUpDTO): Call<String>
+
+
+    @POST("/user/signIn")
+    fun signIn(@Body signInDTO: SignInDTO): Call<String>
 }
