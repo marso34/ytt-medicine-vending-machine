@@ -28,9 +28,12 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
 
         repository.signIn(signInDTO) { response, token ->
             _signInResponse.value = response
+            // SignUpDTO 정보 로그 출력
+                Log.d("w", response)
 
-            if (response == "로그인 성공" && token != null) {  // 성공 시 토큰 저장
-                TokenManager.saveAccessToken(getApplication(), token)
+
+            if (response == "로그인 성공") {  // 성공 시 토큰 저장
+                TokenManager.saveAccessToken(getApplication(), token!!)
                 _navigateToHome.value = true
             }
 
