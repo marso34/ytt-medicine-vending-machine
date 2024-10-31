@@ -36,7 +36,6 @@ class LoginActivity : AppCompatActivity() {
 
         // 로그인에 성공하면 홈프래그먼트로 이동
         binding.join.setOnClickListener {
-            val intent = Intent(this, JoinActivity::class.java)
             startActivity(intent)
         }
 
@@ -64,15 +63,5 @@ class LoginActivity : AppCompatActivity() {
         }
         if (packageInfo == null) Log.e("KeyHash", "KeyHash:null")
 
-        for (signature in packageInfo!!.signatures) {
-            try {
-                val md = MessageDigest.getInstance("SHA")
-                md.update(signature.toByteArray())
-                Log.d("KeyHash", Base64.encodeBase64String(md.digest()))
-            } catch (e: NoSuchAlgorithmException) {
-                Log.e("KeyHash", "Unable to get MessageDigest. signature=$signature", e)
-            }
-        }
     }
-
 }
