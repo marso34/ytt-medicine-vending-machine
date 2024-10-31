@@ -8,13 +8,10 @@ import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.Base64
+
 import com.wonchihyeon.ytt_android.MainActivity
 import com.wonchihyeon.ytt_android.R
 import com.wonchihyeon.ytt_android.databinding.ActivityLoginBinding
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-
 
 class LoginActivity : AppCompatActivity() {
 
