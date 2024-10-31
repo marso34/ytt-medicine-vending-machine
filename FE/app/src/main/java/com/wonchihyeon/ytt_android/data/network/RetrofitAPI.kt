@@ -1,6 +1,8 @@
 package com.wonchihyeon.ytt_android.data.network
 
 import android.content.Context
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.wonchihyeon.ytt_android.data.TokenManager
 import com.wonchihyeon.ytt_android.BuildConfig
 import okhttp3.Interceptor
@@ -17,7 +19,7 @@ object RetrofitAPI {
             val token = TokenManager.getAccessToken(context)
             val request = if (token != null) {
                 chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer $token")
+                    .addHeader("Authorization", "$token")
                     .build()
             } else {
                 chain.request()
@@ -25,10 +27,24 @@ object RetrofitAPI {
             chain.proceed(request)
         }.build()
 
+        var gson = GsonBuilder().setLenient().create()
+
+
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
+
+    fun getAuthRetrofit(context: Context): Retrofit {
+
+        var gson = GsonBuilder().setLenient().create()
+
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+    }
+
 }
