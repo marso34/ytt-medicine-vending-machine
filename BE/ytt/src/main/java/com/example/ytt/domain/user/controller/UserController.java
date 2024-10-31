@@ -42,7 +42,7 @@ public class UserController {
             @Parameter(name = "email", description = "이메일", example = "example@naver.com"),
             @Parameter(name = "password", description = "비밀번호는 12~20자 영문 대 소문자, 숫자, 특수문자를 사용", example = "!!Example123456"),
             @Parameter(name = "name", description = "이름", example = "홍길동"),
-            @Parameter(name = "phoneNumber", description = "핸드폰번호", example = "010-1234-5678"),
+            @Parameter(name = "phoneNumber", description = "핸드폰번호는 xxx-xxxx-xxxx 양식", example = "010-1234-5678"),
     })
     public ResponseEntity<?> signUp(@RequestBody @Valid SignUpDto user) {
         userService.signUp(user);
