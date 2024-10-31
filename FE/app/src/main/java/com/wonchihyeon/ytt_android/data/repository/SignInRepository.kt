@@ -16,15 +16,19 @@ class SignInRepository(private val context: Context) {
         apiService.signIn(signInDTO).enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 if (response.isSuccessful) {
-                    val token = response.body() // 응답으로 받은 토큰
-                    callback("로그인 성공", token)
+                    response.body()?.let { token ->
+                        callback("로그인 성공", token)
+                    } ?: run {
+                        callback("로그인 실패: 응답이 없습니다", null)
+                    }
                 } else {
-                    callback("로그인 실패", null)
+                    val errorMessage = response.errorBody()?.string() ?: "알 수 없는 오류"
+                    callback("로그인 실패: $errorMessage", null)
                 }
             }
 
             override fun onFailure(call: Call<String>, t: Throwable) {
-                callback("로그인 실패", null)
+                callback("로그인 실패: ${t.message}", null)
             }
         })
     }
