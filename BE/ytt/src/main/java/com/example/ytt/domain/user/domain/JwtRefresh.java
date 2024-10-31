@@ -8,6 +8,7 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
+@Table(name = "refresh_token")
 public class JwtRefresh {
 
     @Id
