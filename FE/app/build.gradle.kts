@@ -84,5 +84,16 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.6")
     implementation("com.squareup.okhttp3:logging-interceptor:3.11.0")
 
-    implementation("androidx.preference:preference-ktx:1.2.0")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+
+    // Security
+    implementation("androidx.security:security-crypto:1.1.0-alpha03")
+}
+
+
+
+
 }
