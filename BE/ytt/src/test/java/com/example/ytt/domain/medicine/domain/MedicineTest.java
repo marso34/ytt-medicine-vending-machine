@@ -19,7 +19,7 @@ class MedicineTest {
                 .productCode("productCode")
                 .manufacturer("manufacturer")
                 .efficacy("efficacy")
-                .usage("usage")
+                .usages("usage")
                 .precautions("precautions")
                 .validityPeriod("validityPeriod")
                 .imageURL("imageURL")
@@ -39,7 +39,7 @@ class MedicineTest {
         assertThat(medicine.getProductCode()).isEqualTo("productCode");
         assertThat(medicine.getManufacturer()).isEqualTo("manufacturer");
         assertThat(medicine.getEfficacy()).isEqualTo("efficacy");
-        assertThat(medicine.getUsage()).isEqualTo("usage");
+        assertThat(medicine.getUsages()).isEqualTo("usage");
         assertThat(medicine.getPrecautions()).isEqualTo("precautions");
         assertThat(medicine.getValidityPeriod()).isEqualTo("validityPeriod");
         assertThat(medicine.getImageURL()).isEqualTo("imageURL");

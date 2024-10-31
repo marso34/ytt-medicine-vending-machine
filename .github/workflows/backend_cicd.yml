@@ -1,0 +1,64 @@
+name: Back-End CI/CD
+
+on:
+  push:
+    branches: [ "master" ]
+    paths: "BE/**" # 백엔드 관련 push만 동작하게
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Copy Application file
+      env:
+        APPLICATION_SECRET : ${{ secrets.APPLICATION_SECRET }}
+        APPLICATION_PROD : ${{ secrets.APPLICATION_PROD }}
+        APPLICATION_COMMON : ${{ secrets.APPLICATION_COMMON }}
+      run : |
+        echo "$APPLICATION_SECRET" > ./BE/ytt/src/main/resources/application-secret.yml
+        echo "$APPLICATION_PROD" > ./BE/ytt/src/main/resources/application-prod.yml
+        echo "$APPLICATION_COMMON" > ./BE/ytt/src/main/resources/application-common.yml
+        
+    - name: Build with Gradle
+      run: |
+        cd BE/ytt
+        chmod +x ./gradlew
+        ./gradlew build -x test
+    
+    - name: Deploy to EC2
+      uses: nogsantos/scp-deploy@master
+      with:
+        src: BE/ytt/build/libs/ytt.jar
+        host: ${{ secrets.SERVER_HOST }}
+        remote: /home/ubuntu/ytt/temp/
+        port: ${{ secrets.SERVER_PORT }}
+        user: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SERVER_PRIVATE_KEY }}
+
+    - name: Start Application
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SERVER_PRIVATE_KEY }}
+        script_stop: true
+        script: |
+          sudo fuser -k -n tcp 8080 || true
+          mkdir -p /home/ubuntu/ytt/ytt_backup
+          if [ -f /home/ubuntu/ytt/ytt.jar ]; then
+            mv /home/ubuntu/ytt/ytt.jar /home/ubuntu/ytt/ytt_backup/ytt_$(date +%Y%m%d%H%M%S).jar
+            mv /home/ubuntu/ytt/ouput.log /home/ubuntu/ytt/ytt_backup/ouput_$(date +%Y%m%d%H%M%S).log
+          fi
+          mv /home/ubuntu/ytt/temp/ytt.jar /home/ubuntu/ytt/ytt.jar
+          nohup java -jar /home/ubuntu/ytt/*.jar > /home/ubuntu/ytt/output.log 2>&1 &

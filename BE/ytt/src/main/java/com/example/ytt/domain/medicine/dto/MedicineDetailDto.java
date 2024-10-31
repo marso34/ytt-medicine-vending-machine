@@ -9,7 +9,7 @@ import java.util.List;
 public record MedicineDetailDto(
         @Schema(description = "약 ID")      Long id,
         @Schema(description = "제품이름")     String name,
-        @Schema(description = "품목기존코드")  String productCode,
+        @Schema(description = "품목기준코드")  String productCode,
         @Schema(description = "제조업체")     String manufacturer,
         @Schema(description = "효능효과")     String efficacy,
         @Schema(description = "용법용량")     String usage,
@@ -25,8 +25,10 @@ public record MedicineDetailDto(
     }
 
     public static MedicineDetailDto of(Medicine medicine, List<IngredientDto> ingredients) {
-        return of(medicine.getId(), medicine.getName(), medicine.getProductCode(), medicine.getManufacturer(), medicine.getEfficacy(), medicine.getUsage(), medicine.getPrecautions(), medicine.getValidityPeriod(), medicine.getPrice(), medicine.getImageURL(), ingredients);
+        return of(medicine.getId(), medicine.getName(), medicine.getProductCode(), medicine.getManufacturer(), medicine.getEfficacy(), medicine.getUsages(), medicine.getPrecautions(), medicine.getValidityPeriod(), medicine.getPrice(), medicine.getImageURL(), ingredients);
     }
 
-
+    public static MedicineDetailDto from(Medicine medicine) {
+        return of(medicine, medicine.getIngredients().stream().map(IngredientDto::from).toList());
+    }
 }

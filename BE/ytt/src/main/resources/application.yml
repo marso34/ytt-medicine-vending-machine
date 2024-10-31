@@ -3,8 +3,8 @@ spring:
     name: ytt
 
   profiles:
-    active: local
-    include: common
+    active: prod
+    include: common, secret
 
 server:
   port: 8080 # 임시 포트 설정

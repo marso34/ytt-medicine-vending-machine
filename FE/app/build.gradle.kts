@@ -75,4 +75,10 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     // 네이버 지도 SDK
     implementation("com.naver.maps:map-sdk:3.12.0")
+
+
+    // Retrofit, Gson
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
 }

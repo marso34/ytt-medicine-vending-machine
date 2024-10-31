@@ -181,7 +181,7 @@ class MedicineFindServiceTest {
                 .productCode(productCode)
                 .manufacturer("manufacturer")
                 .efficacy("efficacy")
-                .usage("usage")
+                .usages("usage")
                 .precautions("precautions")
                 .validityPeriod("validityPeriod")
                 .price(1000)
