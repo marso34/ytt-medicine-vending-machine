@@ -30,6 +30,8 @@ android {
             abiFilters.add("x86_64")
         }
 
+        buildConfigField("String", "BaseUrl", properties.getProperty("BaseUrl"))
+
         addManifestPlaceholders(mapOf("NAVERMAP_CLIENT_ID" to properties.getProperty("NAVERMAP_CLIENT_ID")))
     }
 
@@ -81,4 +83,6 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.6.0")
     implementation("com.google.code.gson:gson:2.8.6")
     implementation("com.squareup.okhttp3:logging-interceptor:3.11.0")
+
+    implementation("androidx.preference:preference-ktx:1.2.0")
 }
