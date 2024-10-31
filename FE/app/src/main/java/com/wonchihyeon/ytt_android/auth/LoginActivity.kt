@@ -36,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
 
         // 로그인에 성공하면 홈프래그먼트로 이동
         binding.join.setOnClickListener {
-            startActivity(intent)
+            startActivity(Intent(this, JoinActivity::class.java))
         }
 
         // 로그인에 성공하면 홈프래그먼트로 이동
