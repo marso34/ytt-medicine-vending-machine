@@ -30,30 +30,22 @@ class SignUpViewModel(application: Application) : AndroidViewModel(application) 
             password.value ?: "",
             name.value ?: "",
             phoneNumber.value ?: "",
-            Role.CUSTOMER
+            Role.CUSTOMER.toString()
         )
+
+        // SignUpDTO 정보 로그 출력
+        Log.d("SignUpDTO", signUpDTO.toString())
 
         repository.signUp(signUpDTO) { response, accessToken, refreshToken ->
             _signUpResponse.value = response
-
-            if (response == "회원가입 성공") {
-                // 토큰 저장
-                if (accessToken != null) {
-                    TokenManager.saveAccessToken(getApplication(), accessToken)
-                }
-                if (refreshToken != null) {
-                    TokenManager.saveRefreshToken(getApplication(), refreshToken)
-                }
-
-                _navigateToLogin.value = true // 로그인 화면으로 이동
-            } else {
-                _signUpResponse.value = "회원가입 실패"
-            }
-
             Log.d("SignUpViewModel", "서버 응답: $response")
+
+            // 회원가입 요청 성공 시, 아래와 같이 navigateToLogin 상태를 true로 변경
+            if (response == "회원가입 성공") {
+                _navigateToLogin.value = true // 로그인 화면으로 이동 플래그 설정
+            }
         }
     }
-
     fun onNavigationComplete() {
         _navigateToLogin.value = false
     }
