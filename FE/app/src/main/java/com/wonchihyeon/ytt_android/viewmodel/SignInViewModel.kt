@@ -1,15 +1,17 @@
 package com.wonchihyeon.ytt_android.viewmodel
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.wonchihyeon.ytt_android.data.TokenManager
 import com.wonchihyeon.ytt_android.data.model.SignInDTO
 import com.wonchihyeon.ytt_android.data.repository.SignInRepository
 
-class SignInViewModel : ViewModel() {
+class SignInViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = SignInRepository()
+    private val repository = SignInRepository(application)  // Application context 전달
     private val _signInResponse = MutableLiveData<String>()
     val signInResponse: LiveData<String> get() = _signInResponse
     private val _navigateToHome = MutableLiveData<Boolean>()
@@ -24,18 +26,16 @@ class SignInViewModel : ViewModel() {
             password.value ?: ""
         )
 
-        repository.signIn(signInDTO) { response ->
+        repository.signIn(signInDTO) { response, token ->
             _signInResponse.value = response
 
-            // 서버 응답 처리
-            if (response == "로그인 성공") {  // 성공 메시지에 따라 수정
+            if (response == "로그인 성공" && token != null) {  // 성공 시 토큰 저장
+                TokenManager.saveAccessToken(getApplication(), token)
                 _navigateToHome.value = true
             }
 
-            Log.d("SignInViewModel", "서버 응답: $response")
+            Log.d("SignInViewModel", "서버 응답: $response, 토큰: $token")
         }
-
-        Log.d("SignInViewModel", "서버에 보내는 데이터: $signInDTO")
     }
 
     fun onNavigationComplete() {
