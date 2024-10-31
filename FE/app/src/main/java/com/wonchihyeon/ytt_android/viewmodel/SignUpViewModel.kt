@@ -1,16 +1,18 @@
 package com.wonchihyeon.ytt_android.viewmodel
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.app.data.repository.SignUpRepository
+import com.wonchihyeon.ytt_android.data.TokenManager
 import com.wonchihyeon.ytt_android.data.model.Role
 import com.wonchihyeon.ytt_android.data.model.SignUpDTO
+import com.wonchihyeon.ytt_android.data.repository.SignUpRepository
 
-class SignUpViewModel : ViewModel() {
+class SignUpViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = SignUpRepository()
+    private val repository = SignUpRepository(application)
     private val _signUpResponse = MutableLiveData<String>()
     val signUpResponse: LiveData<String> get() = _signUpResponse
     private val _navigateToLogin = MutableLiveData<Boolean>()
@@ -31,18 +33,25 @@ class SignUpViewModel : ViewModel() {
             Role.CUSTOMER
         )
 
-        repository.signUp(signUpDTO) { response ->
+        repository.signUp(signUpDTO) { response, accessToken, refreshToken ->
             _signUpResponse.value = response
 
-            // 서버 응답 처리
-            if (response == "회원가입 성공") {  // 성공 메시지에 따라 수정
-                _navigateToLogin.value = true
+            if (response == "회원가입 성공") {
+                // 토큰 저장
+                if (accessToken != null) {
+                    TokenManager.saveAccessToken(getApplication(), accessToken)
+                }
+                if (refreshToken != null) {
+                    TokenManager.saveRefreshToken(getApplication(), refreshToken)
+                }
+
+                _navigateToLogin.value = true // 로그인 화면으로 이동
+            } else {
+                _signUpResponse.value = "회원가입 실패"
             }
 
             Log.d("SignUpViewModel", "서버 응답: $response")
         }
-
-        Log.d("SignUpViewModel", "서버에 보내는 데이터: $signUpDTO")
     }
 
     fun onNavigationComplete() {
