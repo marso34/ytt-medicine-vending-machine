@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.wonchihyeon.ytt_android.OrderDetailsActivity
 import com.wonchihyeon.ytt_android.R
 
 class AddressBottomSheetFragment() : BottomSheetDialogFragment() {
