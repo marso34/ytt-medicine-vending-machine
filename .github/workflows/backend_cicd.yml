@@ -61,4 +61,4 @@ jobs:
             mv /home/ubuntu/ytt/output.log /home/ubuntu/ytt/ytt_backup/ouput_$(date +%Y%m%d%H%M%S).log
           fi
           mv /home/ubuntu/ytt/temp/ytt.jar /home/ubuntu/ytt/ytt.jar
-          nohup java -jar /home/ubuntu/ytt/*.jar > /home/ubuntu/ytt/output.log 2>&1 &
+          nohup java -Duser.timezone=Asia/Seoul -jar /home/ubuntu/ytt/*.jar > /home/ubuntu/ytt/output.log 2>&1 &
