@@ -1,9 +1,8 @@
 package com.wonchihyeon.ytt_android.data.network
 
-import com.google.firebase.crashlytics.buildtools.reloc.javax.annotation.Nullable
 import com.wonchihyeon.ytt_android.data.model.SignInDTO
 import com.wonchihyeon.ytt_android.data.model.SignUpDTO
-import com.wonchihyeon.ytt_android.data.model.ResponseDTO
+import com.wonchihyeon.ytt_android.data.model.VendingMachineDTO
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -31,16 +30,17 @@ interface ApiService {
 
     @POST("/user/logout")*/
 
-   /* @POST("/vending-machine/create")
+  /*  @POST("/vending-machine/create")
 
     @POST("/vending-machine/add-medicine")
 
     @POST("/auth/reissue")
 
-    @GET("/vending-machine/{id}")
+    @GET("/vending-machine/{id}")*/
 
     @GET("/vending-machine/nearby")
-
+    fun getVendingMachineNearBy(@Body vendingMachineDTO: VendingMachineDTO): Call<String>
+/*
     @GET("/vending-machine/name")
 
     @GET("/vending-machine/medicine")
