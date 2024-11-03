@@ -6,6 +6,7 @@ import com.example.ytt.domain.user.dto.UpdatePasswordDto;
 import com.example.ytt.domain.user.dto.UserDto;
 import com.example.ytt.domain.user.service.UserService;
 import com.example.ytt.global.common.annotation.SwaggerApi;
+import com.example.ytt.global.common.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,7 +47,7 @@ public class UserController {
     })
     public ResponseEntity<?> signUp(@RequestBody @Valid SignUpDto user) {
         userService.signUp(user);
-        return ResponseEntity.ok("회원가입이 완료되었습니다.");
+        return ResponseEntity.ok(ResponseDto.of(200, "회원가입이 완료되었습니다.", "회원가입 성공"));
     }
 
     /*
@@ -63,21 +64,22 @@ public class UserController {
         String email = authentication.getName();
 
         userService.updatePassword(email, updatePasswordDto.getCurrentPassword(), updatePasswordDto.getNewPassword());
-        return ResponseEntity.ok("비밀번호가 성공적으로 수정되었습니다.");
+        return ResponseEntity.ok(ResponseDto.of(200, "비밀번호가 성공적으로 수정되었습니다.", "비밀번호 수정 성공"));
     }
+
 
     /*
      마이페이지 정보(현재 이메일만 표시)
      */
     @GetMapping("/mypage")
     @SwaggerApi(summary = "마이페이지 정보", description = "현재 로그인한 사용자의 정보(이메일)를 조회합니다.", implementation = UserDto.class)
-    public ResponseEntity<UserDto> getCurrentUser() {
+    public ResponseEntity<ResponseDto<UserDto>> getCurrentUser() {
         // 현재 로그인한 사용자 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
         UserDto userDto = userService.getUserByEmail(email);
-        return ResponseEntity.ok(userDto);
+        return ResponseEntity.ok(ResponseDto.of(200, "사용자 정보 조회 성공", userDto));
     }
 
     /*
@@ -90,7 +92,7 @@ public class UserController {
             @Parameter(name = "password", description = "비밀번호", example = "!!Example123456"),
     })
     public ResponseEntity<?> signIn(@RequestBody @Valid SignInDto signInDto) {
-        return ResponseEntity.ok("로그인이 완료되었습니다.");
+        return ResponseEntity.ok(ResponseDto.of(200, "로그인이 완료되었습니다.", "로그인 성공"));
     }
 
     /*
@@ -99,6 +101,6 @@ public class UserController {
     @PostMapping("/logout")
     @SwaggerApi(summary = "로그아웃", description = "현재 사용자를 로그아웃합니다.", implementation = String.class)
     public ResponseEntity<?> logout() {
-        return ResponseEntity.ok("로그아웃이 완료되었습니다.");
+        return ResponseEntity.ok(ResponseDto.of(200, "로그아웃이 완료되었습니다.", "로그아웃 성공"));
     }
 }
