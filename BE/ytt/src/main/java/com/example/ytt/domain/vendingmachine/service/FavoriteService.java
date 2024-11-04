@@ -41,4 +41,9 @@ public class FavoriteService {
         return favoriteRepository.save(Favorite.of(user, vendingMachine));
     }
 
+    // 유저의 즐겨찾기 (자판기) 삭제
+    public void deleteFavorite(Long userId, Long vendingMachineId) {
+        favoriteRepository.deleteByUserIdAndVendingMachineId(userId, vendingMachineId);
+    }
+
 }
