@@ -1,9 +1,11 @@
 package com.wonchihyeon.ytt_android.data.network
 
+import com.wonchihyeon.ytt_android.data.model.ResponseDTO
 import com.wonchihyeon.ytt_android.data.model.SignInDTO
 import com.wonchihyeon.ytt_android.data.model.SignUpDTO
 import com.wonchihyeon.ytt_android.data.model.VendingMachineDTO
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -49,9 +51,9 @@ interface ApiService {
 
 
     @POST("/user/signUp")
-    fun signUp(@Body signUpDTO: SignUpDTO): Call<String>
+    fun signUp(@Body signUpDTO: SignUpDTO): Call<ResponseDTO<String>>
 
 
     @POST("/user/signIn")
-    fun signIn(@Body signInDTO: SignInDTO): Call<String>
+    fun signIn(@Body signInDTO: SignInDTO): Call<ResponseDTO<String>>
 }
