@@ -52,6 +52,7 @@ public class JWTUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
+
     // AuthorizationToken 생성
     public String createAuthorizationToken(String category, Long userId, String email, Role role) {
         return Jwts.builder()

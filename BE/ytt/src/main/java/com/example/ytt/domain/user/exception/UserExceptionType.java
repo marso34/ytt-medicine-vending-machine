@@ -25,11 +25,16 @@ public enum UserExceptionType implements BaseExceptionType {
     PASSWORD_FORMAT_INVALID(606, HttpStatus.BAD_REQUEST, "비밀번호 형식이 올바르지 않습니다."), // 400 Bad Request
     PHONENUMBER_FORMAT_INVALID(607, HttpStatus.BAD_REQUEST, "핸드폰번호 형식이 올바르지 않습니다."), // 400 Bad Request
     NOTBLANK_FORMAT_INVALID(608, HttpStatus.BAD_REQUEST, "공백이 존재할 수 없습니다."), // 400 Bad Request
-    BLANK_REFRESH_TOKEN(609, HttpStatus.BAD_REQUEST, "리프레시 토큰이 비었습니다."), // 400 Bad Request
-    EXPIRED_REFRESH_TOKEN(610, HttpStatus.BAD_REQUEST, "리프레시 토큰이 만료되었습니다."), // 400 Bad Request
-    INVALID_TOKEN_CATEGORY(611, HttpStatus.BAD_REQUEST, "토큰 타입이 올바르지 않습니다."), // 400 Bad Request
-    INVALID_REFRESH_TOKEN(612, HttpStatus.BAD_REQUEST, "유효하지 않은 리프레시 토큰입니다."), // 400 Bad Request
-    INVALID_JWT_TOKEN(613, HttpStatus.BAD_REQUEST, "유효하지 않은 JWT 토큰입니다."), // 400 Bad Request
+
+    INVALID_TOKEN_CATEGORY(610, HttpStatus.BAD_REQUEST, "토큰 타입이 올바르지 않습니다."), // 400 Bad Request
+    BLANK_ACCESS_TOKEN(610, HttpStatus.UNAUTHORIZED, "액세스 토큰이 비었습니다."), // 401 Unauthorized
+    EXPIRED_ACCESS_TOKEN(611, HttpStatus.BAD_REQUEST, "액세스 토큰이 만료되었습니다."), // 400 Bad Request
+    INVALID_ACCESS_TOKEN(612, HttpStatus.BAD_REQUEST, "유효하지 않은 액세스 토큰입니다."), // 400 Bad Request
+
+    BLANK_REFRESH_TOKEN(620, HttpStatus.BAD_REQUEST, "리프레시 토큰이 비었습니다."), // 400 Bad Request
+    EXPIRED_REFRESH_TOKEN(621, HttpStatus.BAD_REQUEST, "리프레시 토큰이 만료되었습니다."), // 400 Bad Request
+    INVALID_REFRESH_TOKEN(622, HttpStatus.BAD_REQUEST, "유효하지 않은 리프레시 토큰입니다."), // 400 Bad Request
+
     JSON_PARSE_ERROR(3000, HttpStatus.BAD_REQUEST, "JSON 파싱 과정에서 에러가 발생했습니다.");
     private int errorCode;
     private HttpStatus httpStatus;
