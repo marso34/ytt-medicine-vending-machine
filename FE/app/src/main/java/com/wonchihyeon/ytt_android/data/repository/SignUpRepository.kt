@@ -16,8 +16,11 @@ class SignUpRepository(private val context: Context) {
     private val apiService: ApiService = RetrofitAPI.getRetrofit(context).create(ApiService::class.java)
 
     fun signUp(signUpDTO: SignUpDTO, callback: (String, String?, String?) -> Unit) {
-        apiService.signUp(signUpDTO).enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+        apiService.signUp(signUpDTO).enqueue(object : Callback<ResponseDTO<String>> {
+            override fun onResponse(
+                call: Call<ResponseDTO<String>>,
+                response: Response<ResponseDTO<String>>
+            ) {
                 Log.d("response_code", response.code().toString())
                 if (response.isSuccessful) {
                     val responseBody : String = response.body().toString()
@@ -28,7 +31,7 @@ class SignUpRepository(private val context: Context) {
                 }
             }
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseDTO<String>>, t: Throwable) {
                 Log.e("SignUpRepository", "회원가입 요청 실패: ${t.message}", t)
                 callback("회원가입 요청 실패: ${t.message}", null, null)
             }
