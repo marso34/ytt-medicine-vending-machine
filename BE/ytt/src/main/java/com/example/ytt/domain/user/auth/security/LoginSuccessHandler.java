@@ -6,6 +6,8 @@ import com.example.ytt.domain.user.domain.User;
 import com.example.ytt.domain.user.dto.Role;
 import com.example.ytt.domain.user.repository.RefreshRepository;
 import com.example.ytt.domain.user.repository.UserRepository;
+import com.example.ytt.global.common.response.ResponseDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,6 +34,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final JWTUtil jwtUtil;
     private final RefreshRepository refreshRepository;
     private final UserRepository userRepository;
+    private final ObjectMapper objectMapper;
 
 
     // [로그인 실행 5] 인증 성공하여 로그인 성공하면 실행하는 핸들러
@@ -60,6 +63,19 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         // 응답 설정
         response.setHeader("Authorization", "Bearer " + Authorization);
         response.addHeader("refresh", refresh);
+
+        // ResponseDto 생성
+        ResponseDto<String> responseDto = ResponseDto.of(200, "로그인 성공", "토큰이 발급되었습니다.");
+
+        // JSON 형식으로 변환
+        String jsonResponse = objectMapper.writeValueAsString(responseDto);
+
+        // 응답 설정
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonResponse);
+        response.setStatus(HttpStatus.OK.value());
+
 
         response.setStatus(HttpStatus.OK.value());
     }
