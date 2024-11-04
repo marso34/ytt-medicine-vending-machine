@@ -47,8 +47,8 @@ public class VendingMachineFindController {
 
     @GetMapping("/medicine")
     @SwaggerApi(summary = "약품으로 자판기 조회", description = "약품이 포함되어 있는 자판기 리스트 조회", implementation = ResponseDto.class)
-    public ResponseEntity<ResponseDto<List<VendingMachineDto>>> getVendingMachinesByMedicine(@RequestParam("medicine_id") Long medicine_id) {
-        return ResponseUtil.success(vendingMachineFindService.getVendingMachinesByMedicine(medicine_id));
+    public ResponseEntity<ResponseDto<List<VendingMachineDto>>> getVendingMachinesByMedicine(@RequestParam("medicine_id") Long medicineId) {
+        return ResponseUtil.success(vendingMachineFindService.getVendingMachinesByMedicine(medicineId));
     }
 
     @GetMapping("/nearby")
@@ -66,23 +66,22 @@ public class VendingMachineFindController {
     }
 
     // 자판기 상세 조회
+    // TODO: 커밋 전에 자판기 조회에서 getVendingMachineDetail 메소드의 userI.getId() 수정
 
     @GetMapping("/{id}")
     @SwaggerApi(summary = "자판기 ID로 조회", description = "자판기 ID로 자판기 조회", implementation = ResponseDto.class)
     public  ResponseEntity<ResponseDto<VendingMachineDetailDto>> getVendingMachineById(@PathVariable(value = "id") Long machineId, @AuthenticationPrincipal CustomUserDetails user) {
-        log.info("user: {}", user.getUsername());
-
-        return ResponseUtil.success(vendingMachineFindService.getVendingMachineDetail(machineId, 1L)); // user.getId()로 수정 필요
+        return ResponseUtil.success(vendingMachineFindService.getVendingMachineDetail(machineId, 1L));
     }
 
-    @GetMapping("/{id}/inventory")
-    @SwaggerApi(summary = "자판기 재고 조회", description = "자판기 ID로 자판기의 재고 조회", implementation = ResponseDto.class)
+    @GetMapping("/{id}/medicines")
+    @SwaggerApi(summary = "특정 자판기의 전체 재고 조회", description = "자판기 ID로 자판기의 재고 조회", implementation = ResponseDto.class)
     public ResponseEntity<ResponseDto<List<MedicineDetailDto>>> getVendingMachineInventory(@PathVariable(value = "id") Long id) {
         return ResponseUtil.success(inventoryService.getMedicinesByVendingMachine(id));
     }
 
     @GetMapping("/{id}/medicine")
-    @SwaggerApi(summary = "자판기의 특정 약 조회", description = "자판기의 특정 약 상세 조회", implementation = ResponseDto.class)
+    @SwaggerApi(summary = "특정 자판기의 특정 약 조회", description = "자판기의 특정 약 상세 조회", implementation = ResponseDto.class)
     public ResponseEntity<ResponseDto<MedicineDetailDto>> getVendingMachineById(@PathVariable(value = "id") Long machineId, @RequestParam("medicineId") Long medicineId) {
         return ResponseUtil.success(inventoryService.getMedicineByInventory(machineId, medicineId));
     }
