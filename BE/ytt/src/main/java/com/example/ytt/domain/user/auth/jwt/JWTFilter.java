@@ -3,7 +3,7 @@ package com.example.ytt.domain.user.auth.jwt;
 import com.example.ytt.domain.user.auth.security.CustomUserDetails;
 import com.example.ytt.domain.user.dto.Role;
 import com.example.ytt.domain.user.dto.UserDto;
-import io.jsonwebtoken.ExpiredJwtException;
+import com.example.ytt.domain.user.exception.UserExceptionType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,12 +14,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+
+import static com.example.ytt.global.util.ResponseUtil.sendErrorResponse;
 
 public class JWTFilter extends OncePerRequestFilter {
 
     private final JWTUtil jwtUtil;
-
     public JWTFilter(JWTUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
@@ -31,25 +31,27 @@ public class JWTFilter extends OncePerRequestFilter {
         String authorizationToken = request.getHeader("Authorization");
 
         // 토큰이 없다면 다음 필터로 넘김
-        if (authorizationToken == null || !authorizationToken.startsWith("Bearer ")) {
+        if (authorizationToken == null) {
             filterChain.doFilter(request, response);
+            return;
+        }
+
+        if (!authorizationToken.startsWith("Bearer ")) {
+            sendErrorResponse(response, UserExceptionType.INVALID_ACCESS_TOKEN);
             return;
         }
 
         // Bearer 접두사 제거
         authorizationToken = authorizationToken.substring(7); // "Bearer " 부분 제거
 
-        // 토큰 만료 여부 확인, 만료시 다음 필터로 넘기지 않음
+        // 토큰 검증 및 만료 여부 확인
         try {
-            jwtUtil.isExpired(authorizationToken);
-        } catch (ExpiredJwtException e) {
-
-            //response body
-            PrintWriter writer = response.getWriter();
-            writer.print("AuthorizationToken expired");
-
-            //response status code
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            if (jwtUtil.isExpired(authorizationToken)) {
+                sendErrorResponse(response, UserExceptionType.EXPIRED_ACCESS_TOKEN);
+                return;
+            }
+        } catch (Exception e) {
+            sendErrorResponse(response, UserExceptionType.INVALID_ACCESS_TOKEN);
             return;
         }
 
@@ -57,13 +59,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String category = jwtUtil.getCategory(authorizationToken);
 
         if (!category.equals("Authorization")) {
-
-            //response body
-            PrintWriter writer = response.getWriter();
-            writer.print("invalid Authorization token");
-
-            //response status code
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            sendErrorResponse(response, UserExceptionType.INVALID_TOKEN_CATEGORY);
             return;
         }
 
@@ -83,6 +79,6 @@ public class JWTFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);
-
     }
+
 }

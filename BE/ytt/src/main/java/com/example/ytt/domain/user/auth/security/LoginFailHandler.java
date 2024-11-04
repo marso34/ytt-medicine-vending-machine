@@ -1,6 +1,6 @@
 package com.example.ytt.domain.user.auth.security;
 
-import com.example.ytt.domain.user.dto.LoginResponse;
+import com.example.ytt.global.common.response.ResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,14 +20,12 @@ public class LoginFailHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
-        // 응답 메시지 작성
-        String jsonResponse = new ObjectMapper().writeValueAsString(new LoginResponse(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage()));
+        ResponseDto<String> responseDto = ResponseDto.of(HttpServletResponse.SC_UNAUTHORIZED, "로그인 실패", exception.getMessage());
+        String jsonResponse = new ObjectMapper().writeValueAsString(responseDto);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         response.getWriter().write(jsonResponse);
-
     }
-
 }

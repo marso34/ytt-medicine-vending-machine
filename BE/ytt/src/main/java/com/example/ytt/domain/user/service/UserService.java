@@ -56,7 +56,10 @@ public class UserService {
 
         UserDto userDto = new UserDto();
         userDto.setEmail(user.getEmail());
-
+        userDto.setPassword(user.getPassword());
+        userDto.setName(user.getName());
+        userDto.setPhoneNumber(user.getPhoneNumber());
+        userDto.setRole(user.getRole());
         return userDto;
     }
 

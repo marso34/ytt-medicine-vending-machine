@@ -1,10 +1,15 @@
 package com.example.ytt.global.util;
 
 
+import com.example.ytt.domain.user.exception.UserExceptionType;
 import com.example.ytt.global.common.response.ResponseDto;
 import com.example.ytt.global.error.BaseExceptionType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.io.IOException;
 
 /**
  * ResponseDto 유틸리티 클래스
@@ -59,6 +64,42 @@ public class ResponseUtil {
         return ResponseEntity
                 .status(status.getHttpStatus())
                 .body(ResponseDto.of(status.getErrorCode(), message, body));
+    }
+
+    /**
+     * 성공 응답을 HttpServletResponse에 전송
+     */
+    public static void sendSuccessResponse(HttpServletResponse response, String message) throws IOException {
+        ResponseDto<String> responseDto = ResponseDto.of(HttpStatus.OK.value(), DEFAULT_SUCCESS_MESSAGE, message);
+        String jsonResponse = new ObjectMapper().writeValueAsString(responseDto);
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonResponse);
+        response.setStatus(HttpStatus.OK.value());
+    }
+
+    /**
+     * 에러 응답을 HttpServletResponse에 전송
+     */
+    public static void sendErrorResponse(HttpServletResponse response, int code, String message) throws IOException {
+        ResponseDto<String> responseDto = ResponseDto.of(code, message, null);
+        String jsonResponse = new ObjectMapper().writeValueAsString(responseDto);
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonResponse);
+        response.setStatus(code);
+    }
+
+    public static void sendErrorResponse(HttpServletResponse response, UserExceptionType exceptionType) throws IOException {
+        ResponseDto<String> responseDto = ResponseDto.of(exceptionType.getHttpStatus().value(), exceptionType.getErrorMessage(), null);
+        String jsonResponse = new ObjectMapper().writeValueAsString(responseDto);
+
+        response.setStatus(exceptionType.getHttpStatus().value());
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonResponse);
     }
 
 }

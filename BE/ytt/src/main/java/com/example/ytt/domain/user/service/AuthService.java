@@ -37,23 +37,7 @@ public class AuthService implements UserDetailsService {
     public TokenResponseDto reissueTokens(HttpServletRequest request, HttpServletResponse response) throws UserException {
         String refresh = request.getHeader("refresh");
 
-        if (refresh == null) {
-            throw new UserException(UserExceptionType.BLANK_REFRESH_TOKEN);
-        }
-
-        if (jwtUtil.isExpired(refresh)) {
-            throw new UserException(UserExceptionType.EXPIRED_REFRESH_TOKEN);
-        }
-
-        String category = jwtUtil.getCategory(refresh);
-        if (!category.equals("refresh")) {
-            throw new UserException(UserExceptionType.INVALID_TOKEN_CATEGORY);
-        }
-
-        if (!refreshRepository.existsByRefresh(refresh)) {
-            throw new UserException(UserExceptionType.INVALID_REFRESH_TOKEN);
-        }
-
+        validateRefreshToken(refresh);
         return generateNewTokens(refresh, response);
     }
 
@@ -114,5 +98,29 @@ public class AuthService implements UserDetailsService {
 
     public void removeUserRefreshTokens(User user) {
         refreshRepository.deleteByUser(user);
+    }
+
+    // 리프레시 토큰 유효성 검사
+    private void validateRefreshToken(String refresh) throws UserException {
+        if (refresh == null || refresh.trim().isEmpty()) {
+            throw new UserException(UserExceptionType.BLANK_REFRESH_TOKEN);
+        }
+
+        try {
+            if (jwtUtil.isExpired(refresh)) {
+                throw new UserException(UserExceptionType.EXPIRED_REFRESH_TOKEN);
+            }
+        }catch (Exception e) {
+            throw new UserException(UserExceptionType.INVALID_REFRESH_TOKEN);
+        }
+
+        String category = jwtUtil.getCategory(refresh);
+        if (!category.equals("refresh")) {
+            throw new UserException(UserExceptionType.INVALID_TOKEN_CATEGORY);
+        }
+
+        if (!refreshRepository.existsByRefresh(refresh)) {
+            throw new UserException(UserExceptionType.INVALID_REFRESH_TOKEN);
+        }
     }
 }

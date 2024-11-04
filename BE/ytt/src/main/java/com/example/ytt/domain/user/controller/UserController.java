@@ -72,7 +72,7 @@ public class UserController {
      마이페이지 정보(현재 이메일만 표시)
      */
     @GetMapping("/mypage")
-    @SwaggerApi(summary = "마이페이지 정보", description = "현재 로그인한 사용자의 정보(이메일)를 조회합니다.", implementation = UserDto.class)
+    @SwaggerApi(summary = "마이페이지 정보", description = "현재 로그인한 사용자의 정보를 조회합니다.", implementation = UserDto.class)
     public ResponseEntity<ResponseDto<UserDto>> getCurrentUser() {
         // 현재 로그인한 사용자 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -92,7 +92,7 @@ public class UserController {
             @Parameter(name = "password", description = "비밀번호", example = "!!Example123456"),
     })
     public ResponseEntity<?> signIn(@RequestBody @Valid SignInDto signInDto) {
-        return ResponseEntity.ok(ResponseDto.of(200, "로그인이 완료되었습니다.", "로그인 성공"));
+        return ResponseEntity.ok(ResponseDto.of(200, "로그인 성공", "토큰이 발급되었습니다."));
     }
 
     /*
