@@ -4,8 +4,6 @@ import com.example.ytt.domain.user.auth.security.CustomUserDetails;
 import com.example.ytt.domain.user.dto.Role;
 import com.example.ytt.domain.user.dto.UserDto;
 import com.example.ytt.domain.user.exception.UserExceptionType;
-import com.example.ytt.global.common.response.ResponseDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,10 +15,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+import static com.example.ytt.global.util.ResponseUtil.sendErrorResponse;
+
 public class JWTFilter extends OncePerRequestFilter {
 
     private final JWTUtil jwtUtil;
-    private final ObjectMapper objectMapper = new ObjectMapper();
     public JWTFilter(JWTUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
@@ -81,13 +80,5 @@ public class JWTFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-    private void sendErrorResponse(HttpServletResponse response, UserExceptionType exceptionType) throws IOException {
-        ResponseDto<String> responseDto = ResponseDto.of(exceptionType.getHttpStatus().value(), exceptionType.getErrorMessage(), null);
-        String jsonResponse = objectMapper.writeValueAsString(responseDto);
 
-        response.setStatus(exceptionType.getHttpStatus().value());
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(jsonResponse);
-    }
 }
