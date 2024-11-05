@@ -13,7 +13,7 @@ import retrofit2.Response
 
 class SignUpRepository(private val context: Context) {
 
-    private val apiService: ApiService = RetrofitAPI.getRetrofit(context).create(ApiService::class.java)
+    private val apiService: ApiService = RetrofitAPI.getAuthRetrofit(context).create(ApiService::class.java)
 
     fun signUp(signUpDTO: SignUpDTO, callback: (String, String?, String?) -> Unit) {
         apiService.signUp(signUpDTO).enqueue(object : Callback<ResponseDTO<String>> {
