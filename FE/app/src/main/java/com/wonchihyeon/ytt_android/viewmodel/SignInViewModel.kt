@@ -26,18 +26,27 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
             password.value ?: ""
         )
 
-        repository.signIn(signInDTO) { response, token ->
+        repository.signIn(signInDTO) { response, token, refreshToken ->  // 세 개의 매개변수로 수정
             _signInResponse.value = response
-            // SignUpDTO 정보 로그 출력
-                Log.d("w", response)
-
+            Log.d("w", response)
 
             if (response == "로그인 성공") {  // 성공 시 토큰 저장
-                TokenManager.saveAccessToken(getApplication(), token!!)
+                if (token != null) {
+                    TokenManager.saveAccessToken(getApplication(), token)
+                } else {
+                    Log.e("SignInViewModel", "액세스 토큰이 null입니다.")
+                }
+
+                if (refreshToken != null) {
+                    TokenManager.saveRefreshToken(getApplication(), refreshToken) // 리프레시 토큰 저장
+                } else {
+                    Log.e("SignInViewModel", "리프레시 토큰이 null입니다.")
+                }
+
                 _navigateToHome.value = true
             }
 
-            Log.d("SignInViewModel", "서버 응답: $response, 토큰: $token")
+            Log.d("SignInViewModel", "서버 응답: $response, 액세스 토큰: $token, 리프레시 토큰: $refreshToken")
         }
     }
 
