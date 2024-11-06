@@ -2,6 +2,7 @@ package com.example.ytt.domain.vendingmachine.controller;
 
 import com.example.ytt.domain.inventory.service.InventoryService;
 import com.example.ytt.domain.medicine.dto.MedicineDetailDto;
+import com.example.ytt.domain.medicine.dto.MedicineDto;
 import com.example.ytt.domain.user.auth.security.CustomUserDetails;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDetailDto;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDto;
@@ -76,7 +77,7 @@ public class VendingMachineFindController {
 
     @GetMapping("/{id}/medicines")
     @SwaggerApi(summary = "특정 자판기의 전체 재고 조회", description = "자판기 ID로 자판기의 재고 조회", implementation = ResponseDto.class)
-    public ResponseEntity<ResponseDto<List<MedicineDetailDto>>> getVendingMachineInventory(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<ResponseDto<List<MedicineDto>>> getVendingMachineInventory(@PathVariable(value = "id") Long id) {
         return ResponseUtil.success(inventoryService.getMedicinesByVendingMachine(id));
     }
 

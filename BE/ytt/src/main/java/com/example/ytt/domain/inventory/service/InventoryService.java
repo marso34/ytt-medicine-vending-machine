@@ -3,6 +3,7 @@ package com.example.ytt.domain.inventory.service;
 import com.example.ytt.domain.inventory.domain.Inventory;
 import com.example.ytt.domain.inventory.repository.InventoryRepository;
 import com.example.ytt.domain.medicine.dto.MedicineDetailDto;
+import com.example.ytt.domain.medicine.dto.MedicineDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +18,10 @@ public class InventoryService {
     private final InventoryRepository inventoryRepository;
 
     // 자판기의 재고 목록 조회
-    public List<MedicineDetailDto> getMedicinesByVendingMachine(Long machineId) {
+    public List<MedicineDto> getMedicinesByVendingMachine(Long machineId) {
         return inventoryRepository.findByVendingMachineId(machineId)
                 .stream()
-                .map(MedicineDetailDto::from)
+                .map(MedicineDto::from)
                 .toList();
     }
 
