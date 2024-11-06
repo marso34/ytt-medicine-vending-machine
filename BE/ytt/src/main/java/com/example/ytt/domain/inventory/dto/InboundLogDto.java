@@ -17,6 +17,6 @@ public record InboundLogDto(
     }
 
     public static InboundLogDto from(InboundLog inboundLog) {
-        return of(inboundLog.getId(), inboundLog.getVendingMachine().getId(), inboundLog.getMedicine().getId(), inboundLog.getMedicine().getName(), inboundLog.getQuantity(), inboundLog.getInboundedAt().toString());
+        return of(inboundLog.getId(), inboundLog.getVendingMachine().getId(), inboundLog.getMedicine().getId(), inboundLog.getMedicine().getName(), inboundLog.getQuantity(), inboundLog.getCreatedAt().toString());
     }
 }
