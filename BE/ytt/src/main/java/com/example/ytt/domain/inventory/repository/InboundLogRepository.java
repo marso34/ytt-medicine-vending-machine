@@ -9,4 +9,6 @@ public interface InboundLogRepository extends JpaRepository<InboundLog, Long> {
 
     List<InboundLog> findByVendingMachineId(Long machineId);
 
+    List<InboundLog> findByVendingMachineIdAndMedicineId(Long vendingMachineId, Long medicineId);
+
 }
