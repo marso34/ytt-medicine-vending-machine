@@ -2,6 +2,7 @@ package com.example.ytt.domain.inventory.domain;
 
 import com.example.ytt.domain.medicine.domain.Medicine;
 import com.example.ytt.domain.vendingmachine.domain.VendingMachine;
+import com.example.ytt.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @Getter
 @Table(name = "inbound_log")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class InboundLog {
+public class InboundLog extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,10 +38,6 @@ public class InboundLog {
 
     @Column(name = "quantity", nullable = false)
     private int quantity;
-
-    @CreatedDate
-    @Column(name = "inbounded_at", updatable = false)
-    private LocalDateTime inboundedAt;
 
     @Builder
     public InboundLog(final VendingMachine vendingMachine, final Medicine medicine, final int quantity) {
