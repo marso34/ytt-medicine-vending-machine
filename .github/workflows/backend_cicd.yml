@@ -55,8 +55,10 @@ jobs:
         script_stop: true
         script: |
           sudo fuser -k -n tcp 8080 || true
+          mkdir -p /home/ubuntu/ytt/ytt_backup
           if [ -f /home/ubuntu/ytt/ytt.jar ]; then
             mv /home/ubuntu/ytt/ytt.jar /home/ubuntu/ytt/ytt_backup/ytt_$(date +%Y%m%d%H%M%S).jar
+            mv /home/ubuntu/ytt/output.log /home/ubuntu/ytt/ytt_backup/ouput_$(date +%Y%m%d%H%M%S).log
           fi
           mv /home/ubuntu/ytt/temp/ytt.jar /home/ubuntu/ytt/ytt.jar
-          nohup java -jar /home/ubuntu/ytt/*.jar > /home/ubuntu/ytt/output.log 2>&1 &
+          nohup java -Duser.timezone=Asia/Seoul -jar /home/ubuntu/ytt/*.jar > /home/ubuntu/ytt/output.log 2>&1 &

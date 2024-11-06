@@ -1,6 +1,6 @@
 package com.example.ytt.domain.user.dto;
 
-import com.example.ytt.domain.user.domain.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
@@ -23,17 +23,9 @@ public class SignUpDto {
     private String name;
 
     @NotBlank
+    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "핸드폰 번호의 양식과 맞지 않습니다.")
     private String phoneNumber;
 
+    @JsonIgnore
     private Role role = Role.CUSTOMER;
-
-    public User toEntity(SignUpDto signUpDto) {
-        return User.builder()
-                .email(signUpDto.getEmail())
-                .password(signUpDto.getPassword())
-                .name(signUpDto.getName())
-                .phoneNumber(signUpDto.getPhoneNumber())
-                .role(role)
-                .build();
-    }
 }
