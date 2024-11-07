@@ -1,18 +1,12 @@
 package com.example.ytt.domain.user.exception;
 
 import com.example.ytt.global.error.BaseException;
-import com.example.ytt.global.error.BaseExceptionType;
+import com.example.ytt.global.error.ExceptionType;
 
 public class UserException extends BaseException {
-    private BaseExceptionType exceptionType;
 
-    public UserException(BaseExceptionType exceptionType) {
-        super(exceptionType.getErrorMessage());
-        this.exceptionType = exceptionType;
+    public UserException(ExceptionType exceptionType) {
+        super(exceptionType.getErrorMessage(), exceptionType);
     }
 
-    @Override
-    public BaseExceptionType getExceptionType() {
-        return exceptionType;
-    }
 }

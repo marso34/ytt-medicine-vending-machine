@@ -1,10 +1,13 @@
 package com.example.ytt.global.error;
 
-public abstract class BaseException extends RuntimeException{
+import lombok.Getter;
 
-    protected BaseException(String message){
+@Getter
+public class BaseException extends RuntimeException{
+    private final ExceptionType exceptionType;
+
+    protected BaseException(String message, ExceptionType exceptionType) {
         super(message);
+        this.exceptionType = exceptionType;
     }
-
-    public abstract BaseExceptionType getExceptionType();
 }
