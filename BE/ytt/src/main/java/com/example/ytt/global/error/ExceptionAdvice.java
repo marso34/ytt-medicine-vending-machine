@@ -1,7 +1,6 @@
-package com.example.ytt.domain.user.exception;
+package com.example.ytt.global.error;
 
 import com.example.ytt.global.common.response.ResponseDto;
-import com.example.ytt.global.error.BaseException;
 import com.example.ytt.global.util.ResponseUtil;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +11,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
@@ -37,21 +35,21 @@ public class ExceptionAdvice {
     public ResponseEntity<ResponseDto<Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
 
-        UserExceptionType exceptionType = UserExceptionType.SIGNUP_FORMAT_INVALID; // 형식 오류 default
+        ExceptionType exceptionType = ExceptionType.SIGNUP_FORMAT_INVALID; // 형식 오류 default
 
         for (FieldError fieldError : fieldErrors) {
             // @NotBlank 에러 처리
             if (fieldError.getCode().equals("NotBlank")) {
-                exceptionType = UserExceptionType.NOTBLANK_FORMAT_INVALID; // 공백 필드 오류
+                exceptionType = ExceptionType.NOTBLANK_FORMAT_INVALID; // 공백 필드 오류
                 break;
             }
             // 비밀번호 형식 에러 처리
             else if (fieldError.getField().equals("password") || fieldError.getField().equals("newPassword")) {
-                exceptionType = UserExceptionType.PASSWORD_FORMAT_INVALID; // 비밀번호 형식 오류
+                exceptionType = ExceptionType.PASSWORD_FORMAT_INVALID; // 비밀번호 형식 오류
             }
             // 핸드폰 번호 형식 에러
             else if (fieldError.getField().equals("phoneNumber")) {
-                exceptionType = UserExceptionType.PHONENUMBER_FORMAT_INVALID; // 폰번호 형식 오류
+                exceptionType = ExceptionType.PHONENUMBER_FORMAT_INVALID; // 폰번호 형식 오류
             }
         }
 
@@ -66,7 +64,7 @@ public class ExceptionAdvice {
     // @Email 제약 조건에 대한 예외 처리 (ConstraintViolationException)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ResponseDto<Object>> handleConstraintViolationException(ConstraintViolationException ex) {
-        return ResponseUtil.error(UserExceptionType.EMAIL_FORMAT_INVALID, null);
+        return ResponseUtil.error(ExceptionType.EMAIL_FORMAT_INVALID, null);
 //        return new ResponseEntity<>(new ExceptionDto(
 //                UserExceptionType.EMAIL_FORMAT_INVALID.getErrorCode(),
 //                UserExceptionType.EMAIL_FORMAT_INVALID.getErrorMessage()),

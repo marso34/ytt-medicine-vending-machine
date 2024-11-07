@@ -3,7 +3,7 @@ package com.example.ytt.domain.user.auth.jwt;
 import com.example.ytt.domain.user.auth.security.CustomUserDetails;
 import com.example.ytt.domain.user.dto.Role;
 import com.example.ytt.domain.user.dto.UserDto;
-import com.example.ytt.domain.user.exception.UserExceptionType;
+import com.example.ytt.global.error.ExceptionType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,7 +37,7 @@ public class JWTFilter extends OncePerRequestFilter {
         }
 
         if (!authorizationToken.startsWith("Bearer ")) {
-            sendErrorResponse(response, UserExceptionType.INVALID_ACCESS_TOKEN);
+            sendErrorResponse(response, ExceptionType.INVALID_ACCESS_TOKEN);
             return;
         }
 
@@ -47,11 +47,11 @@ public class JWTFilter extends OncePerRequestFilter {
         // 토큰 검증 및 만료 여부 확인
         try {
             if (jwtUtil.isExpired(authorizationToken)) {
-                sendErrorResponse(response, UserExceptionType.EXPIRED_ACCESS_TOKEN);
+                sendErrorResponse(response, ExceptionType.EXPIRED_ACCESS_TOKEN);
                 return;
             }
         } catch (Exception e) {
-            sendErrorResponse(response, UserExceptionType.INVALID_ACCESS_TOKEN);
+            sendErrorResponse(response, ExceptionType.INVALID_ACCESS_TOKEN);
             return;
         }
 
@@ -59,7 +59,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String category = jwtUtil.getCategory(authorizationToken);
 
         if (!category.equals("Authorization")) {
-            sendErrorResponse(response, UserExceptionType.INVALID_TOKEN_CATEGORY);
+            sendErrorResponse(response, ExceptionType.INVALID_TOKEN_CATEGORY);
             return;
         }
 

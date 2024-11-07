@@ -1,8 +1,8 @@
 package com.example.ytt.domain.user.auth.security;
 
 import com.example.ytt.domain.user.auth.jwt.JWTUtil;
-import com.example.ytt.domain.user.exception.UserExceptionType;
 import com.example.ytt.domain.user.repository.RefreshRepository;
+import com.example.ytt.global.error.ExceptionType;
 import com.example.ytt.global.util.ResponseUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
@@ -46,25 +46,25 @@ public class CustomLogoutFilter extends GenericFilterBean {
 
         //refresh null check
         if (refresh == null) {
-            ResponseUtil.sendErrorResponse(response,UserExceptionType.BLANK_REFRESH_TOKEN);
+            ResponseUtil.sendErrorResponse(response, ExceptionType.BLANK_REFRESH_TOKEN);
             return;
         }
 
         //expired check
         try {
             if(jwtUtil.isExpired(refresh)){
-                ResponseUtil.sendErrorResponse(response,UserExceptionType.EXPIRED_REFRESH_TOKEN);
+                ResponseUtil.sendErrorResponse(response,ExceptionType.EXPIRED_REFRESH_TOKEN);
                 return;
             }
         } catch (Exception e) {
-            ResponseUtil.sendErrorResponse(response, UserExceptionType.INVALID_REFRESH_TOKEN);
+            ResponseUtil.sendErrorResponse(response, ExceptionType.INVALID_REFRESH_TOKEN);
             return;
         }
 
         // 토큰이 refresh인지 확인 (발급시 페이로드에 명시)
         String category = jwtUtil.getCategory(refresh);
         if (!category.equals("refresh")) {
-            ResponseUtil.sendErrorResponse(response,UserExceptionType.INVALID_REFRESH_TOKEN);
+            ResponseUtil.sendErrorResponse(response, ExceptionType.INVALID_REFRESH_TOKEN);
             return;
         }
 

@@ -1,9 +1,7 @@
 package com.example.ytt.global.util;
 
-
-import com.example.ytt.domain.user.exception.UserExceptionType;
 import com.example.ytt.global.common.response.ResponseDto;
-import com.example.ytt.global.error.BaseExceptionType;
+import com.example.ytt.global.error.ExceptionType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -56,11 +54,11 @@ public class ResponseUtil {
                 .body(ResponseDto.of(code, message, null));
     }
 
-    public static <T> ResponseEntity<ResponseDto<T>> error(BaseExceptionType status, T body) {
+    public static <T> ResponseEntity<ResponseDto<T>> error(ExceptionType status, T body) {
         return error(status, status.getErrorMessage(), body);
     }
 
-    public static <T> ResponseEntity<ResponseDto<T>> error(BaseExceptionType status, String message, T body) {
+    public static <T> ResponseEntity<ResponseDto<T>> error(ExceptionType status, String message, T body) {
         return ResponseEntity
                 .status(status.getHttpStatus())
                 .body(ResponseDto.of(status.getErrorCode(), message, body));
@@ -92,7 +90,7 @@ public class ResponseUtil {
         response.setStatus(code);
     }
 
-    public static void sendErrorResponse(HttpServletResponse response, UserExceptionType exceptionType) throws IOException {
+    public static void sendErrorResponse(HttpServletResponse response, ExceptionType exceptionType) throws IOException {
         ResponseDto<String> responseDto = ResponseDto.of(exceptionType.getHttpStatus().value(), exceptionType.getErrorMessage(), null);
         String jsonResponse = new ObjectMapper().writeValueAsString(responseDto);
 
