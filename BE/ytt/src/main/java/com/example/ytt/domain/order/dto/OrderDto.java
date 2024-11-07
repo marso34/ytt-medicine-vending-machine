@@ -17,12 +17,12 @@ public record OrderDto(
         @Schema(description = "주문 상태") OrderState orderState,
         @Schema(description = "주문 시간") LocalDateTime orderAt,
         @Schema(description = "완료 시간") LocalDateTime completedAt,
-        @Schema(description = "총 가격") int price,
+        @Schema(description = "총 가격") int totalPrice,
         @Schema(description = "주문 상세 목록") List<OrderDetailDto> orderItems
 ) {
     public static OrderDto of(Long id, User user, VendingMachine vendingMachine, OrderState orderState,
-                              LocalDateTime orderAt, LocalDateTime completedAt, int price, List<OrderDetailDto> orderItems) {
-        return new OrderDto(id, user, vendingMachine, orderState, orderAt, completedAt, price, orderItems);
+                              LocalDateTime orderAt, LocalDateTime completedAt, int totalPrice, List<OrderDetailDto> orderItems) {
+        return new OrderDto(id, user, vendingMachine, orderState, orderAt, completedAt, totalPrice, orderItems);
     }
 
     public static OrderDto from(Order order) {
@@ -33,7 +33,7 @@ public record OrderDto(
                 order.getOrderState(),
                 order.getOrderAt(),
                 order.getCompletedAt(),
-                order.getPrice(),
+                order.getTotalPrice(),
                 order.getOrderItems().stream()
                         .map(OrderDetailDto::from)
                         .collect(Collectors.toList())

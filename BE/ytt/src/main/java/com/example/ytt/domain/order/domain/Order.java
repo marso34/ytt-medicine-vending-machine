@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "order")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = {"id", "user", "vendingMachine"})
-@ToString(of = {"id", "user", "vendingMachine", "state", "orderAt", "completedAt", "price"})
+@ToString(of = {"id", "user", "vendingMachine", "state", "orderAt", "completedAt", "totalPrice"})
 public class Order {
 
     @Id
@@ -41,18 +41,18 @@ public class Order {
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
 
-    @Column(name = "price", nullable = false)
-    private int price;
+    @Column(name = "total_price", nullable = false)
+    private int totalPrice;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Column(name = "order_items")
     private List<OrderDetail> orderItems = new ArrayList<>();
 
     @Builder
-    public Order(User user, VendingMachine vendingMachine, int price, List<OrderDetail> orderItems) {
+    public Order(User user, VendingMachine vendingMachine, int totalPrice, List<OrderDetail> orderItems) {
         Assert.notNull(user, "사용자는 필수입니다.");
         Assert.notNull(vendingMachine, "자판기는 필수입니다.");
-        Assert.isTrue(price >= 0, "가격은 0 이상이어야 합니다.");
+        Assert.isTrue(totalPrice >= 0, "가격은 0 이상이어야 합니다.");
         Assert.notEmpty(orderItems, "주문 항목은 1 이상이어야 합니다.");
 
         this.user = user;
@@ -60,7 +60,7 @@ public class Order {
         this.orderState = OrderState.PENDING;
         this.orderAt = LocalDateTime.now();
         this.completedAt = null;
-        this.price = calculateTotalPrice();
+        this.totalPrice = calculateTotalPrice();
         orderItems.forEach(this::addOrderDetail);
     }
 
@@ -68,7 +68,7 @@ public class Order {
         return Order.builder()
                 .user(reqDto.userId())
                 .vendingMachine(reqDto.bendingMachineId())
-                .price(reqDto.price())
+                .totalPrice(reqDto.totalPrice())
                 .build();
     }
 
