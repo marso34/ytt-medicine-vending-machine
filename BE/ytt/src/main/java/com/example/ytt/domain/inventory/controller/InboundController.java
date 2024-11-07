@@ -37,9 +37,9 @@ public class InboundController {
     }
 
     // 입고 기록 조회 (특정 약)
-    @GetMapping("/history")
+    @GetMapping("/history/{id}")
     @SwaggerApi(summary = "입고 기록 조회", description = "입고 기록 조회 API", implementation = ResponseDto.class)
-    public ResponseEntity<ResponseDto<List<InboundLogDto>>> getInboundHistory(@RequestParam("machineId") Long machineId, @RequestParam("medicineId") Long medicineId) {
+    public ResponseEntity<ResponseDto<List<InboundLogDto>>> getInboundHistory(@PathVariable("id") Long machineId, @RequestParam("medicineId") Long medicineId) {
         return ResponseUtil.success(inboundService.getInboundLogs(machineId, medicineId));
     }
 

@@ -66,4 +66,12 @@ public class SwaggerConfig {
                 .pathsToMatch("/medicine/**")  // 그룹에 속하는 경로
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi inboundGroup() {
+        return GroupedOpenApi.builder()
+                .group("inbound")     // 그룹 이름
+                .pathsToMatch("/inbound/**")  // 그룹에 속하는 경로
+                .build();
+    }
 }
