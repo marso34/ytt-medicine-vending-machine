@@ -1,12 +1,12 @@
 package com.example.ytt.domain.vendingmachine.service;
 
 import com.example.ytt.domain.inventory.domain.Inventory;
+import com.example.ytt.domain.inventory.dto.InboundReqDto;
 import com.example.ytt.domain.inventory.repository.InventoryRepository;
 import com.example.ytt.domain.medicine.domain.Medicine;
 import com.example.ytt.domain.medicine.repository.MedicineRepository;
 import com.example.ytt.domain.vendingmachine.domain.MachineState;
 import com.example.ytt.domain.vendingmachine.domain.VendingMachine;
-import com.example.ytt.domain.vendingmachine.dto.TempReqDto;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDetailDto;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineReqDto;
 import com.example.ytt.domain.vendingmachine.repository.VendingMachineRepository;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class VendingMachineService {
+public class VendingMachineManageService {
 
     private final VendingMachineRepository vendingMachineRepository;
     private final InventoryRepository inventoryRepository;
@@ -38,16 +38,22 @@ public class VendingMachineService {
     }
 
     // 자판기에 약 등록
-    public VendingMachineDetailDto addMedicineToVendingMachine(TempReqDto reqDto) {
-        VendingMachine vendingMachine = vendingMachineRepository.findById(reqDto.machine_id()).orElseThrow();
-        Medicine medicine = medicineRepository.findById(reqDto.medicine_id()).orElseThrow();
+    public VendingMachineDetailDto addMedicineToVendingMachine(InboundReqDto reqDto) {
+        VendingMachine vendingMachine = vendingMachineRepository.findById(reqDto.machineId()).orElseThrow();
+        Medicine medicine = medicineRepository.findById(reqDto.medicineId()).orElseThrow();
         inventoryRepository.save(Inventory.of(vendingMachine, medicine, reqDto.quantity()));
 
-        VendingMachine saved = vendingMachineRepository.findById(reqDto.machine_id()).orElseThrow();
+        VendingMachine saved = vendingMachineRepository.findById(reqDto.machineId()).orElseThrow();
 
         return VendingMachineDetailDto.from(saved);
     }
 
+    // 자판기에서 약 삭제
+    public void deleteMedicineFromVendingMachine(Long machineId, Long medicineId) {
+        inventoryRepository.deleteByVendingMachineIdAndMedicineId(machineId, medicineId);
+    }
+
+    // 자판기 삭제
     public void deleteVendingMachine(Long vendingMachineId) {
         vendingMachineRepository.deleteById(vendingMachineId);
     }

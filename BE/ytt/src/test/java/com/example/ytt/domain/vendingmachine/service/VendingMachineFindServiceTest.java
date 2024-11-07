@@ -96,7 +96,7 @@ class VendingMachineFindServiceTest {
         given(vendingMachineRepository.findById(1L)).willReturn(java.util.Optional.of(vendingMachine));
 
         // when
-        VendingMachineDetailDto vendingMachineDetailDto = vendingMachineFindService.getVendingMachineDetail(1L);
+        VendingMachineDetailDto vendingMachineDetailDto = vendingMachineFindService.getVendingMachineDetail(1L, 1L);
 
         // then
         assertThat(vendingMachineDetailDto)

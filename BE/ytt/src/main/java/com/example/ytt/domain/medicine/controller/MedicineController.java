@@ -22,14 +22,23 @@ import java.util.List;
 public class MedicineController {
 
     private final MedicineFindService medicineFindService;
-
     private final MedicineRegisterService medicineRegisterService;
 
+    // 약품 저장
+
     @PostMapping("/test")
-    @SwaggerApi(summary = "약품 저장", description = "공공데이터에서 약품 정보를 찾아서 저장 ", implementation = ResponseDto.class)
+    @SwaggerApi(summary = "약품 저장", description = "이름으로 약품 정보를 찾아서 저장 (공공데이터)", implementation = ResponseDto.class)
     public ResponseEntity<ResponseDto<Boolean>> test2(@RequestBody MedicineRequestDto medicineRequestDto) {
-        return ResponseUtil.success(medicineRegisterService.resiterMedicineByProductCode(medicineRequestDto));
+        return ResponseUtil.success(medicineRegisterService.resisterMedicineByProductCode(medicineRequestDto));
     }
+
+    @PostMapping("/test2")
+    @SwaggerApi(summary = "약품 저장", description = "바코드로 약품 정보를 찾아서 저장 (공공데이터)", implementation = ResponseDto.class)
+    public ResponseEntity<ResponseDto<Boolean>> registerMedicine(@RequestBody MedicineRequestDto medicineRequestDto) {
+        return ResponseUtil.success(medicineRegisterService.resisterMedicineByBarcode("8806443000000", 1000));
+    }
+
+    // 약품 조회
 
     @GetMapping("/all")
     @SwaggerApi(summary = "전체 약품 조회", description = "모든 약품 리스트 조회", implementation = ResponseDto.class)
