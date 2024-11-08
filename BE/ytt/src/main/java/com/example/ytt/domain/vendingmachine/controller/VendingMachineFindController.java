@@ -67,12 +67,11 @@ public class VendingMachineFindController {
     }
 
     // 자판기 상세 조회
-    // TODO: 커밋 전에 자판기 조회에서 getVendingMachineDetail 메소드의 userI.getId() 수정
 
     @GetMapping("/{id}")
     @SwaggerApi(summary = "자판기 ID로 조회", description = "자판기 ID로 자판기 조회", implementation = ResponseDto.class)
     public  ResponseEntity<ResponseDto<VendingMachineDetailDto>> getVendingMachineById(@PathVariable(value = "id") Long machineId, @AuthenticationPrincipal CustomUserDetails user) {
-        return ResponseUtil.success(vendingMachineFindService.getVendingMachineDetail(machineId, 1L));
+        return ResponseUtil.success(vendingMachineFindService.getVendingMachineDetail(machineId, user.getId()));
     }
 
     @GetMapping("/{id}/medicines")
