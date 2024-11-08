@@ -4,7 +4,6 @@ import com.example.ytt.global.common.response.ResponseDto;
 import com.example.ytt.global.util.ResponseUtil;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -18,17 +17,7 @@ import java.util.List;
 @ControllerAdvice
 public class ExceptionAdvice {
 
-    // UserExceptionType 예외 핸들링
-
-    @ExceptionHandler(BaseException.class)
-    public ResponseEntity<ResponseDto<Object>> handleBaseEx(BaseException exception) {
-
-        return ResponseUtil.error(exception.getExceptionType(), null);
-//        return new ResponseEntity<>(new ExceptionDto(
-//                exception.getExceptionType().getErrorCode(),
-//                exception.getExceptionType().getErrorMessage()), // 메시지 포함
-//                exception.getExceptionType().getHttpStatus());
-    }
+    public static final String DEFAULT_ERROR_MESSAGE = "ERROR : {}";
 
     // @Valid, @NotBlank 어노테이션에 대한 유효성 검증 예외 처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -53,38 +42,35 @@ public class ExceptionAdvice {
             }
         }
 
-
+//        log.warn(DEFAULT_ERROR_MESSAGE, exceptionType.getErrorMessage(), exceptionType);
         return ResponseUtil.error(exceptionType, null);
-//        return new ResponseEntity<>(new ExceptionDto(
-//                exceptionType.getErrorCode(),
-//                exceptionType.getErrorMessage()),
-//                HttpStatus.BAD_REQUEST); // 400 Bad Request 반환
     }
 
     // @Email 제약 조건에 대한 예외 처리 (ConstraintViolationException)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ResponseDto<Object>> handleConstraintViolationException(ConstraintViolationException ex) {
+        log.warn(DEFAULT_ERROR_MESSAGE, ex.getMessage(), ex);
         return ResponseUtil.error(ExceptionType.EMAIL_FORMAT_INVALID, null);
-//        return new ResponseEntity<>(new ExceptionDto(
-//                UserExceptionType.EMAIL_FORMAT_INVALID.getErrorCode(),
-//                UserExceptionType.EMAIL_FORMAT_INVALID.getErrorMessage()),
-//                HttpStatus.BAD_REQUEST); // 400 Bad Request 반환
+    }
+
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<ResponseDto<Object>> handleBaseEx(BaseException ex) {
+        log.warn(DEFAULT_ERROR_MESSAGE, ex.getMessage(), ex);
+        return ResponseUtil.error(ex.getExceptionType(), null);
     }
 
     //HttpMessageNotReadableException  => json 파싱 오류
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ResponseDto<Object>> httpMessageNotReadableExceptionEx(HttpMessageNotReadableException exception){
-
-        log.error("Json을 파싱하는 과정에서 예외 발생! {}", exception.getMessage() );
-        return ResponseUtil.error(3000, "JSON 파싱과정 에러", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ResponseDto<Object>> httpMessageNotReadableExceptionEx(HttpMessageNotReadableException ex){
+        log.error(DEFAULT_ERROR_MESSAGE, ex.getMessage() );
+        return ResponseUtil.error(ExceptionType.JSON_FORMAT_INVALID, null);
     }
 
     // 기타 일반적인 예외 처리
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseDto<Object>> handleMemberEx(Exception exception) {
-
-        exception.printStackTrace();
-        return ResponseUtil.error(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ResponseDto<Object>> handleMemberEx(Exception ex) {
+        log.error(DEFAULT_ERROR_MESSAGE, ex.getMessage(), ex);
+        return ResponseUtil.error(ExceptionType.SERVER_ERROR, null);
     }
 
 }
