@@ -1,12 +1,15 @@
 package com.example.ytt.domain.vendingmachine.service;
 
 import com.example.ytt.domain.user.domain.User;
+import com.example.ytt.domain.user.exception.UserException;
 import com.example.ytt.domain.user.repository.UserRepository;
 import com.example.ytt.domain.vendingmachine.domain.Favorite;
 import com.example.ytt.domain.vendingmachine.domain.VendingMachine;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDto;
+import com.example.ytt.domain.vendingmachine.exception.VendingMachineException;
 import com.example.ytt.domain.vendingmachine.repository.FavoriteRepository;
 import com.example.ytt.domain.vendingmachine.repository.VendingMachineRepository;
+import com.example.ytt.global.error.ExceptionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,19 +27,22 @@ public class FavoriteService {
 
     // 유저의 즐겨찾기 (자판기) 목록 조회
     public List<VendingMachineDto> getFavorites(Long userId) {
-        return favoriteRepository.findByUserId(userId)
-                .stream()
+        List<Favorite> list = favoriteRepository.findByUserId(userId);
+
+        if (list.isEmpty()) {
+            throw new VendingMachineException(ExceptionType.NO_CONTENT_VENDING_MACHINE);
+        }
+
+        return list.stream()
                 .map(favorite -> VendingMachineDto.from(favorite.getVendingMachine()))
                 .toList();
     }
 
     // 유저의 즐겨찾기 (자판기) 추가
     public Favorite addFavorite(Long userId, Long vendingMachineId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다.")); // 나중에 커스텀 예외 처리로
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserException(ExceptionType.NOT_FOUND_USER));
 
-        VendingMachine vendingMachine = vendingMachineRepository.findById(vendingMachineId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 자판기입니다.")); // 나중에 커스텀 예외 처리로
+        VendingMachine vendingMachine = vendingMachineRepository.findById(vendingMachineId).orElseThrow(() -> new VendingMachineException(ExceptionType.NOT_FOUND_VENDING_MACHINE));
 
         return favoriteRepository.save(Favorite.of(user, vendingMachine));
     }
