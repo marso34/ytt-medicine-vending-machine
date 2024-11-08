@@ -6,8 +6,8 @@ import lombok.Getter;
 public class BaseException extends RuntimeException{
     private final ExceptionType exceptionType;
 
-    protected BaseException(String message, ExceptionType exceptionType) {
-        super(message);
+    protected BaseException(ExceptionType exceptionType) {
+        super(exceptionType.getErrorMessage());
         this.exceptionType = exceptionType;
     }
 }
