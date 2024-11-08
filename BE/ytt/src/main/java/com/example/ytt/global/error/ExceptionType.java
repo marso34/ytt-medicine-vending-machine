@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ExceptionType {
 
+    // TODO: 에러 코드 정리하기
+
     /*
 
     클라이언트에 명확한 에러 전달 하기 위함
@@ -18,6 +20,9 @@ public enum ExceptionType {
     사용자 정보를 찾을 수 없는 경우는 HttpStatus.NOT_FOUND (404).
 
     */
+
+    // 권한이 없는 유저
+    FORBIDDEN_USER(403, HttpStatus.FORBIDDEN, "권한이 없습니다."), // 403 Forbidden
 
     ALREADY_EXIST_USER(600, HttpStatus.CONFLICT, "이미 존재하는 아이디입니다."), // 409 Conflict
     ALREADY_EXIST_PHONENUMBER(601, HttpStatus.CONFLICT, "이미 가입된 번호입니다."), // 409 Conflict
@@ -36,9 +41,39 @@ public enum ExceptionType {
 
     BLANK_REFRESH_TOKEN(620, HttpStatus.BAD_REQUEST, "리프레시 토큰이 비었습니다."), // 400 Bad Request
     EXPIRED_REFRESH_TOKEN(621, HttpStatus.BAD_REQUEST, "리프레시 토큰이 만료되었습니다."), // 400 Bad Request
-    INVALID_REFRESH_TOKEN(622, HttpStatus.BAD_REQUEST, "유효하지 않은 리프레시 토큰입니다."); // 400 Bad Request
+    INVALID_REFRESH_TOKEN(622, HttpStatus.BAD_REQUEST, "유효하지 않은 리프레시 토큰입니다."), // 400 Bad Request
+
+    // 자판기 에러
+    NOT_FOUND_VENDING_MACHINE(700, HttpStatus.NOT_FOUND, "자판기 정보가 없습니다."), // 404 Not Found
+    NO_CONTENT_VENDING_MACHINE(701, HttpStatus.NO_CONTENT, "자판기 정보가 없습니다."), // 204 No Content
+    ALREADY_EXIST_LOCATION(702, HttpStatus.CONFLICT, "이미 존재하는 위치입니다."), // 409 Conflict, 아직 사용X
+
+    // 약 에러
+    NOT_FOUND_MEDICINE(800, HttpStatus.NOT_FOUND, "약 정보가 없습니다."), // 404 Not Found
+    NO_CONTENT_MEDICINE(801, HttpStatus.NO_CONTENT, "약 정보가 없습니다."), // 204 No Content
+    ALREADY_EXIST_MEDICINE(802, HttpStatus.CONFLICT, "이미 등록된 약입니다."), // 409 Conflict
+    NOT_FOUND_MEDICINE_REGISTER(810, HttpStatus.NOT_FOUND, "약 등록 정보가 없습니다."), // 404 Not Found
+    NO_CONTENT_MEDICINE_REGISTER(811, HttpStatus.NO_CONTENT, "약 등록 정보가 없습니다."), // 204 No Content
+    ALREADY_EXIST_MEDICINE_REGISTER(812, HttpStatus.CONFLICT, "이미 등록된 약입니다."), // 409 Conflict
+
+    // 약 성분 에러
+    NOT_FOUND_INGREDIENT(900, HttpStatus.NOT_FOUND, "약 성분 정보가 없습니다."), // 404 Not Found
+    NO_CONTENT_INGREDIENT(901, HttpStatus.NO_CONTENT, "약 성분을 가진 약이 없습니다."), // 204 No Content
+//    ALREADY_EXIST_INGREDIENT(902, HttpStatus.CONFLICT, "이미 존재하는 약 성분입니다."), // 409 Conflict
+
+    // 입고 에러
+    NOT_FOUND_INBOUND_LOG(1000, HttpStatus.NOT_FOUND, "입고 정보가 없습니다."), // 404 Not Found
+    NO_CONTENT_INBOUND_LOG(1001, HttpStatus.NO_CONTENT, "입고 정보가 없습니다."), // 204 No Content
+    UNREGISTERED_INBOUND(1001, HttpStatus.BAD_REQUEST, "등록되지 않은 약의 입고는 불가합니다."), // 400 Bad Request
+    NOT_FOUND_INVENOTRY(1010, HttpStatus.NOT_FOUND, "재고 정보가 없습니다."), // 404 Not Found
+    NO_CONTENT_INVENOTRY(1011, HttpStatus.NO_CONTENT, "재고 정보가 없습니다."), // 204 No Content
 
 
+    // Json 형식 오류
+    JSON_FORMAT_INVALID(3000, HttpStatus.BAD_REQUEST, "JSON 형식이 올바르지 않습니다."), // 400 Bad Request
+
+    // 서버 에러
+    SERVER_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러입니다."); // 500 Internal Server Error
 
     private final int errorCode;
     private final HttpStatus httpStatus;
