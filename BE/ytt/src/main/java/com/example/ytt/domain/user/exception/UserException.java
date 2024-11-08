@@ -6,7 +6,7 @@ import com.example.ytt.global.error.ExceptionType;
 public class UserException extends BaseException {
 
     public UserException(ExceptionType exceptionType) {
-        super(exceptionType.getErrorMessage(), exceptionType);
+        super(exceptionType);
     }
 
 }
