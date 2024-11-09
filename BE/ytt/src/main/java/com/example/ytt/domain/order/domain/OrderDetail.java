@@ -15,11 +15,11 @@ public class OrderDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id", nullable = false)
+    @Column(name = "order_detail_id", nullable = false)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "uuid", nullable = false)
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,14 +33,13 @@ public class OrderDetail {
     private int totalPrice;
 
     @Builder
-    public OrderDetail(final Order order, final Medicine medicine, final int quantity){
-        Assert.notNull(order, "주문은 필수입니다.");
-        Assert.notNull(medicine, "약은 필수입니다.");
-        Assert.isTrue(quantity >= 0, "수량은 0보다 크거나 같아야합니다.");
+    public OrderDetail(final Medicine medicine, final int quantity){
+        Assert.notNull(medicine, "구매할 약은 필수입니다.");
+        Assert.isTrue(quantity > 0, "수량은 0개보다 커야 합니다.");
 
-        this.order = order;
         this.medicine = medicine;
         this.quantity = quantity;
+        this.totalPrice = calculateTotalPrice();
     }
 
     void setOrder(Order order) {
@@ -51,9 +50,8 @@ public class OrderDetail {
         return medicine.getPrice() * quantity;
     }
 
-    public static OrderDetail of(final Order order, final Medicine medicine, int quantity) {
+    public static OrderDetail of(final Medicine medicine, int quantity) {
         return OrderDetail.builder()
-                .order(order)
                 .medicine(medicine)
                 .quantity(quantity)
                 .build();
