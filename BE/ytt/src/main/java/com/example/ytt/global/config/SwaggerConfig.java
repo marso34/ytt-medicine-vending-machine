@@ -20,20 +20,29 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerConfig {
 
-    private static final String SECURITY_SCHEME_NAME = "Authorization";
+    private static final String SECURITY_SCHEME_NAME_ACCESS = "Authorization";
+    private static final String SECURITY_SCHEME_NAME_REFRESH = "refresh";
 
     // JWT 인증
     @Bean
     public OpenAPI swaggerApi() {
         return new OpenAPI()
                 .components(new Components()
-                        .addSecuritySchemes(SECURITY_SCHEME_NAME, new SecurityScheme()
-                                .name(SECURITY_SCHEME_NAME)
+                        .addSecuritySchemes(SECURITY_SCHEME_NAME_ACCESS, new SecurityScheme()
+                                .name(SECURITY_SCHEME_NAME_ACCESS)
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
                                 .bearerFormat("JWT")
                                 .in(SecurityScheme.In.HEADER)
-                                .description("JWT 토큰 정보")));
+                                .description("JWT 토큰 정보"))
+                        // refresh 인증 추가 
+//                        .addSecuritySchemes(SECURITY_SCHEME_NAME_REFRESH, new SecurityScheme()
+//                                .name(SECURITY_SCHEME_NAME_REFRESH)
+//                                .type(SecurityScheme.Type.APIKEY)
+//                                .in(SecurityScheme.In.HEADER)
+//                                .description("refresh 토큰 정보"))
+                );
+
     }
 
     @Bean
@@ -48,6 +57,14 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group("Auth")     // 그룹 이름
                 .pathsToMatch("/auth/**")  // 그룹에 속하는 경로
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi Order() {
+        return GroupedOpenApi.builder()
+                .group("Order")     // 그룹 이름
+                .pathsToMatch("/orders/**")  // 그룹에 속하는 경로
                 .build();
     }
 
