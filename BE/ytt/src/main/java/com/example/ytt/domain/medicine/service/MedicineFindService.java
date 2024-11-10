@@ -9,7 +9,7 @@ import com.example.ytt.domain.medicine.exception.MedicineException;
 import com.example.ytt.domain.medicine.repository.IngredientRepository;
 import com.example.ytt.domain.medicine.repository.MedicineIngredientRepository;
 import com.example.ytt.domain.medicine.repository.MedicineRepository;
-import com.example.ytt.global.error.ExceptionType;
+import com.example.ytt.global.error.code.ExceptionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -12,7 +12,7 @@ import com.example.ytt.domain.vendingmachine.dto.VendingMachineDetailDto;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineReqDto;
 import com.example.ytt.domain.vendingmachine.exception.VendingMachineException;
 import com.example.ytt.domain.vendingmachine.repository.VendingMachineRepository;
-import com.example.ytt.global.error.ExceptionType;
+import com.example.ytt.global.error.code.ExceptionType;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

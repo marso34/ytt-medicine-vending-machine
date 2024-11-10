@@ -3,7 +3,7 @@ package com.example.ytt.domain.user.auth.jwt;
 import com.example.ytt.domain.user.auth.security.CustomUserDetails;
 import com.example.ytt.domain.user.dto.Role;
 import com.example.ytt.domain.user.dto.UserDto;
-import com.example.ytt.global.error.ExceptionType;
+import com.example.ytt.global.error.code.ExceptionType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

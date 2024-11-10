@@ -10,7 +10,7 @@ import com.example.ytt.domain.user.dto.UserDto;
 import com.example.ytt.domain.user.exception.UserException;
 import com.example.ytt.domain.user.repository.RefreshRepository;
 import com.example.ytt.domain.user.repository.UserRepository;
-import com.example.ytt.global.error.ExceptionType;
+import com.example.ytt.global.error.code.ExceptionType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

@@ -9,7 +9,7 @@ import com.example.ytt.domain.vendingmachine.dto.VendingMachineDto;
 import com.example.ytt.domain.vendingmachine.exception.VendingMachineException;
 import com.example.ytt.domain.vendingmachine.repository.FavoriteRepository;
 import com.example.ytt.domain.vendingmachine.repository.VendingMachineRepository;
-import com.example.ytt.global.error.ExceptionType;
+import com.example.ytt.global.error.code.ExceptionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

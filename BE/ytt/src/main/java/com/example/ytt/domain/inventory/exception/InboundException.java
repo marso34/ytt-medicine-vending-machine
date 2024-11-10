@@ -1,7 +1,7 @@
 package com.example.ytt.domain.inventory.exception;
 
-import com.example.ytt.global.error.BaseException;
-import com.example.ytt.global.error.ExceptionType;
+import com.example.ytt.global.error.exception.BaseException;
+import com.example.ytt.global.error.code.ExceptionType;
 
 public class InboundException extends BaseException {
     public InboundException(ExceptionType exceptionType) {

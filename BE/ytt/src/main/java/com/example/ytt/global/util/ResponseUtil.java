@@ -1,7 +1,7 @@
 package com.example.ytt.global.util;
 
 import com.example.ytt.global.common.response.ResponseDto;
-import com.example.ytt.global.error.ExceptionType;
+import com.example.ytt.global.error.code.ExceptionType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;

@@ -5,7 +5,7 @@ import com.example.ytt.domain.inventory.exception.InventoryException;
 import com.example.ytt.domain.inventory.repository.InventoryRepository;
 import com.example.ytt.domain.medicine.dto.MedicineDetailDto;
 import com.example.ytt.domain.medicine.dto.MedicineDto;
-import com.example.ytt.global.error.ExceptionType;
+import com.example.ytt.global.error.code.ExceptionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
