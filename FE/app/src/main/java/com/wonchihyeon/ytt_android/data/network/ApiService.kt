@@ -9,6 +9,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
 
@@ -32,27 +33,20 @@ interface ApiService {
 
     @POST("/user/logout")*/
 
-  /*  @POST("/vending-machine/create")
+    /*@POST("/vending-machine/create")
 
     @POST("/vending-machine/add-medicine")
 
-    @POST("/auth/reissue")
+    @POST("/auth/reissue")*/
 
-    @GET("/vending-machine/{id}")*/
+    @GET("/vending-machine/all")
+    fun getAllVendingMachines(): Call<List<VendingMachineDTO>>
 
-    @GET("/vending-machine/nearby")
-    fun getVendingMachineNearBy(@Body vendingMachineDTO: VendingMachineDTO): Call<String>
-/*
-    @GET("/vending-machine/name")
-
-    @GET("/vending-machine/medicine")
-
-    @GET("/vending-machine/all")*/
-
+    @GET("/vending-machine/{id}")
+    fun getVendingMachineById(@Path("id") id: String): Call<VendingMachineDTO>
 
     @POST("/user/signUp")
     fun signUp(@Body signUpDTO: SignUpDTO): Call<ResponseDTO<String>>
-
 
     @POST("/user/signIn")
     fun signIn(@Body signInDTO: SignInDTO): Call<ResponseDTO<String>>
