@@ -1,15 +1,14 @@
-package com.wonchihyeon.ytt_android.data.model
+package com.wonchihyeon.ytt_android
 
-import com.wonchihyeon.ytt_android.MachineItem
+import com.wonchihyeon.ytt_android.data.model.VendingMachineDTO
 
-data class VendingMachineDTO (
+data class MachineItem(
     val id: Int,
     val name: String,
-    val state: state,
     val address: String,
     val latitude: Double,
     val longitude: Double,
-)  {
+) {
     companion object {
         fun fromDTO(dto: VendingMachineDTO): MachineItem {
             return MachineItem(
