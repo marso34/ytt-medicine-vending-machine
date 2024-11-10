@@ -1,4 +1,4 @@
-package com.example.ytt.global.error;
+package com.example.ytt.global.error.code;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -64,7 +64,7 @@ public enum ExceptionType {
     // 입고 에러
     NOT_FOUND_INBOUND_LOG(1000, HttpStatus.NOT_FOUND, "입고 정보가 없습니다."), // 404 Not Found
     NO_CONTENT_INBOUND_LOG(1001, HttpStatus.NO_CONTENT, "입고 정보가 없습니다."), // 204 No Content
-    UNREGISTERED_INBOUND(1001, HttpStatus.BAD_REQUEST, "등록되지 않은 약의 입고는 불가합니다."), // 400 Bad Request
+    UNREGISTERED_INBOUND(1002, HttpStatus.BAD_REQUEST, "등록되지 않은 약의 입고는 불가합니다."), // 400 Bad Request
     NOT_FOUND_INVENOTRY(1010, HttpStatus.NOT_FOUND, "재고 정보가 없습니다."), // 404 Not Found
     NO_CONTENT_INVENOTRY(1011, HttpStatus.NO_CONTENT, "재고 정보가 없습니다."), // 204 No Content
 

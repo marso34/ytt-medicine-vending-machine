@@ -1,5 +1,6 @@
-package com.example.ytt.global.error;
+package com.example.ytt.global.error.exception;
 
+import com.example.ytt.global.error.code.ExceptionType;
 import lombok.Getter;
 
 @Getter

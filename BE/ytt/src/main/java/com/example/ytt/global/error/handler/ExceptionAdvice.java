@@ -1,6 +1,8 @@
-package com.example.ytt.global.error;
+package com.example.ytt.global.error.handler;
 
 import com.example.ytt.global.common.response.ResponseDto;
+import com.example.ytt.global.error.code.ExceptionType;
+import com.example.ytt.global.error.exception.BaseException;
 import com.example.ytt.global.util.ResponseUtil;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
