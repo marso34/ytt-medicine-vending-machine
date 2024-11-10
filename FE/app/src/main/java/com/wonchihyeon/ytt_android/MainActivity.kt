@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.wonchihyeon.ytt_android.databinding.ActivityMainBinding
-import com.wonchihyeon.ytt_android.view.HomeFragment
+import com.wonchihyeon.ytt_android.fragments.HomeFragment
 import com.wonchihyeon.ytt_android.view.MyFragment
 import com.wonchihyeon.ytt_android.view.OrderListFragment
 
