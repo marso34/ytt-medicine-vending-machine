@@ -17,6 +17,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.BufferedReader;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MedicineRegisterService {
 
@@ -52,14 +54,15 @@ public class MedicineRegisterService {
 
     private final ObjectMapper objectMapper;
 
-    public boolean resiterMedicineByProductCode(MedicineRequestDto medicineRequestDto) {
+    public boolean resisterMedicineByProductCode(MedicineRequestDto medicineRequestDto) {
         try {
             String imgUrl = jsonToImgUrl(getOpenApiData(listUrl, medicineRequestDto.productName(), "json"));
             List<MedicineIngredient> medicineIngredients = xmlToEntity(getOpenApiData(dtlUrl, medicineRequestDto.productName(), "xml"));
 
-            Medicine medicine = medicineIngredients.get(0).getMedicine();
-            medicine.setPrice(medicineRequestDto.productPrice());
-            medicine.setImageURL(imgUrl);
+            Medicine medicine = medicineIngredients.get(0)
+                    .getMedicine()
+                    .setImageURL(imgUrl)
+                    .setPrice(medicineRequestDto.productPrice());
 
             Medicine savedMedicine = medicineRepository.findByProductCode(medicine.getProductCode())
                     .orElseGet(() -> medicineRepository.save(medicine));
@@ -83,6 +86,25 @@ public class MedicineRegisterService {
         }
     }
 
+    public boolean resisterMedicineByBarcode(String barcode, int price) {
+        try {
+            List<MedicineIngredient> medicineIngredients = xmlToEntity(getOpenApiDataByBarcode(dtlUrl, barcode, "xml"));
+
+            Medicine medicine = medicineIngredients.get(0).getMedicine();
+
+            String imgUrl = jsonToImgUrl(getOpenApiData(listUrl, medicine.getName(), "json"));
+
+            medicine.setPrice(price);
+            medicine.setImageURL(imgUrl);
+            // 저장
+
+            return false;
+        }catch (IOException | NumberFormatException e) {
+            log.error(e.getMessage());
+            return false;
+        }
+    }
+
     /**
      * Open API 데이터 조회 (약 정보)
      * @param productCode 약의 품목기준코드
@@ -95,6 +117,32 @@ public class MedicineRegisterService {
                 .fromHttpUrl(baseUrl + requestUrl)
                 .queryParam("serviceKey", serviceKey)
                 .queryParam("item_name", productCode)
+                .queryParam("type", type)
+                .encode()
+                .toUriString();
+
+        URL url = new URL(urlStr);
+
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-type", "application/json");
+
+        String content;
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+            content = br.lines().collect(Collectors.joining("\n"));
+        }
+
+        conn.disconnect();
+
+        return content;
+    }
+
+    public String getOpenApiDataByBarcode(String requestUrl, String barcode, String type) throws IOException {
+        String urlStr = UriComponentsBuilder
+                .fromHttpUrl(baseUrl + requestUrl)
+                .queryParam("serviceKey", serviceKey)
+                .queryParam("bar_code", barcode)
                 .queryParam("type", type)
                 .encode()
                 .toUriString();
@@ -137,7 +185,7 @@ public class MedicineRegisterService {
                 .productCode(item.select("ITEM_SEQ").text())            // 품목기준코드
                 .manufacturer(item.select("ENTP_NAME").text())          // 업체명
                 .efficacy(parseDocData(item.select("EE_DOC_DATA")))     // 효능효과
-                .usage(parseDocData(item.select("UD_DOC_DATA")))        // 용법용량
+                .usages(parseDocData(item.select("UD_DOC_DATA")))        // 용법용량
                 .precautions(parseDocData(item.select("NB_DOC_DATA")))  // 주의사항
                 .validityPeriod(item.select("VALID_TERM").text())       // 유효기간
                 .imageURL(null)                                                 // 이미지 URL은 추가로 기져와야 함

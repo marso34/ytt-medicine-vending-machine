@@ -3,7 +3,7 @@ package com.example.ytt.domain.user.auth.jwt;
 import com.example.ytt.domain.user.auth.security.CustomUserDetails;
 import com.example.ytt.domain.user.dto.Role;
 import com.example.ytt.domain.user.dto.UserDto;
-import io.jsonwebtoken.ExpiredJwtException;
+import com.example.ytt.domain.user.exception.UserExceptionType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,12 +14,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+
+import static com.example.ytt.global.util.ResponseUtil.sendErrorResponse;
 
 public class JWTFilter extends OncePerRequestFilter {
 
     private final JWTUtil jwtUtil;
-
     public JWTFilter(JWTUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
@@ -27,50 +27,50 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        // 헤더에서 access키에 담긴 토큰을 꺼냄
-        String accessToken = request.getHeader("access");
+        // 헤더에서 Authorization키에 담긴 토큰을 꺼냄
+        String authorizationToken = request.getHeader("Authorization");
 
         // 토큰이 없다면 다음 필터로 넘김
-        if (accessToken == null) {
+        if (authorizationToken == null) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 토큰 만료 여부 확인, 만료시 다음 필터로 넘기지 않음
+        if (!authorizationToken.startsWith("Bearer ")) {
+            sendErrorResponse(response, UserExceptionType.INVALID_ACCESS_TOKEN);
+            return;
+        }
+
+        // Bearer 접두사 제거
+        authorizationToken = authorizationToken.substring(7); // "Bearer " 부분 제거
+
+        // 토큰 검증 및 만료 여부 확인
         try {
-            jwtUtil.isExpired(accessToken);
-        } catch (ExpiredJwtException e) {
-
-            //response body
-            PrintWriter writer = response.getWriter();
-            writer.print("access token expired");
-
-            //response status code
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            if (jwtUtil.isExpired(authorizationToken)) {
+                sendErrorResponse(response, UserExceptionType.EXPIRED_ACCESS_TOKEN);
+                return;
+            }
+        } catch (Exception e) {
+            sendErrorResponse(response, UserExceptionType.INVALID_ACCESS_TOKEN);
             return;
         }
 
-        // 토큰이 access인지 확인 (발급시 페이로드에 명시)
-        String category = jwtUtil.getCategory(accessToken);
+        // 토큰이 Authorization인지 확인 (발급시 페이로드에 명시)
+        String category = jwtUtil.getCategory(authorizationToken);
 
-        if (!category.equals("access")) {
-
-            //response body
-            PrintWriter writer = response.getWriter();
-            writer.print("invalid access token");
-
-            //response status code
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        if (!category.equals("Authorization")) {
+            sendErrorResponse(response, UserExceptionType.INVALID_TOKEN_CATEGORY);
             return;
         }
 
-        // username, role 값을 획득
-        String email = jwtUtil.getEmail(accessToken);
-        String roleString = jwtUtil.getRole(accessToken); // 역할 문자열 가져오기
-        // Role 객체로 변환
+        // 사용자 정보 가져오기
+        Long userId = jwtUtil.getUserId(authorizationToken);
+        String email = jwtUtil.getEmail(authorizationToken);
+        String roleString = jwtUtil.getRole(authorizationToken);
         Role role = Role.valueOf(roleString.toUpperCase());
 
         UserDto user = new UserDto();
+        user.setUserid(userId);
         user.setEmail(email);
         user.setRole(role);
         CustomUserDetails customUserDetails = new CustomUserDetails(user);
@@ -79,6 +79,6 @@ public class JWTFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);
-
     }
+
 }

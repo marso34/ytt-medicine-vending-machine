@@ -46,8 +46,12 @@ public class ExceptionAdvice {
                 break;
             }
             // 비밀번호 형식 에러 처리
-            else if (fieldError.getField().equals("password")) {
+            else if (fieldError.getField().equals("password") || fieldError.getField().equals("newPassword")) {
                 exceptionType = UserExceptionType.PASSWORD_FORMAT_INVALID; // 비밀번호 형식 오류
+            }
+            // 핸드폰 번호 형식 에러
+            else if (fieldError.getField().equals("phoneNumber")) {
+                exceptionType = UserExceptionType.PHONENUMBER_FORMAT_INVALID; // 폰번호 형식 오류
             }
         }
 

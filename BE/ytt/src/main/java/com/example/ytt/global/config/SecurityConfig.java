@@ -6,6 +6,7 @@ import com.example.ytt.domain.user.auth.security.LoginFailHandler;
 import com.example.ytt.domain.user.auth.security.LoginFilter;
 import com.example.ytt.domain.user.auth.security.LoginSuccessHandler;
 import com.example.ytt.domain.user.repository.RefreshRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -29,16 +30,19 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final String[] allowedUrls ={"/user/signUp","/user/signIn", "/h2-console/**","/auth/**", "/api-docs/**", "/swagger-ui/**", "/v3/api-docs/**"};
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
     private final LoginSuccessHandler loginSuccessHandler;
     private final LoginFailHandler loginFailHandler;
     private final RefreshRepository refreshRepository;
+    private final ObjectMapper objectMapper;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
+
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -94,8 +98,7 @@ public class SecurityConfig {
         // 경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/user/signUp","/user/signIn", "/h2-console/**").permitAll()
-                        .requestMatchers("/user/reissue").permitAll()
+                        .requestMatchers(allowedUrls).permitAll()
                         .anyRequest().authenticated());
 
         // 로그인 필터 설정
@@ -103,7 +106,7 @@ public class SecurityConfig {
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
                 .addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
         http
-                .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository), LogoutFilter.class);
+                .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository,objectMapper), LogoutFilter.class);
 
         // 세션설정
         http

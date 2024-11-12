@@ -3,7 +3,7 @@ spring:
     name: ytt
 
   profiles:
-    active: local
+    active: prod
     include: common, secret
 
 server:

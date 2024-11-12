@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
@@ -19,6 +20,7 @@ import com.wonchihyeon.ytt_android.R
 import com.wonchihyeon.ytt_android.databinding.FragmentHomeBinding
 import java.io.IOException
 import java.util.Locale
+
 
 // 홈 페이지
 class HomeFragment : Fragment(), OnMapReadyCallback {
@@ -35,7 +37,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
@@ -62,6 +64,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
         return binding.root
     }
+
     private fun searchAddress(address: String) {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
         try {
@@ -108,7 +111,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private fun getAddressFromLatLng(latLng: LatLng) {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
         try {
-            val addresses: List<Address>? = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+            val addresses: List<Address>? =
+                geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
             if (addresses != null && addresses.isNotEmpty()) {
                 val address: Address = addresses[0]
                 val addressText = address.getAddressLine(0) ?: "주소를 찾을 수 없습니다."
