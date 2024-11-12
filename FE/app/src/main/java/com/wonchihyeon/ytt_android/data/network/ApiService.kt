@@ -1,5 +1,4 @@
 package com.wonchihyeon.ytt_android.data.network
-
 import com.wonchihyeon.ytt_android.data.model.ResponseDTO
 import com.wonchihyeon.ytt_android.data.model.SignInDTO
 import com.wonchihyeon.ytt_android.data.model.SignUpDTO
@@ -31,19 +30,22 @@ interface ApiService {
 
     @POST("/user/password")
 
-    @POST("/user/logout")*/
+    @POST("/user/logout")
 
-    /*@POST("/vending-machine/create")
+    @POST("/vending-machine/create")
 
     @POST("/vending-machine/add-medicine")
 
     @POST("/auth/reissue")*/
 
+    @GET("/vending-machine/nearby")
+    fun getNearByMachine():  Call<ResponseDTO<List<VendingMachineDTO>>>
+
     @GET("/vending-machine/all")
-    fun getAllVendingMachines(): Call<List<VendingMachineDTO>>
+    fun getAllVendingMachines(): Call<ResponseDTO<List<VendingMachineDTO>>>
 
     @GET("/vending-machine/{id}")
-    fun getVendingMachineById(@Path("id") id: String): Call<VendingMachineDTO>
+    fun getVendingMachineById(@Path("id") id: String):  Call<ResponseDTO<List<VendingMachineDTO>>>
 
     @POST("/user/signUp")
     fun signUp(@Body signUpDTO: SignUpDTO): Call<ResponseDTO<String>>
