@@ -26,34 +26,33 @@ public class SwaggerConfig {
     // JWT 인증
     @Bean
     public OpenAPI swaggerApi() {
-        return new OpenAPI()
-                .components(new Components()
-                        .addSecuritySchemes(SECURITY_SCHEME_NAME_ACCESS, new SecurityScheme()
-                                .name(SECURITY_SCHEME_NAME_ACCESS)
-                                .type(SecurityScheme.Type.HTTP)
-                                .scheme("bearer")
-                                .bearerFormat("JWT")
-                                .in(SecurityScheme.In.HEADER)
-                                .description("JWT 토큰 정보"))
-                        // refresh 인증 추가 
-//                        .addSecuritySchemes(SECURITY_SCHEME_NAME_REFRESH, new SecurityScheme()
-//                                .name(SECURITY_SCHEME_NAME_REFRESH)
-//                                .type(SecurityScheme.Type.APIKEY)
-//                                .in(SecurityScheme.In.HEADER)
-//                                .description("refresh 토큰 정보"))
-                );
+        Components components = new Components()
+                .addSecuritySchemes(SECURITY_SCHEME_NAME_ACCESS, new SecurityScheme()
+                        .name(SECURITY_SCHEME_NAME_ACCESS)
+                        .type(SecurityScheme.Type.HTTP)
+                        .scheme("bearer")
+                        .bearerFormat("JWT")
+                        .in(SecurityScheme.In.HEADER)
+                        .description("JWT 토큰 정보"));
+                // refresh 인증 추가
+//                .addSecuritySchemes(SECURITY_SCHEME_NAME_REFRESH, new SecurityScheme()
+//                        .name(SECURITY_SCHEME_NAME_REFRESH)
+//                        .type(SecurityScheme.Type.APIKEY)
+//                        .in(SecurityScheme.In.HEADER)
+//                        .description("refresh 토큰 정보"))
 
+        return new OpenAPI().components(components);
     }
 
     @Bean
-    public GroupedOpenApi User() {
+    public GroupedOpenApi userGroup() {
         return GroupedOpenApi.builder()
                 .group("User")     // 그룹 이름
                 .pathsToMatch("/user/**")  // 그룹에 속하는 경로
                 .build();
     }
     @Bean
-    public GroupedOpenApi Auth() {
+    public GroupedOpenApi authGroup() {
         return GroupedOpenApi.builder()
                 .group("Auth")     // 그룹 이름
                 .pathsToMatch("/auth/**")  // 그룹에 속하는 경로
@@ -61,7 +60,7 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public GroupedOpenApi Order() {
+    public GroupedOpenApi orderGroup() {
         return GroupedOpenApi.builder()
                 .group("Order")     // 그룹 이름
                 .pathsToMatch("/orders/**")  // 그룹에 속하는 경로
@@ -69,7 +68,7 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public GroupedOpenApi vendingMachine() {
+    public GroupedOpenApi machineGroup() {
         return GroupedOpenApi.builder()
                 .group("vending-machine")     // 그룹 이름
                 .pathsToMatch("/vending-machine/**")  // 그룹에 속하는 경로

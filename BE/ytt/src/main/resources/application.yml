@@ -6,5 +6,16 @@ spring:
     active: prod
     include: common, secret
 
-server:
-  port: 8080 # 임시 포트 설정
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+
+    jmx:
+      exposure:
+        exclude: '*'
+
+  endpoint:
+    health:
+      show-details: always
