@@ -51,27 +51,27 @@ public class ExceptionAdvice {
     // @Email 제약 조건에 대한 예외 처리 (ConstraintViolationException)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ResponseDto<Object>> handleConstraintViolationException(ConstraintViolationException ex) {
-        log.warn(DEFAULT_ERROR_MESSAGE, ex.getMessage(), ex);
+        log.warn(DEFAULT_ERROR_MESSAGE, ex.getMessage());
         return ResponseUtil.error(ExceptionType.EMAIL_FORMAT_INVALID, null);
     }
 
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<ResponseDto<Object>> handleBaseEx(BaseException ex) {
-        log.warn(DEFAULT_ERROR_MESSAGE, ex.getMessage(), ex);
+        log.warn(DEFAULT_ERROR_MESSAGE, ex.getMessage());
         return ResponseUtil.error(ex.getExceptionType(), null);
     }
 
     //HttpMessageNotReadableException  => json 파싱 오류
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ResponseDto<Object>> httpMessageNotReadableExceptionEx(HttpMessageNotReadableException ex){
-        log.error(DEFAULT_ERROR_MESSAGE, ex.getMessage() );
+        log.error(DEFAULT_ERROR_MESSAGE, ex.getMessage());
         return ResponseUtil.error(ExceptionType.JSON_FORMAT_INVALID, null);
     }
 
     // 기타 일반적인 예외 처리
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseDto<Object>> handleMemberEx(Exception ex) {
-        log.error(DEFAULT_ERROR_MESSAGE, ex.getMessage(), ex);
+        log.error(DEFAULT_ERROR_MESSAGE, ex.getMessage());
         return ResponseUtil.error(ExceptionType.SERVER_ERROR, null);
     }
 
