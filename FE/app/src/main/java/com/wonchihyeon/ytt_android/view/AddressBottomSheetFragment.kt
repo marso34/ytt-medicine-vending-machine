@@ -1,25 +1,68 @@
 package com.wonchihyeon.ytt_android.fragments
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.TextView
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.wonchihyeon.ytt_android.R
+import com.wonchihyeon.ytt_android.R.layout.bottom_sheet_address
+import com.wonchihyeon.ytt_android.data.network.ApiService
+import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
+import com.wonchihyeon.ytt_android.data.repository.VendingMachineRepository
+import com.wonchihyeon.ytt_android.ui.VendingMachineAdapter
 
-class AddressBottomSheetFragment() : BottomSheetDialogFragment() {
+class AddressBottomSheetFragment : Fragment(bottom_sheet_address) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // 바텀 시트의 레이아웃을 설정
-        val view = inflater.inflate(R.layout.bottom_sheet_address, container, false)
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: VendingMachineAdapter
+    private lateinit var repository: VendingMachineRepository
+    private lateinit var binding: AddressBottomSheetFragment
 
-        return view
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        recyclerView = view.findViewById(R.id.recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        // 레포지토리 초기화
+        val apiService = RetrofitAPI.getRetrofit(requireContext()).create(ApiService::class.java)
+        repository = VendingMachineRepository(apiService)
+
+        view.findViewById<TextView>(R.id.pull).setOnClickListener {
+            fetchVendingMachines()
+        }
+    }
+
+    private fun fetchVendingMachines() {
+        Log.d("AddressBottomSheetFragment", "Fetching vending machines...")
+        repository.getAllVendingMachines { vendingMachineResponse ->
+            if (vendingMachineResponse != null) {
+                Log.d("AddressBottomSheetFragment", "Response Body: $vendingMachineResponse")
+
+                /*// Adapter에 데이터를 설정
+                adapter = VendingMachineAdapter(vendingMachineResponse.body)
+                recyclerView.adapter = adapter*/
+
+                // 각 자판기 정보 로그 출력
+                vendingMachineResponse.body?.forEach { machine ->
+                    Log.d("AddressBottomSheetFragment", "Vending Machine:")
+                    Log.d("AddressBottomSheetFragment", "  ID: ${machine.id}")
+                    Log.d("AddressBottomSheetFragment", "  Name: ${machine.name}")
+                    Log.d("AddressBottomSheetFragment", "  State: ${machine.state}")
+                    Log.d("AddressBottomSheetFragment", "  Address: ${machine.address}")
+                    Log.d("AddressBottomSheetFragment", "  Latitude: ${machine.latitude}")
+                    Log.d("AddressBottomSheetFragment", "  Longitude: ${machine.longitude}")
+                }
+            } else {
+                Log.d("AddressBottomSheetFragment", "Failed to fetch vending machines.")
+            }
+        }
     }
 }
