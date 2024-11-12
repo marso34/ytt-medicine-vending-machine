@@ -30,6 +30,8 @@ android {
             abiFilters.add("x86_64")
         }
 
+        buildConfigField("String", "BaseUrl", properties.getProperty("BaseUrl"))
+
         addManifestPlaceholders(mapOf("NAVERMAP_CLIENT_ID" to properties.getProperty("NAVERMAP_CLIENT_ID")))
     }
 
@@ -76,9 +78,28 @@ dependencies {
     // 네이버 지도 SDK
     implementation("com.naver.maps:map-sdk:3.12.0")
 
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.6.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.6.0")
+    implementation("com.google.code.gson:gson:2.8.6")
+    implementation("com.squareup.okhttp3:logging-interceptor:3.11.0")
 
-    // Retrofit, Gson
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+
+    // Security
+    implementation("androidx.security:security-crypto:1.1.0-alpha03")
+
+    // QR 코드
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0" )
+    implementation("com.google.zxing:core:3.3.0")
+
+    implementation("com.google.code.gson:gson:2.8.8")
+
+
+    implementation("com.android.support:multidex:1.0.3")
+
+
 }

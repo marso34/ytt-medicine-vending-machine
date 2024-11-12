@@ -17,48 +17,61 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.wonchihyeon.ytt_android.R
-import com.wonchihyeon.ytt_android.data.model.vendingmachine.vendingmachine
 import com.wonchihyeon.ytt_android.databinding.FragmentHomeBinding
-import com.wonchihyeon.ytt_android.viewmodel.VendingMachineViewModel
 import java.io.IOException
 import java.util.Locale
 
+
 // 홈 페이지
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var binding: FragmentHomeBinding
-    private val vendingMachineViewModel: VendingMachineViewModel by activityViewModels()
+    private lateinit var naverMap: NaverMap
+    private lateinit var marker: Marker
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        binding.viewModel = vendingMachineViewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+        super.onCreateView(inflater, container, savedInstanceState)
 
-        // ViewModel의 vendingMachines LiveData 관찰
-        vendingMachineViewModel.vendingMachines.observe(viewLifecycleOwner) { result ->
-            val vendingMachines = result.getOrNull() // 성공적인 경우 데이터 가져오기
-            if (vendingMachines != null) {
-                // 자판기 목록을 바텀시트에 표시
-                binding.vendingMachineList.text = vendingMachines.joinToString("\n") { it.name }
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+
+        // Naver Map 초기화
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map_view) as MapFragment?
+            ?: MapFragment.newInstance().also {
+                childFragmentManager.beginTransaction().add(R.id.map_view, it).commit()
+            }
+
+        mapFragment.getMapAsync(this) // Naver Map 준비되면 콜백 실행
+
+        // 검색 바 클릭 이벤트 설정
+        binding.searchBar.setOnEditorActionListener { v, actionId, event ->
+            if (event?.action == KeyEvent.ACTION_DOWN || actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val address = binding.searchBar.text.toString()
+                searchAddress(address)
+                true
             } else {
-                binding.vendingMachineList.text = "자판기 목록을 불러오는 데 실패했습니다."
+                false
             }
         }
 
         return binding.root
     }
-}
-        private fun searchAddress(address: String) {
-            val geocoder = Geocoder(requireContext(), Locale.getDefault())
-            try {
-                val addresses: List<Address>? = geocoder.getFromLocationName(address, 1)
-                if (addresses != null && addresses.isNotEmpty()) {
-                    val location = addresses[0]
-                    val latLng = LatLng(location.latitude, location.longitude)
+
+    private fun searchAddress(address: String) {
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        try {
+            val addresses: List<Address>? = geocoder.getFromLocationName(address, 1)
+            if (addresses != null && addresses.isNotEmpty()) {
+                val location = addresses[0]
+                val latLng = LatLng(location.latitude, location.longitude)
 
                 // 마커 위치 설정 및 지도에 추가
                 marker.position = latLng
@@ -98,7 +111,8 @@ class HomeFragment : Fragment() {
     private fun getAddressFromLatLng(latLng: LatLng) {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
         try {
-            val addresses: List<Address>? = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+            val addresses: List<Address>? =
+                geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
             if (addresses != null && addresses.isNotEmpty()) {
                 val address: Address = addresses[0]
                 val addressText = address.getAddressLine(0) ?: "주소를 찾을 수 없습니다."
@@ -109,4 +123,4 @@ class HomeFragment : Fragment() {
         }
     }
 
-    }
+}

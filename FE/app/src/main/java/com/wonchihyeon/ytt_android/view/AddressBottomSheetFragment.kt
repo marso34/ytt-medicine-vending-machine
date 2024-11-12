@@ -1,56 +1,68 @@
 package com.wonchihyeon.ytt_android.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.wonchihyeon.ytt_android.R
+import com.wonchihyeon.ytt_android.R.layout.bottom_sheet_address
+import com.wonchihyeon.ytt_android.data.network.ApiService
+import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
+import com.wonchihyeon.ytt_android.data.repository.VendingMachineRepository
+import com.wonchihyeon.ytt_android.ui.VendingMachineAdapter
 
-class AddressBottomSheetFragment : BottomSheetDialogFragment() {
+class AddressBottomSheetFragment : Fragment(bottom_sheet_address) {
 
-    private var initialY = 0f
-    private var initialHeight = 0
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: VendingMachineAdapter
+    private lateinit var repository: VendingMachineRepository
+    private lateinit var binding: AddressBottomSheetFragment
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        // 바텀 시트의 레이아웃을 설정
-        val view = inflater.inflate(R.layout.fragment_address_bottom_sheet, container, false)
 
-        val bottomSheetLayout = view.findViewById<LinearLayout>(R.id.persistent_bottom_sheet)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // 터치 리스너 설정
-        bottomSheetLayout.setOnTouchListener { _, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    // 초기 Y 좌표와 높이 설정
-                    initialY = event.rawY
-                    initialHeight = bottomSheetLayout.height
-                    true
+        recyclerView = view.findViewById(R.id.recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        // 레포지토리 초기화
+        val apiService = RetrofitAPI.getRetrofit(requireContext()).create(ApiService::class.java)
+        repository = VendingMachineRepository(apiService)
+
+        view.findViewById<TextView>(R.id.pull).setOnClickListener {
+            fetchVendingMachines()
+        }
+    }
+
+    private fun fetchVendingMachines() {
+        Log.d("AddressBottomSheetFragment", "Fetching vending machines...")
+        repository.getAllVendingMachines { vendingMachineResponse ->
+            if (vendingMachineResponse != null) {
+                Log.d("AddressBottomSheetFragment", "Response Body: $vendingMachineResponse")
+
+                /*// Adapter에 데이터를 설정
+                adapter = VendingMachineAdapter(vendingMachineResponse.body)
+                recyclerView.adapter = adapter*/
+
+                // 각 자판기 정보 로그 출력
+                vendingMachineResponse.body?.forEach { machine ->
+                    Log.d("AddressBottomSheetFragment", "Vending Machine:")
+                    Log.d("AddressBottomSheetFragment", "  ID: ${machine.id}")
+                    Log.d("AddressBottomSheetFragment", "  Name: ${machine.name}")
+                    Log.d("AddressBottomSheetFragment", "  State: ${machine.state}")
+                    Log.d("AddressBottomSheetFragment", "  Address: ${machine.address}")
+                    Log.d("AddressBottomSheetFragment", "  Latitude: ${machine.latitude}")
+                    Log.d("AddressBottomSheetFragment", "  Longitude: ${machine.longitude}")
                 }
-                MotionEvent.ACTION_MOVE -> {
-                    val deltaY = initialY - event.rawY // 드래그 방향을 반대로 설정
-                    val newHeight = (initialHeight + deltaY).toInt()
-                    if (newHeight > 0) {
-                        bottomSheetLayout.layoutParams.height = newHeight
-                        bottomSheetLayout.requestLayout()
-                    }
-                    true
-                }
-                MotionEvent.ACTION_UP -> {
-                    // 드래그 종료 시 초기 값 초기화
-                    initialY = 0f
-                    initialHeight = 0
-                    true
-                }
-                else -> false
+            } else {
+                Log.d("AddressBottomSheetFragment", "Failed to fetch vending machines.")
             }
         }
-
-        return view
     }
 }
