@@ -21,19 +21,34 @@
 
         <!-- persistent bottom sheet의 Content -->
         <TextView
+            android:id="@+id/pull"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="🔼 Pull me up! 🔼"
             android:textSize="24sp"
             android:gravity="center"/>
 
-        <TextView
+
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="100dp"
-            android:text="Persistent Bottom Sheet"
-            android:textSize="24sp" />
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
