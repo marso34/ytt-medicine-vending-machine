@@ -31,6 +31,5 @@ class VendingMachineAdapter(private val items: List<VendingMachineDTO>) : Recycl
         holder.bind(items[position])
     }
 
-
     override fun getItemCount(): Int = items.size
 }

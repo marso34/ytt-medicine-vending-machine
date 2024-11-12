@@ -22,8 +22,6 @@ class AddressBottomSheetFragment : Fragment(bottom_sheet_address) {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: VendingMachineAdapter
     private lateinit var repository: VendingMachineRepository
-    private lateinit var binding: AddressBottomSheetFragment
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,19 +34,19 @@ class AddressBottomSheetFragment : Fragment(bottom_sheet_address) {
         repository = VendingMachineRepository(apiService)
 
         view.findViewById<TextView>(R.id.pull).setOnClickListener {
-            fetchVendingMachines()
+            fetchNearByMachines(latitude = 37.305121, longitude = 127.922653) // 예시 좌표
         }
     }
 
-    private fun fetchVendingMachines() {
-        Log.d("AddressBottomSheetFragment", "Fetching vending machines...")
-        repository.getAllVendingMachines { vendingMachineResponse ->
+    private fun fetchNearByMachines(latitude: Double, longitude: Double) {
+        Log.d("AddressBottomSheetFragment", "Fetching nearby vending machines...")
+        repository.getNearByMachine(latitude, longitude) { vendingMachineResponse ->
             if (vendingMachineResponse != null) {
                 Log.d("AddressBottomSheetFragment", "Response Body: $vendingMachineResponse")
 
-                /*// Adapter에 데이터를 설정
-                adapter = VendingMachineAdapter(vendingMachineResponse.body)
-                recyclerView.adapter = adapter*/
+                // Adapter에 데이터를 설정
+                adapter = VendingMachineAdapter(vendingMachineResponse.body ?: emptyList())
+                recyclerView.adapter = adapter
 
                 // 각 자판기 정보 로그 출력
                 vendingMachineResponse.body?.forEach { machine ->
@@ -61,7 +59,7 @@ class AddressBottomSheetFragment : Fragment(bottom_sheet_address) {
                     Log.d("AddressBottomSheetFragment", "  Longitude: ${machine.longitude}")
                 }
             } else {
-                Log.d("AddressBottomSheetFragment", "Failed to fetch vending machines.")
+                Log.d("AddressBottomSheetFragment", "Failed to fetch nearby vending machines.")
             }
         }
     }
