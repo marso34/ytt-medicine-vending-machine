@@ -7,8 +7,8 @@ import com.example.ytt.domain.order.dto.OrderReqDto;
 import com.example.ytt.domain.order.repository.OrderRepository;
 import com.example.ytt.domain.user.domain.User;
 import com.example.ytt.domain.user.exception.UserException;
-import com.example.ytt.domain.user.exception.UserExceptionType;
 import com.example.ytt.domain.user.repository.UserRepository;
+import com.example.ytt.global.error.code.ExceptionType;
 import com.example.ytt.domain.vendingmachine.domain.VendingMachine;
 import com.example.ytt.domain.vendingmachine.repository.VendingMachineRepository;
 import jakarta.transaction.Transactional;
@@ -31,7 +31,7 @@ public class OrderService {
     public OrderDto createOrder(OrderReqDto orderReqDto) {
         // 사용자 조회
         User user = userRepository.findById(orderReqDto.userId())
-                .orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_USER));
+                .orElseThrow(() -> new UserException(ExceptionType.NOT_FOUND_USER));
 
         // 자판기 조회
         VendingMachine vendingMachine = vendingMachineRepository.findById(orderReqDto.vendingMachineId())
