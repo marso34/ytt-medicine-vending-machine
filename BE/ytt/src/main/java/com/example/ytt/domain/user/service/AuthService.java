@@ -8,9 +8,9 @@ import com.example.ytt.domain.user.dto.Role;
 import com.example.ytt.domain.user.dto.TokenResponseDto;
 import com.example.ytt.domain.user.dto.UserDto;
 import com.example.ytt.domain.user.exception.UserException;
-import com.example.ytt.domain.user.exception.UserExceptionType;
 import com.example.ytt.domain.user.repository.RefreshRepository;
 import com.example.ytt.domain.user.repository.UserRepository;
+import com.example.ytt.global.error.code.ExceptionType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +45,7 @@ public class AuthService implements UserDetailsService {
     private TokenResponseDto generateNewTokens(String refresh, HttpServletResponse response) {
         String email = jwtUtil.getEmail(refresh);
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_USER));
+                .orElseThrow(() -> new UserException(ExceptionType.NOT_FOUND_USER));
 
         String roleString = jwtUtil.getRole(refresh); // 역할 문자열 가져오기
         Role role = Role.valueOf(roleString.toUpperCase());
@@ -103,24 +103,24 @@ public class AuthService implements UserDetailsService {
     // 리프레시 토큰 유효성 검사
     private void validateRefreshToken(String refresh) throws UserException {
         if (refresh == null || refresh.trim().isEmpty()) {
-            throw new UserException(UserExceptionType.BLANK_REFRESH_TOKEN);
+            throw new UserException(ExceptionType.BLANK_REFRESH_TOKEN);
         }
 
         try {
             if (jwtUtil.isExpired(refresh)) {
-                throw new UserException(UserExceptionType.EXPIRED_REFRESH_TOKEN);
+                throw new UserException(ExceptionType.EXPIRED_REFRESH_TOKEN);
             }
         }catch (Exception e) {
-            throw new UserException(UserExceptionType.INVALID_REFRESH_TOKEN);
+            throw new UserException(ExceptionType.INVALID_REFRESH_TOKEN);
         }
 
         String category = jwtUtil.getCategory(refresh);
         if (!category.equals("refresh")) {
-            throw new UserException(UserExceptionType.INVALID_TOKEN_CATEGORY);
+            throw new UserException(ExceptionType.INVALID_TOKEN_CATEGORY);
         }
 
         if (!refreshRepository.existsByRefresh(refresh)) {
-            throw new UserException(UserExceptionType.INVALID_REFRESH_TOKEN);
+            throw new UserException(ExceptionType.INVALID_REFRESH_TOKEN);
         }
     }
 }

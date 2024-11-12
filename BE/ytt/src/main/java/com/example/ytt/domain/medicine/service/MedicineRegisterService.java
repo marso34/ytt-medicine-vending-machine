@@ -54,6 +54,8 @@ public class MedicineRegisterService {
 
     private final ObjectMapper objectMapper;
 
+    // TODO: 로직 정리 및 예외 처리 추가
+
     public boolean resisterMedicineByProductCode(MedicineRequestDto medicineRequestDto) {
         try {
             String imgUrl = jsonToImgUrl(getOpenApiData(listUrl, medicineRequestDto.productName(), "json"));

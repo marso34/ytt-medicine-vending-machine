@@ -3,11 +3,10 @@ package com.example.ytt.domain.user.service;
 import com.example.ytt.domain.user.domain.User;
 import com.example.ytt.domain.user.dto.*;
 import com.example.ytt.domain.user.exception.UserException;
-import com.example.ytt.domain.user.exception.UserExceptionType;
 import com.example.ytt.domain.user.repository.UserRepository;
+import com.example.ytt.global.error.code.ExceptionType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthService authService;
@@ -38,12 +36,12 @@ public class UserService {
 
         // 아이디 중복 검사
         if(userRepository.existsByEmail(signUpDto.getEmail())){
-            throw new UserException(UserExceptionType.ALREADY_EXIST_USER);
+            throw new UserException(ExceptionType.ALREADY_EXIST_USER);
         }
 
         // 폰번호 중복 검사
         if(userRepository.existsByPhoneNumber(signUpDto.getPhoneNumber())){
-            throw new UserException(UserExceptionType.ALREADY_EXIST_PHONENUMBER);
+            throw new UserException(ExceptionType.ALREADY_EXIST_PHONENUMBER);
         }
 
         userRepository.save(user);
@@ -67,10 +65,10 @@ public class UserService {
     @Transactional
     public void updatePassword(String email, String currentPassword, String newPassword) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_USER));
+                .orElseThrow(() -> new UserException(ExceptionType.NOT_FOUND_USER));
 
         if (!bCryptPasswordEncoder.matches(currentPassword, user.getPassword())) {
-            throw new UserException(UserExceptionType.WRONG_PASSWORD);
+            throw new UserException(ExceptionType.WRONG_PASSWORD);
         }
 
         user.updatePassword(bCryptPasswordEncoder.encode(newPassword));

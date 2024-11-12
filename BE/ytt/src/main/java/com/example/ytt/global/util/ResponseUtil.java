@@ -1,9 +1,7 @@
 package com.example.ytt.global.util;
 
-
-import com.example.ytt.domain.user.exception.UserExceptionType;
 import com.example.ytt.global.common.response.ResponseDto;
-import com.example.ytt.global.error.BaseExceptionType;
+import com.example.ytt.global.error.code.ExceptionType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -16,13 +14,13 @@ import java.io.IOException;
  */
 public class ResponseUtil {
 
+    private static final String DEFAULT_SUCCESS_MESSAGE = "성공적으로 처리 완료";
+    private static final HttpStatus DEFAULT_SUCCESS_STATUS = HttpStatus.OK;
+
     // private 생성자: 인스턴스화를 방지
     private ResponseUtil() {
         throw new UnsupportedOperationException("Utility Class");
     }
-
-    private static final String DEFAULT_SUCCESS_MESSAGE = "성공적으로 처리 완료";
-    private static final HttpStatus DEFAULT_SUCCESS_STATUS = HttpStatus.OK;
 
     public static <T> ResponseEntity<ResponseDto<T>> success(T body) {
         return success(DEFAULT_SUCCESS_STATUS, DEFAULT_SUCCESS_MESSAGE, body);
@@ -38,33 +36,17 @@ public class ResponseUtil {
                 .body(ResponseDto.of(status.value(), message, body));
     }
 
-    /**
-     * 임시 에러 응답, ExceptionType 방식으로 수정
-     */
-    public static <T> ResponseEntity<ResponseDto<T>> error(HttpStatus status) {
-        return ResponseEntity
-                .status(status)
-                .body(ResponseDto.of(status.value(), status.getReasonPhrase(), null));
+    public static <T> ResponseEntity<ResponseDto<T>> error(ExceptionType errorType, T body) {
+        return error(errorType, errorType.getErrorMessage(), body);
     }
 
-    /**
-     * 임시 에러 응답, ExceptionType 방식으로 수정
-     */
-    public static <T> ResponseEntity<ResponseDto<T>> error(int code, String message, HttpStatus status) {
+    public static <T> ResponseEntity<ResponseDto<T>> error(ExceptionType errorType, String message, T body) {
         return ResponseEntity
-                .status(status)
-                .body(ResponseDto.of(code, message, null));
+                .status(errorType.getHttpStatus())
+                .body(ResponseDto.of(errorType.getErrorCode(), message, body));
     }
 
-    public static <T> ResponseEntity<ResponseDto<T>> error(BaseExceptionType status, T body) {
-        return error(status, status.getErrorMessage(), body);
-    }
-
-    public static <T> ResponseEntity<ResponseDto<T>> error(BaseExceptionType status, String message, T body) {
-        return ResponseEntity
-                .status(status.getHttpStatus())
-                .body(ResponseDto.of(status.getErrorCode(), message, body));
-    }
+    // Todo: 이하 메소드는 수정 or 삭제 : 아래 방식은 ResponseUtil에 적합한 방식은 아님
 
     /**
      * 성공 응답을 HttpServletResponse에 전송
@@ -73,10 +55,7 @@ public class ResponseUtil {
         ResponseDto<String> responseDto = ResponseDto.of(HttpStatus.OK.value(), DEFAULT_SUCCESS_MESSAGE, message);
         String jsonResponse = new ObjectMapper().writeValueAsString(responseDto);
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(jsonResponse);
-        response.setStatus(HttpStatus.OK.value());
+        setResponse(response, jsonResponse, HttpStatus.OK.value());
     }
 
     /**
@@ -86,17 +65,18 @@ public class ResponseUtil {
         ResponseDto<String> responseDto = ResponseDto.of(code, message, null);
         String jsonResponse = new ObjectMapper().writeValueAsString(responseDto);
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(jsonResponse);
-        response.setStatus(code);
+        setResponse(response, jsonResponse, code);
     }
 
-    public static void sendErrorResponse(HttpServletResponse response, UserExceptionType exceptionType) throws IOException {
+    public static void sendErrorResponse(HttpServletResponse response, ExceptionType exceptionType) throws IOException {
         ResponseDto<String> responseDto = ResponseDto.of(exceptionType.getHttpStatus().value(), exceptionType.getErrorMessage(), null);
         String jsonResponse = new ObjectMapper().writeValueAsString(responseDto);
 
-        response.setStatus(exceptionType.getHttpStatus().value());
+        setResponse(response, jsonResponse, exceptionType.getHttpStatus().value());
+    }
+
+    private static void setResponse(HttpServletResponse response, String jsonResponse, int status) throws IOException {
+        response.setStatus(status);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonResponse);
