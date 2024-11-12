@@ -55,6 +55,7 @@ dependencies {
 
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus' // Prometheus
 
 	annotationProcessor 'org.projectlombok:lombok'
 
