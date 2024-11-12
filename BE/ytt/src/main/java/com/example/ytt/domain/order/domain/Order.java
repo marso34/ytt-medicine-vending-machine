@@ -8,6 +8,7 @@
     import java.time.LocalDateTime;
     import java.util.ArrayList;
     import java.util.List;
+    import java.util.UUID;
 
     @Entity
     @Getter
@@ -18,9 +19,9 @@
     public class Order {
 
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "uuid", nullable = false)
-        private Long id;
+        @GeneratedValue(generator = "UUID")
+        @Column(name = "order_id", nullable = false)
+        private UUID id;
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id", nullable = false)

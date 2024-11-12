@@ -5,10 +5,11 @@ import com.example.ytt.domain.order.domain.OrderState;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Schema(title = "주문 Response DTO", description = "주문 정보를 담은 DTO")
 public record OrderDto(
-        @Schema(description = "주문 UUID") Long id,
+        @Schema(description = "주문 UUID") UUID id,
         @Schema(description = "주문자 ID") Long userId,
         @Schema(description = "주문자 이름") String userName,
         @Schema(description = "자판기 ID")String vendingMachineName,
@@ -17,7 +18,7 @@ public record OrderDto(
         @Schema(description = "총 가격") int totalPrice,
         @Schema(description = "주문 상세 목록") List<OrderDetailDto> orderItems
 ) {
-    public static OrderDto of(Long id, Long userId, String userName, String vendingMachineName, OrderState orderState,
+    public static OrderDto of(UUID id, Long userId, String userName, String vendingMachineName, OrderState orderState,
                               LocalDateTime orderAt, int totalPrice, List<OrderDetailDto> orderItems) {
         return new OrderDto(id, userId, userName, vendingMachineName, orderState.getMessage(), orderAt, totalPrice, orderItems);
     }
