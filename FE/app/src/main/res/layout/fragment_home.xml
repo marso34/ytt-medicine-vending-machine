@@ -32,6 +32,17 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
+        <Button
+            android:id="@+id/current_location_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="현재 위치로 가기"
+            app:layout_constraintBottom_toTopOf="@+id/address_bottom_sheet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <fragment
             android:id="@+id/address_bottom_sheet"
             android:name="com.wonchihyeon.ytt_android.fragments.AddressBottomSheetFragment"
