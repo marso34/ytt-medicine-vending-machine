@@ -28,6 +28,7 @@ public class OrderController {
     @SendTo("/topic/order/{vendingMachineId}")
     @SwaggerApi(summary = "주문 생성", description = "주문 생성 API", implementation = ResponseDto.class)
     public ResponseEntity<ResponseDto<OrderDto>> createOrder(@RequestBody OrderReqDto reqDto) {
+        orderService.sendCurrentOrders();
         return ResponseUtil.success(orderService.createOrder(reqDto));
     }
 

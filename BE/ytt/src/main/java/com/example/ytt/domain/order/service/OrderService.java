@@ -123,6 +123,14 @@ public class OrderService {
         return OrderDto.from(savedOrder);
     }
 
+    public void sendCurrentOrders() {
+        List<OrderDto> currentOrders = orderRepository.findAll().stream()
+                .map(OrderDto::from)
+                .toList();
+
+        messagingTemplate.convertAndSend("/topic/current-orders", currentOrders);
+    }
+
 
 
 }
