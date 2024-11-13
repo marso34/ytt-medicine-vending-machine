@@ -48,6 +48,19 @@ public class VendingMachineRepositoryImpl implements VendingMachineRepositoryCus
                 .fetch();
     }
 
+    @Override
+    public Optional<VendingMachine> getVendingMachineDetails(Long vendingMachineId) {
+        VendingMachine vendingmachine = jpaQueryFactory
+                .selectFrom(vendingMachine)
+                .leftJoin(vendingMachine.inventories, inventory).fetchJoin()
+                .leftJoin(inventory.medicine, medicine).fetchJoin()
+                .where(vendingMachine.id.eq(vendingMachineId))
+                .fetchOne();
+
+        return Optional.ofNullable(vendingmachine);
+    }
+
+
     // 자판기 이름 필터
     private BooleanExpression nameContains(String name) {
         return name == null ? null : vendingMachine.name.contains(name);
