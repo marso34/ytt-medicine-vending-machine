@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>STOMP WebSocket Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+<h1>STOMP WebSocket Test</h1>
+<button onclick="connect()">Connect</button>
+<button onclick="createOrder()">Create Order</button>
+<div id="messages"></div>
+
+<script>
+    var stompClient = null;
+
+    function connect() {
+        var socket = new SockJS('/ws'); // 상대 경로 사용
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function(frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/order/123', function(response) {
+                showMessage(JSON.parse(response.body));
+            });
+            stompClient.subscribe('/topic/vending-machine/1', function(response) { // 자판기 응답 구독 예시
+                showMessage(JSON.parse(response.body));
+            });
+        }, function(error) {
+            console.log('Error: ' + error);
+        });
+    }
+
+    function createOrder() {
+        var order = {
+            userId: 1,
+            vendingMachineId: 1,
+            orderItems: [{ productCode: "199303108", quantity: 1 }] // 타이레놀 코드
+        };
+        stompClient.send("/app/order/1", {}, JSON.stringify(order)); // vendingMachineId에 맞게 경로 수정
+    }
+
+    function showMessage(message) {
+        var messageArea = document.getElementById('messages');
+        messageArea.innerHTML += JSON.stringify(message) + '<br/>';
+    }
+</script>
+</body>
+</html>
