@@ -35,6 +35,10 @@ public class MedicineFindService {
         return list.stream().map(MedicineDto::from).toList();
     }
 
+    /**
+     * @deprecated 추후 QueryDSL로 구현한 코드로 대체 예정
+     */
+    @Deprecated(since="", forRemoval=true)
     public List<MedicineDto> getMedicinesByName(String name) {
         List<Medicine> list = medicineRepository.findByNameContaining(name);
 
@@ -45,6 +49,10 @@ public class MedicineFindService {
         return list.stream().map(MedicineDto::from).toList();
     }
 
+    /**
+     * @deprecated 추후 QueryDSL로 구현한 코드로 대체 예정
+     */
+    @Deprecated(since="", forRemoval=true)
     public List<MedicineDto> getMedicinesByManufacturer(String manufacturer) {
         List<Medicine> list = medicineRepository.findByManufacturer(manufacturer);
 
@@ -56,6 +64,10 @@ public class MedicineFindService {
     }
 
     // 특정 성분이 포함된 약품 목록 조회 (성분 ID로 검색)
+    /**
+     * @deprecated 추후 QueryDSL로 구현한 코드로 대체 예정
+     */
+    @Deprecated(since="", forRemoval=true)
     public List<MedicineDto> findMedicineByIngredientId(Long ingredientId) {
         if (!ingredientRepository.existsById(ingredientId)) {
             throw new IngredientException(ExceptionType.NOT_FOUND_INGREDIENT); // Ingredient가 존재하는 지 확인
@@ -72,14 +84,40 @@ public class MedicineFindService {
 
     // MedicineDetailDto 조회
 
+    /**
+     * @deprecated 추후 QueryDSL로 구현한 코드로 대체 예정
+     */
+    @Deprecated(since="", forRemoval=true)
     public MedicineDetailDto getMedicineById(Long id) {
         Medicine medicine = medicineRepository.findById(id).orElseThrow(() -> new MedicineException(ExceptionType.NOT_FOUND_MEDICINE));
 
         return MedicineDetailDto.from(medicine);
     }
 
+    /**
+     * @deprecated 추후 QueryDSL로 구현한 코드로 대체 예정
+     */
+    @Deprecated(since="", forRemoval=true)
     public MedicineDetailDto getMedicinesByProductCode(String productCode) {
         Medicine medicine = medicineRepository.findByProductCode(productCode).orElseThrow(() -> new MedicineException(ExceptionType.NOT_FOUND_MEDICINE));
+
+        return MedicineDetailDto.from(medicine);
+    }
+
+    /* -- QueryDSL을 사용한 코드 -- */
+
+    public List<MedicineDto> getMedicines(String name, String manufacturer, Long ingredientId) {
+        List<Medicine> list = medicineRepository.getMedicines(name, manufacturer, ingredientId);
+
+        if (list.isEmpty()) {
+            throw new MedicineException(ExceptionType.NO_CONTENT_MEDICINE);
+        }
+
+        return list.stream().map(MedicineDto::from).toList();
+    }
+
+    public MedicineDetailDto getMedicineDetail(Long medicineId, String productCode) {
+        Medicine medicine = medicineRepository.getMedicineDetail(medicineId, productCode).orElseThrow(() -> new MedicineException(ExceptionType.NOT_FOUND_MEDICINE));
 
         return MedicineDetailDto.from(medicine);
     }
