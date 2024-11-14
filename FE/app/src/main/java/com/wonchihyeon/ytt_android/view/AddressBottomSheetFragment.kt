@@ -33,9 +33,8 @@ class AddressBottomSheetFragment : Fragment(bottom_sheet_address) {
         val apiService = RetrofitAPI.getRetrofit(requireContext()).create(ApiService::class.java)
         repository = VendingMachineRepository(apiService)
 
-        view.findViewById<TextView>(R.id.pull).setOnClickListener {
-            fetchNearByMachines(latitude = 37.305121, longitude = 127.922653) // 예시 좌표
-        }
+        fetchNearByMachines(latitude = 37.305121, longitude = 127.922653)
+
     }
 
     private fun fetchNearByMachines(latitude: Double, longitude: Double) {
