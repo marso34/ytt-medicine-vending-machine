@@ -14,6 +14,8 @@ import java.util.Optional;
 
 import static com.example.ytt.domain.inventory.domain.QInventory.inventory;
 import static com.example.ytt.domain.medicine.domain.QMedicine.medicine;
+import static com.example.ytt.domain.user.domain.QUser.user;
+import static com.example.ytt.domain.vendingmachine.domain.QFavorite.favorite;
 import static com.example.ytt.domain.vendingmachine.domain.QVendingMachine.vendingMachine;
 
 @Repository
@@ -26,8 +28,6 @@ public class VendingMachineRepositoryImpl implements VendingMachineRepositoryCus
     public List<VendingMachine> getVendingMachines(Point location, double distance, String name) {
         return jpaQueryFactory
                 .selectFrom(vendingMachine)
-                .leftJoin(vendingMachine.inventories, inventory)
-                .leftJoin(inventory.medicine, medicine)
                 .where(
                         distanceLessThan(location, distance),
                         nameContains(name)
@@ -39,8 +39,8 @@ public class VendingMachineRepositoryImpl implements VendingMachineRepositoryCus
     public List<VendingMachine> getVendingMachinesByMedicine(Point location, double distance, Long medicineId) {
         return jpaQueryFactory
                 .selectFrom(vendingMachine)
-                .leftJoin(vendingMachine.inventories, inventory)
-                .leftJoin(inventory.medicine, medicine)
+                .join(inventory).on(vendingMachine.id.eq(inventory.vendingMachine.id))
+                .join(inventory.medicine, medicine)
                 .where(
                         distanceLessThan(location, distance),
                         medicineContains(medicineId)
@@ -48,8 +48,19 @@ public class VendingMachineRepositoryImpl implements VendingMachineRepositoryCus
                 .fetch();
     }
 
+    // 즐겨찾기는 즐겨찾기 생성 후 테스트
     @Override
-    public Optional<VendingMachine> getVendingMachineDetails(Long vendingMachineId) {
+    public List<VendingMachine> getFavoriteVendingMachines(Long userId) {
+        return jpaQueryFactory
+                .selectFrom(vendingMachine)
+                .join(favorite).on(vendingMachine.id.eq(favorite.vendingMachine.id))
+                .join(favorite.user, user)
+                .where(favorite.user.id.eq(userId))
+                .fetch();
+    }
+
+    @Override
+    public Optional<VendingMachine> getVendingMachineDetail(Long vendingMachineId) {
         VendingMachine vendingmachine = jpaQueryFactory
                 .selectFrom(vendingMachine)
                 .leftJoin(vendingMachine.inventories, inventory).fetchJoin()

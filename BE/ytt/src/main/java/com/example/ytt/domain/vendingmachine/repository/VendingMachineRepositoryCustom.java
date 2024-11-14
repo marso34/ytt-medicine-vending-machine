@@ -12,6 +12,8 @@ public interface VendingMachineRepositoryCustom {
 
     List<VendingMachine> getVendingMachinesByMedicine(Point location, double distance, Long medicineId);
 
-    Optional<VendingMachine> getVendingMachineDetails(Long vendingMachineId);
+    List<VendingMachine> getFavoriteVendingMachines(Long userId);
+
+    Optional<VendingMachine> getVendingMachineDetail(Long vendingMachineId);
 
 }

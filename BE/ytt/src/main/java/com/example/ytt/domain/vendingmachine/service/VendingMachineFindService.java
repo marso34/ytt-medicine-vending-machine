@@ -109,8 +109,18 @@ public class VendingMachineFindService {
         return list.stream().map(VendingMachineDto::from).toList();
     }
 
+    public List<VendingMachineDto> getFavoriteVendingMachines(Long userId) {
+        List<VendingMachine> list = vendingMachineRepository.getFavoriteVendingMachines(userId);
+
+        if (list.isEmpty()) {
+            throw new VendingMachineException(ExceptionType.NO_CONTENT_VENDING_MACHINE);
+        }
+
+        return list.stream().map(VendingMachineDto::from).toList();
+    }
+
     public VendingMachineDetailDto getVendingMachineDetail(Long machineId, Long userId) {
-        VendingMachine vendingMachine = vendingMachineRepository.getVendingMachineDetails(machineId).orElseThrow(() -> new VendingMachineException(ExceptionType.NOT_FOUND_VENDING_MACHINE));
+        VendingMachine vendingMachine = vendingMachineRepository.getVendingMachineDetail(machineId).orElseThrow(() -> new VendingMachineException(ExceptionType.NOT_FOUND_VENDING_MACHINE));
 
         return convertToVendingMachineDetailDto(vendingMachine, userId);
     }

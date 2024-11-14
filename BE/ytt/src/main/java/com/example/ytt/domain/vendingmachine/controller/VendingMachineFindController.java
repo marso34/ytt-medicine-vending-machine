@@ -84,7 +84,7 @@ public class VendingMachineFindController {
 
     /* -- QueryDSL을 사용한 코드 -- */
 
-    @GetMapping("/getVendingMachines")
+    @GetMapping("/get")
     @SwaggerApi(summary = "자판기 기본 조회", description = "일정 범위 내에 자판기 리스트 조회", implementation = ResponseDto.class)
     public ResponseEntity<ResponseDto<List<VendingMachineDto>>> getVendingMachines(
             @RequestParam(value = "latitude", required = true)                           Double latitude,
@@ -95,7 +95,7 @@ public class VendingMachineFindController {
         return ResponseUtil.success(vendingMachineFindService.getVendingMachines(latitude, longitude, distance, name));
     }
 
-    @GetMapping("/getVendingMachinesByMedicine")
+    @GetMapping("/getByMedicine")
     @SwaggerApi(summary = "약품으로 자판기 조회", description = "약품이 포함되어 있는 자판기 리스트 조회", implementation = ResponseDto.class)
     public ResponseEntity<ResponseDto<List<VendingMachineDto>>> getVendingMachinesByMedicine(
             @RequestParam(value = "latitude", required = false)                          Double latitude,
@@ -105,5 +105,13 @@ public class VendingMachineFindController {
     ) {
         return ResponseUtil.success(vendingMachineFindService.getVendingMachinesByMedicine(latitude, longitude, distance, medicineId));
     }
+
+    @GetMapping("/getFavorites")
+    @SwaggerApi(summary = "즐겨찾기 자판기 조회", description = "즐겨찾기한 자판기 리스트 조회", implementation = ResponseDto.class)
+    public ResponseEntity<ResponseDto<List<VendingMachineDto>>> getFavoriteVendingMachines(@AuthenticationPrincipal CustomUserDetails user) {
+        return ResponseUtil.success(vendingMachineFindService.getFavoriteVendingMachines(user.getId()));
+    }
+
+
 
 }
