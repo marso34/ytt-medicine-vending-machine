@@ -117,6 +117,10 @@ public class MedicineFindService {
     }
 
     public MedicineDetailDto getMedicineDetail(Long medicineId, String productCode) {
+        if (medicineId == null && productCode == null) {
+            throw new MedicineException(ExceptionType.BAD_REQUEST_MEDICINE_SEARCH);
+        }
+
         Medicine medicine = medicineRepository.getMedicineDetail(medicineId, productCode).orElseThrow(() -> new MedicineException(ExceptionType.NOT_FOUND_MEDICINE));
 
         return MedicineDetailDto.from(medicine);
