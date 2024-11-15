@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface InventoryRepository extends JpaRepository<Inventory, Long> {
+public interface InventoryRepository extends JpaRepository<Inventory, Long>, InventoryRepositoryCustom {
 
     Optional<Inventory> findByMedicineIdAndVendingMachineId(Long medicineId, Long vendingMachineId); // 약품 ID와 자판기 ID로 검색 (특정 자판기에 특정 약품)
 
