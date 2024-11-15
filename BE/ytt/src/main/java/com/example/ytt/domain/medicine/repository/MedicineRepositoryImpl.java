@@ -20,7 +20,7 @@ public class MedicineRepositoryImpl implements MedicineRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<Medicine> getMedicines(String name, String manufacturer, Long ingredientId) {
+    public List<Medicine> getMedicines(String name, String manufacturer, String ingredientName) {
         return jpaQueryFactory
                 .selectFrom(medicine)
                 .leftJoin(medicine.ingredients, medicineIngredient)
@@ -28,7 +28,7 @@ public class MedicineRepositoryImpl implements MedicineRepositoryCustom {
                 .where(
                         nameContains(name),
                         manufacturerContains(manufacturer),
-                        ingredientContains(ingredientId)
+                        ingredientContains(ingredientName)
                 )
                 .fetch();
     }
@@ -56,8 +56,8 @@ public class MedicineRepositoryImpl implements MedicineRepositoryCustom {
         return manufacturer != null ? medicine.manufacturer.contains(manufacturer) : null;
     }
 
-    private BooleanExpression ingredientContains(Long ingredientId) {
-        return ingredientId != null ? medicine.ingredients.any().ingredient.id.eq(ingredientId) : null;
+    private BooleanExpression ingredientContains(String ingredientName) {
+        return ingredientName != null ? medicine.ingredients.any().ingredient.name.contains(ingredientName) : null;
     }
 
     private BooleanExpression equalsMedicineId(Long medicineId) {

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface MedicineRepositoryCustom {
 
-    List<Medicine> getMedicines(String name, String manufacturer, Long ingredientId);
+    List<Medicine> getMedicines(String name, String manufacturer, String ingredientName);
 
     Optional<Medicine> getMedicineDetail(Long medicineId, String poductCode);
 

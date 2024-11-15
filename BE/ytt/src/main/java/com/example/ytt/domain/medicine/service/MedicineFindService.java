@@ -106,8 +106,8 @@ public class MedicineFindService {
 
     /* -- QueryDSL을 사용한 코드 -- */
 
-    public List<MedicineDto> getMedicines(String name, String manufacturer, Long ingredientId) {
-        List<Medicine> list = medicineRepository.getMedicines(name, manufacturer, ingredientId);
+    public List<MedicineDto> getMedicines(String name, String manufacturer, String ingredientName) {
+        List<Medicine> list = medicineRepository.getMedicines(name, manufacturer, ingredientName);
 
         if (list.isEmpty()) {
             throw new MedicineException(ExceptionType.NO_CONTENT_MEDICINE);

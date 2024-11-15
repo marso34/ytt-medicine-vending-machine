@@ -80,11 +80,11 @@ public class MedicineController {
     @GetMapping("/getByFilter")
     @SwaggerApi(summary = "약품 기본 조회", description = "약품 리스트 조회", implementation = ResponseDto.class)
     public ResponseEntity<ResponseDto<List<MedicineDto>>> getMedicines(
-            @RequestParam(value = "name", required = false)         String name,
-            @RequestParam(value = "manufacturer", required = false) String manufacturer,
-            @RequestParam(value = "ingredientId", required = false) Long ingredientId
+            @RequestParam(value = "name", required = false)           String name,
+            @RequestParam(value = "manufacturer", required = false)   String manufacturer,
+            @RequestParam(value = "ingredientName", required = false) String ingredientName
     ) {
-        return ResponseUtil.success(medicineFindService.getMedicines(name, manufacturer, ingredientId));
+        return ResponseUtil.success(medicineFindService.getMedicines(name, manufacturer, ingredientName));
     }
 
     @GetMapping("/get")
