@@ -23,16 +23,16 @@ public record MedicineDto(
         return new MedicineDto(medicine.getId(), medicine.getName(), medicine.getEfficacy(), medicine.getPrice(), stock, medicine.getImageURL());
     }
 
+    public static MedicineDto from(Medicine medicine) {
+        // description - 약의 효능을 설명으로
+        return of(medicine, 0);
+    }
+
     public static MedicineDto from(Inventory inventory) {
         return of(inventory.getMedicine(), inventory.getQuantity());
     }
 
     public static MedicineDto from(MedicineIngredient medicineIngredient) {
         return from(medicineIngredient.getMedicine());
-    }
-
-    public static MedicineDto from(Medicine medicine) {
-        // description - 약의 효능을 설명으로
-        return new MedicineDto(medicine.getId(), medicine.getName(), medicine.getEfficacy(), medicine.getPrice(), 0, medicine.getImageURL());
     }
 }
