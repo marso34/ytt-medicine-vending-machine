@@ -31,24 +31,30 @@
             android:exported="true">
 
         </activity>
-        <activity
-            android:name=".auth.LoginActivity"
-            android:exported="true">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".ui.OrderActivity" /> <!-- OrderActivity 추가 -->
+        <activity android:name=".ui.VendingMachineDetailActivity"></activity>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+    <activity
+        android:name=".auth.LoginActivity"
+        android:exported="true">
 
-        </activity>
-        <activity
-            android:name=".view.MyFragment"
-            android:exported="false" />
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-        <meta-data
-            android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="${NAVERMAP_CLIENT_ID}" />
-    </application>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
 
-</manifest>
+    </activity>
+    <activity
+        android:name=".view.MyFragment"
+        android:exported="false" />
+
+    <meta-data
+        android:name="com.naver.maps.map.CLIENT_ID"
+        android:value="${NAVERMAP_CLIENT_ID}" />
+
+
+</application>
+
+    </manifest>
