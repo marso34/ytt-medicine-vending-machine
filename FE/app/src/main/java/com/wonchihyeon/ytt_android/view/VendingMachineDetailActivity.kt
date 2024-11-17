@@ -54,26 +54,28 @@ class VendingMachineDetailActivity : AppCompatActivity() {
         fetchMedicineDetails(vendingMachineId, medicineId)
     }
 
+    // 특정 약 상세 네
     private fun fetchMedicineDetails(vendingMachineId: String, medicineId: Long) {
         Log.d("VendingMachineDetail", "Fetching details for vendingMachineId: $vendingMachineId, medicineId: $medicineId")
-        repository.getVendingMachineById(vendingMachineId, medicineId).enqueue(object : Callback<ResponseDTO<MedicineDTO>> {
-            override fun onResponse(call: Call<ResponseDTO<MedicineDTO>>, response: Response<ResponseDTO<MedicineDTO>>) {
+        repository.getAllVendingMachineById(vendingMachineId).enqueue(object : Callback<ResponseDTO> {
+            override fun onResponse(call: Call<ResponseDTO>, response: Response<ResponseDTO>) {
                 Log.d("VendingMachineDetail", "Response code: ${response.code()}")
                 if (response.isSuccessful && response.body() != null) {
-                    val medicine = response.body()!!.body
+                    val medicineList = response.body()!!.body?.medicines
+                    val medicine = medicineList?.find { it.id == medicineId }
                     if (medicine != null) {
-                        Log.d("VendingMachineDetail", "Successfully loaded medicine details: $medicine")
+                        Log.d("success", "Successfully loaded medicine details: $medicine")
                         displayMedicineDetails(medicine)
                     } else {
-                        Log.d("VendingMachineDetail", "Medicine details are null.")
+                        Log.d("else", "Medicine details are null.")
                     }
                 } else {
-                    Log.d("VendingMachineDetail", "Failed to load medicine details.")
+                    Log.d("else if", "Failed to load medicine details.")
                 }
             }
 
-            override fun onFailure(call: Call<ResponseDTO<MedicineDTO>>, t: Throwable) {
-                Log.d("VendingMachineDetail", "Error: ${t.message}")
+            override fun onFailure(call: Call<ResponseDTO>, t: Throwable) {
+                Log.d("error", "Error: ${t.message}")
             }
         })
     }
@@ -81,17 +83,13 @@ class VendingMachineDetailActivity : AppCompatActivity() {
     private fun displayMedicineDetails(medicine: MedicineDTO) {
         Log.d("VendingMachineDetail", "Displaying medicine details: $medicine")
         medicineNameTextView.text = medicine.name
-        manufacturerTextView.text = medicine.manufacturer
-        efficacyTextView.text = medicine.efficacy
-        usageTextView.text = medicine.usage
-        priceTextView.text = "Price: ${medicine.price}"
-        stockTextView.text = "Stock: ${medicine.stock}"
+        manufacturerTextView.text = medicine.manufacturer ?: "제조사 정보 없음"
+        efficacyTextView.text = medicine.efficacy ?: "효능 정보 없음"
+        usageTextView.text = medicine.usage ?: "사용법 정보 없음"
+        priceTextView.text = "가격: ${medicine.price} 원"
+        stockTextView.text = "재고: ${medicine.stock}"
 
         // Glide를 사용하여 이미지 로드
         Glide.with(this).load(medicine.imageURL).into(medicineImageView)
     }
-}
-
-private fun <T> Call<T>.enqueue(callback: Callback<ResponseDTO<MedicineDTO>>) {
-
 }
