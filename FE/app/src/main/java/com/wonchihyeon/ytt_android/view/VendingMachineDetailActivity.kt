@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import com.google.gson.internal.LinkedTreeMap
 import com.google.gson.reflect.TypeToken
 import com.wonchihyeon.ytt_android.R
 import com.wonchihyeon.ytt_android.data.model.ResponseDTO
+import com.wonchihyeon.ytt_android.data.model.VendingMachineDetailDTO
 import com.wonchihyeon.ytt_android.data.model.vendingmachine.MedicineDTO
 import com.wonchihyeon.ytt_android.data.network.ApiService
 import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
@@ -55,11 +57,25 @@ class VendingMachineDetailActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ResponseDTO>, response: Response<ResponseDTO>) {
                 Log.d("VendingMachineDetail", "Response code: ${response.code()}")
                 if (response.isSuccessful && response.body() != null) {
-                    val body = response.body()!!.body
-                    Log.d("VendingMachineDetail", "Response body: $body")
 
-                    if (body is Map<*, *>) {
+                    if(response.body()!!.code == "200") {
+                        val body = response.body()!!.body as LinkedTreeMap<String, Any>
+
+                        val gson = Gson()
+                        val json = gson.toJson(body)
+                        val vendingMachine = gson.fromJson(json, VendingMachineDetailDTO::class.java)
+                        Log.d("error", vendingMachine.toString())
+
+                        adapter = MedicineAdapter(vendingMachine.medicines, this@VendingMachineDetailActivity)
+                        recyclerView.adapter = adapter
+                    } else {
+                        Log.d("error", response.body()!!.message)
+                    }
+
+
+                /*    if (body is Map<*, *>) {
                         val medicinesJson = body["medicines"] as? List<*>
+
                         if (medicinesJson != null) {
                             val gson = Gson()
                             val json = gson.toJson(medicinesJson)
@@ -74,7 +90,7 @@ class VendingMachineDetailActivity : AppCompatActivity() {
                         }
                     } else {
                         Log.d("error", "Expected a Map but received: ${body?.javaClass}")
-                    }
+                    }*/
                 }
             }
 
