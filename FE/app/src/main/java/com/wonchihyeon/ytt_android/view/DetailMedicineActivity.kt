@@ -35,6 +35,9 @@ class DetailMedicineActivity : AppCompatActivity() {
     private lateinit var orderedItemsListView: ListView // ListView 선언
     private lateinit var repository: MedicineRepository
     private var vendingMachineId: String = ""
+    private var vendingMachineName: String = ""
+    private var vendingMachineAddress: String = ""
+
     private var medicineId: Int = 0
     private var quantity: Int = 1 // 초기 수량 설정
 
@@ -57,8 +60,11 @@ class DetailMedicineActivity : AppCompatActivity() {
         repository = MedicineRepository(apiService)
 
         // Intent로부터 약품 ID 받아오기
+
         medicineId = intent.getIntExtra("medicineId", 0)
         vendingMachineId = intent.getStringExtra("vendingMachineId").toString()
+        vendingMachineName = intent.getStringExtra("vendingMachineName").toString()
+        vendingMachineAddress = intent.getStringExtra("vendingMachineAddress").toString()
 
         // 약품 정보 불러오기
         fetchMedicineDetails(medicineId)
@@ -83,8 +89,6 @@ class DetailMedicineActivity : AppCompatActivity() {
             navigateToOrderActivity()
         }
     }
-
-    // 주문 목록에 추가하는 함수
     private fun addToOrderList() {
         // MedicineDTO 생성
         val medicineDetail = MedicineDTO(
@@ -99,15 +103,20 @@ class DetailMedicineActivity : AppCompatActivity() {
             price = priceTextView.text.toString().replace("가격: ", "").replace(" 원", "").toInt(),
             stock = quantity,
             imageURL = "",
-            ingredients = emptyList() // 필요시 추가
+            ingredients = emptyList() // 필요 시 추가
         )
 
-        // OrderActivity로 보내기 위한 데이터 저장
-        val orderedItems = List(quantity) { medicineDetail } // 수량만큼 리스트 생성
-        val intent = Intent(this, OrderActivity::class.java)
-        intent.putExtra("orderedItems", Gson().toJson(orderedItems))
+        // 단일 MedicineDTO를 전달
+        val orderedItem = listOf(medicineDetail) // 단일 아이템 리스트 생성
+        val intent = Intent(this, VendingMachineDetailActivity::class.java)
+        intent.putExtra("orderedItems", Gson().toJson(orderedItem))
+        intent.putExtra("medicineId", medicineId)
+        intent.putExtra("vendingMachineId", vendingMachineId)
+        intent.putExtra("vendingMachineName", vendingMachineName)
+        intent.putExtra("vendingMachineAddress", vendingMachineAddress)
         startActivity(intent)
     }
+
 
     // OrderActivity로 이동하는 함수
     private fun navigateToOrderActivity() {
