@@ -2,7 +2,6 @@ package com.wonchihyeon.ytt_android.ui.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.wonchihyeon.ytt_android.R
 import com.wonchihyeon.ytt_android.data.model.Medicine
-import com.wonchihyeon.ytt_android.view.OrderActivity
+import com.wonchihyeon.ytt_android.view.DetailMedicineActivity
 
 class MedicineAdapter(
     private val medicineList: List<Medicine>,
     private val context: Context,
-    private val vendingMachineId: String
+    private val vendingMachineId: String,
+    private val vendingMachineName: String,
+    private val vendingMachineAddress: String,
 ) : RecyclerView.Adapter<MedicineAdapter.MedicineViewHolder>() {
 
     inner class MedicineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -32,9 +33,11 @@ class MedicineAdapter(
 
             // 아이템 클릭 시 OrderActivity로 이동
             itemView.setOnClickListener {
-                val intent = Intent(context, OrderActivity::class.java).apply {
+                val intent = Intent(context, DetailMedicineActivity::class.java).apply {
                     putExtra("medicineId", medicine.id)
                     putExtra("vendingMachineId", vendingMachineId)
+                    putExtra("vendingMachineName", vendingMachineName)
+                    putExtra("vendingMachineAddress", vendingMachineAddress)
                     putExtra("medicineName", medicine.name)
                     putExtra("price", "가격: ${medicine.price} 원")
                     putExtra("imageUrl", medicine.imageURL)
