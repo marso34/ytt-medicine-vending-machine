@@ -59,6 +59,22 @@
 
                 </LinearLayout>
         </ScrollView>
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:text="주문하기"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/ordered_items_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp" />
 
         <!-- 주문하기 버튼 -->
         <Button
