@@ -26,6 +26,8 @@ class VendingMachineAdapter(private val items: List<VendingMachineDTO>) : Recycl
                 val context = itemView.context
                 val intent = Intent(context, VendingMachineDetailActivity::class.java).apply {
                     putExtra("vendingMachineId", item.id.toString())
+                    putExtra("vendingMachineName",item.name.toString())
+                    putExtra("vendingMachineAddress",item.address.toString())
                 }
                 context.startActivity(intent)
             }
