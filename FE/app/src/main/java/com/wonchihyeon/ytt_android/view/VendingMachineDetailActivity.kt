@@ -3,7 +3,9 @@ package com.wonchihyeon.ytt_android.ui
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +31,6 @@ class VendingMachineDetailActivity : AppCompatActivity() {
     private lateinit var repository: VendingMachineRepository
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MedicineAdapter
-    private lateinit var medicineList: List<MedicineDTO>
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,8 +41,13 @@ class VendingMachineDetailActivity : AppCompatActivity() {
         val apiService = RetrofitAPI.getRetrofit(this).create(ApiService::class.java)
         repository = VendingMachineRepository(apiService)
 
-        // Intent로부터 자판기 ID 받아오기
+        // Intent로부터 자판기 ID, 이름, 주소 받아오기
         val vendingMachineId = intent.getStringExtra("vendingMachineId") ?: ""
+        val vendingMachineName = intent.getStringExtra("vendingMachineName") ?: ""
+        val vendingMachineAddress = intent.getStringExtra("vendingMachineAddress") ?: ""
+
+        findViewById<TextView>(R.id.vending_machine_name).text = vendingMachineName
+        findViewById<TextView>(R.id.vending_machine_address).text = vendingMachineAddress
 
         // RecyclerView 초기화
         recyclerView = findViewById(R.id.recycler_view)
@@ -51,46 +57,24 @@ class VendingMachineDetailActivity : AppCompatActivity() {
         fetchMedicineDetails(vendingMachineId)
     }
 
+
     private fun fetchMedicineDetails(vendingMachineId: String) {
         Log.d("VendingMachineDetail", "Fetching details for vendingMachineId: $vendingMachineId")
         repository.getVendingMachineById(vendingMachineId).enqueue(object : Callback<ResponseDTO> {
             override fun onResponse(call: Call<ResponseDTO>, response: Response<ResponseDTO>) {
                 Log.d("VendingMachineDetail", "Response code: ${response.code()}")
                 if (response.isSuccessful && response.body() != null) {
-
-                    if(response.body()!!.code == "200") {
+                    if (response.body()!!.code == "200") {
                         val body = response.body()!!.body as LinkedTreeMap<String, Any>
-
                         val gson = Gson()
                         val json = gson.toJson(body)
                         val vendingMachine = gson.fromJson(json, VendingMachineDetailDTO::class.java)
-                        Log.d("error", vendingMachine.toString())
 
-                        adapter = MedicineAdapter(vendingMachine.medicines, this@VendingMachineDetailActivity)
+                        adapter = MedicineAdapter(vendingMachine.medicines, this@VendingMachineDetailActivity, vendingMachineId)
                         recyclerView.adapter = adapter
                     } else {
                         Log.d("error", response.body()!!.message)
                     }
-
-
-                /*    if (body is Map<*, *>) {
-                        val medicinesJson = body["medicines"] as? List<*>
-
-                        if (medicinesJson != null) {
-                            val gson = Gson()
-                            val json = gson.toJson(medicinesJson)
-                            val listType = object : TypeToken<List<MedicineDTO>>() {}.type
-                            medicineList = gson.fromJson(json, listType)
-
-                            // Adapter에 데이터 설정, Context 전달
-                            adapter = MedicineAdapter(medicineList, this@VendingMachineDetailActivity)
-                            recyclerView.adapter = adapter
-                        } else {
-                            Log.d("error", "Medicines list is null")
-                        }
-                    } else {
-                        Log.d("error", "Expected a Map but received: ${body?.javaClass}")
-                    }*/
                 }
             }
 
@@ -99,5 +83,4 @@ class VendingMachineDetailActivity : AppCompatActivity() {
             }
         })
     }
-
 }
