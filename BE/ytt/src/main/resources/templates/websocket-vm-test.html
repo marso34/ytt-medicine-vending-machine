@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>자판기 주문 관리 시스템</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style>
+        .order-section {
+            margin-bottom: 20px;
+        }
+        .order-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>자판기 주문 관리 시스템</h1>
+
+<label for="vendingMachineId">자판기 ID:</label>
+<input type="text" id="vendingMachineId" placeholder="자판기 ID 입력" />
+<button onclick="connect()">연결</button>
+
+<h2>자판기 보관 테스트</h2>
+<div class="test-section">
+    <label for="storeOrderId">주문 ID:</label>
+    <input type="text" id="storeOrderId" placeholder="보관 요청할 주문 ID 입력" />
+    <select id="storeResult">
+        <option value="true">보관 성공</option>
+        <option value="false">보관 실패</option>
+    </select>
+    <div id="actualQuantities">
+        <div>
+            <label>상품 코드 1:</label>
+            <input type="text" id="productCode1" value="199303108" />
+            <label>실제 보관 수량:</label>
+            <input type="number" id="quantity1" value="1" min="0" />
+        </div>
+        <div>
+            <label>상품 코드 2:</label>
+            <input type="text" id="productCode2" value="199400202" />
+            <label>실제 보관 수량:</label>
+            <input type="number" id="quantity2" value="1" min="0" />
+        </div>
+    </div>
+    <button onclick="storeOrder()">보관 결과 전송 (자판기)</button>
+</div>
+
+<h2>유저 동작 테스트</h2>
+<div class="test-section">
+    <label for="userOrderId">주문 ID:</label>
+    <input type="text" id="userOrderId" placeholder="주문 ID 입력" />
+    <button onclick="completeOrder()">수령 완료</button>
+    <button onclick="cancelOrder()">주문 취소</button>
+</div>
+
+<div id="messages" class="message-area"></div>
+
+
+<h2>현재 주문 목록</h2>
+<button onclick="fetchCurrentOrders()">주문 목록 새로고침</button>
+
+<div class="order-section">
+    <h3>대기중인 주문</h3>
+    <div id="pendingOrders"></div>
+</div>
+
+<div class="order-section">
+    <h3>보관중인 주문</h3>
+    <div id="storedOrders"></div>
+</div>
+
+<div class="order-section">
+    <h3>완료된 주문</h3>
+    <div id="completedOrders"></div>
+</div>
+
+<div class="order-section">
+    <h3>취소된 주문</h3>
+    <div id="canceledOrders"></div>
+</div>
+
+
+<script>
+    var stompClient = null;
+    var fetchInterval = null;
+    var vendingMachineId = null;
+
+    function connect() {
+        vendingMachineId = document.getElementById("vendingMachineId").value;
+        if (!vendingMachineId) {
+            alert("자판기 ID를 입력하세요.");
+            return;
+        }
+
+        var socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function(frame) {
+            console.log('연결됨: ' + frame);
+
+            // 자판기의 전체 주문 목록 구독
+            stompClient.subscribe('/topic/orders/vending-machine/' + vendingMachineId, function(response) {
+                console.log('주문 목록 수신:', response.body);
+                const responseData = JSON.parse(response.body);
+                if (Array.isArray(responseData)) {
+                    responseData.forEach(order => updateOrder(order));
+                } else if (responseData.body) {
+                    updateOrder(responseData.body);
+                }
+            });
+
+            // 연결 후 즉시 주문 목록 조회
+            fetchCurrentOrders();
+        }, function(error) {
+            console.log('오류: ' + error);
+            showMessage('연결 오류: ' + error);
+        });
+    }
+
+    function fetchCurrentOrders() {
+        if (!stompClient || !stompClient.connected) {
+            showMessage("WebSocket 연결이 되어있지 않습니다.");
+            return;
+        }
+
+        // 컨트롤러의 경로와 일치하도록 수정
+        stompClient.send("/app/orders/vending-machine/" + vendingMachineId + "/current", {}, "");
+    }
+
+    // 주기적으로 주문 목록을 갱신하는 기능 추가 (선택사항)
+    function startOrdersFetch() {
+        if (fetchInterval) {
+            clearInterval(fetchInterval);
+        }
+        fetchInterval = setInterval(fetchCurrentOrders, 5000);
+    }
+
+    function stopOrdersFetch() {
+        if (fetchInterval) {
+            clearInterval(fetchInterval);
+            fetchInterval = null;
+        }
+    }
+
+    // 연결 해제 시 정리
+    function disconnect() {
+        if (stompClient !== null) {
+            stopOrdersFetch();
+            stompClient.disconnect();
+            stompClient = null;
+        }
+        showMessage("연결이 해제되었습니다.");
+    }
+
+
+
+    function updateOrder(order) {
+        if (!order) {
+            console.error('주문 데이터가 없습니다.');
+            return;
+        }
+
+        // 주문 상태에 따른 표시 영역 ID 매핑
+        const stateToAreaId = {
+            'PENDING': 'pendingOrders',
+            'STORED': 'storedOrders',
+            'COMPLETED': 'completedOrders',
+            'CANCELED': 'canceledOrders'
+        };
+
+        const targetAreaId = stateToAreaId[order.orderState];
+        if (!targetAreaId) {
+            console.error('알 수 없는 주문 상태:', order.orderState);
+            return;
+        }
+
+        const targetArea = document.getElementById(targetAreaId);
+        if (!targetArea) {
+            console.error('대상 영역을 찾을 수 없습니다:', targetAreaId);
+            return;
+        }
+
+        // 기존 주문이 있으면 제거
+        const existingOrder = document.getElementById(`order-${order.id}`);
+        if (existingOrder) {
+            existingOrder.remove();
+        }
+
+        // 주문 정보 HTML 생성
+        const orderInfo = `
+            <div class="order-item" id="order-${order.id}">
+                <div>주문 ID: ${order.id}</div>
+                <div>주문 상태: ${order.orderState}</div>
+                <div>주문 시간: ${new Date(order.orderAt).toLocaleString()}</div>
+                ${order.completedAt ? `<div>완료 시간: ${new Date(order.completedAt).toLocaleString()}</div>` : ''}
+                <div>주문 상세:</div>
+                <ul>
+                    ${order.orderItems.map(item => `
+                        <li>${item.medicineName || item.productCode}: ${item.quantity}개</li>
+                    `).join('')}
+                </ul>
+            </div>
+        `;
+
+        // 새 주문 정보를 영역 맨 위에 추가
+        targetArea.insertAdjacentHTML('afterbegin', orderInfo);
+    }
+
+    function storeOrder() {
+        const orderId = document.getElementById("storeOrderId").value;
+        const isSuccess = document.getElementById("storeResult").value === "true";
+
+        if (!orderId) {
+            alert("주문 ID를 입력하세요.");
+            return;
+        }
+
+        // 실제 보관된 수량 정보 수집
+        const orderItems = [];
+        if (document.getElementById("productCode1").value) {
+            orderItems.push({
+                productCode: document.getElementById("productCode1").value,
+                quantity: parseInt(document.getElementById("quantity1").value) || 0
+            });
+        }
+        if (document.getElementById("productCode2").value) {
+            orderItems.push({
+                productCode: document.getElementById("productCode2").value,
+                quantity: parseInt(document.getElementById("quantity2").value) || 0
+            });
+        }
+        const storeResult = {
+            id: orderId,
+            orderItems: orderItems,
+            result: isSuccess
+        };
+
+
+        // 보관 결과 전송
+        stompClient.send("/app/order/store/" + orderId, {}, JSON.stringify(storeResult));
+    }
+
+    function completeOrder() {
+        const orderId = document.getElementById("userOrderId").value;
+        if (!orderId) {
+            alert("주문 ID를 입력하세요.");
+            return;
+        }
+        stompClient.send("/app/order/complete/" + orderId, {}, "");
+        showMessage(`수령 완료 요청 전송: ${orderId}`);
+    }
+
+    function cancelOrder() {
+        const orderId = document.getElementById("userOrderId").value;
+        if (!orderId) {
+            alert("주문 ID를 입력하세요.");
+            return;
+        }
+        stompClient.send("/app/order/cancel/" + orderId, {}, "");
+        showMessage(`주문 취소 요청 전송: ${orderId}`);
+    }
+
+
+
+</script>
+</body>
+</html>
