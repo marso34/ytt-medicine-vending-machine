@@ -21,6 +21,9 @@
             android:name=".auth.FindPasswordActivity"
             android:exported="false" />
         <activity
+            android:name=".view.OrderActivity"
+            android:exported="false" />
+        <activity
             android:name=".auth.FindIdActivity"
             android:exported="false" />
         <activity
@@ -32,7 +35,7 @@
 
         </activity>
 
-        <activity android:name=".view.OrderActivity"   android:exported="true" /> <!-- OrderActivity 추가 -->
+        <activity android:name=".view.DetailMedicineActivity"   android:exported="true" /> <!-- OrderActivity 추가 -->
         <activity android:name=".ui.VendingMachineDetailActivity"></activity>
 
     <activity
