@@ -88,10 +88,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 val location = addresses[0]
                 val latLng = LatLng(location.latitude, location.longitude)
 
-                // 마커 위치 설정 및 지도에 추가
-                marker.position = latLng
-                marker.map = naverMap
-
                 // 지도 위치 이동
                 naverMap.moveCamera(com.naver.maps.map.CameraUpdate.scrollTo(latLng))
             } else {
@@ -109,36 +105,17 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         // 마커 초기화
         marker = Marker()
 
-        // 지도 클릭 이벤트 처리
-        naverMap.setOnMapClickListener { _, latLng ->
-            handleMapClick(latLng)
-        }
-    }
-
-    // 지도 클릭 시 처리하는 함수
-    private fun handleMapClick(latLng: LatLng) {
-        // 마커 위치 설정 및 지도에 추가
-        marker.position = latLng
+        // 지정된 좌표에 마커 추가
+        val presetLatLng = LatLng(37.305121, 127.922653) // 강릉원주대 자판기 위치
+        marker.position = presetLatLng
         marker.map = naverMap
+        marker.captionText = "강릉원주대 자판기" // 마커 이름 설정
 
-        // 주소 가져오기
-        getAddressFromLatLng(latLng)
-    }
+        // 마커를 추가한 후 지도 위치 이동
+        naverMap.moveCamera(com.naver.maps.map.CameraUpdate.scrollTo(presetLatLng))
 
-    // 좌표를 주소로 변환하는 함수
-    private fun getAddressFromLatLng(latLng: LatLng) {
-        val geocoder = Geocoder(requireContext(), Locale.getDefault())
-        try {
-            val addresses: List<Address>? =
-                geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-            if (addresses != null && addresses.isNotEmpty()) {
-                val address: Address = addresses[0]
-                val addressText = address.getAddressLine(0) ?: "주소를 찾을 수 없습니다."
-                Log.d("HomeFragment", "주소: $addressText")
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+        // 지도 클릭 이벤트 처리 제거
+        // naverMap.setOnMapClickListener { _, latLng -> handleMapClick(latLng) } // 이 줄은 제거합니다.
     }
 
     // 현재 위치로 이동하는 함수
