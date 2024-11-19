@@ -4,7 +4,7 @@ data class IngredientDTO(
     val id: Long,
     val name: String,
     val efficacy: String,
-    val quantity: Int,
+    val quantity: Float,
     val unit: String,
     val pharmacopeia: String
 )
