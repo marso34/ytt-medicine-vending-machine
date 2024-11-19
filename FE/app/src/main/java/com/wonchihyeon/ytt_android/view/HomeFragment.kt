@@ -25,7 +25,7 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.wonchihyeon.ytt_android.R
 import com.wonchihyeon.ytt_android.databinding.FragmentHomeBinding
-    import java.io.IOException
+import java.io.IOException
 import java.util.Locale
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
@@ -101,26 +101,25 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         naverMap = map
 
         // 마커 초기화
-        marker = Marker()
+        var marker1 = Marker() // 강릉원주대 자판기 마커
+        var marker2 = Marker() // 흥업면사무소 자판기 마커
 
-        // 지정된 좌표에 마커 추가
+        // 첫 번째 마커 위치 설정
         val preset1LatLng = LatLng(37.305121, 127.922653) // 강릉원주대 자판기 위치
-        marker.position = preset1LatLng
-        marker.map = naverMap
-        marker.captionText = "강릉원주대 자판기" // 마커 이름 설정
+        marker1.position = preset1LatLng
+        marker1.map = naverMap
+        marker1.captionText = "강릉원주대 자판기" // 첫 번째 마커 이름 설정
 
-        // 지정된 좌표에 마커 추가
-        val preset2LatLng = LatLng(37.3025817, 127.9211587
-        ) // 흥업면사무소 자판기 위치
-        marker.position = preset2LatLng
-        marker.map = naverMap
-        marker.captionText = "흥업면사무소 자판기" // 마커 이름 설정
+        // 두 번째 마커 위치 설정
+        val preset2LatLng = LatLng(37.3025817, 127.9211587) // 흥업면사무소 자판기 위치
+        marker2.position = preset2LatLng
+        marker2.map = naverMap
+        marker2.captionText = "흥업면사무소 자판기" // 두 번째 마커 이름 설정
 
-        // 마커를 추가한 후 지도 위치 이동
+        // 두 마커를 추가한 후 지도 위치 이동
         naverMap.moveCamera(com.naver.maps.map.CameraUpdate.scrollTo(preset1LatLng))
-        naverMap.moveCamera(com.naver.maps.map.CameraUpdate.scrollTo(preset2LatLng))
-
     }
+
 
     // 현재 위치로 이동하는 함수
     private fun moveToCurrentLocation() {
