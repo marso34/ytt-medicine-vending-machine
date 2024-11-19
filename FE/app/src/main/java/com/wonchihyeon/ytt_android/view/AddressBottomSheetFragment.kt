@@ -33,8 +33,7 @@ class AddressBottomSheetFragment : Fragment(bottom_sheet_address) {
         // 레포지토리 초기화
         val apiService = RetrofitAPI.getRetrofit(requireContext()).create(ApiService::class.java)
         repository = VendingMachineRepository(apiService)
-
-            fetchNearByMachines(latitude = 37.305121, longitude = 127.922653)
+        fetchNearByMachines(latitude = 37.305121, longitude = 127.922653)
 
     }
 
