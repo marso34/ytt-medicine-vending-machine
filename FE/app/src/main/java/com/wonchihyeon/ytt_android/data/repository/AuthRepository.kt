@@ -1,6 +1,7 @@
 package com.wonchihyeon.ytt_android.data.repository
 
 import android.util.Log
+import com.google.gson.Gson
 import com.wonchihyeon.ytt_android.data.model.ResponseDTO
 import com.wonchihyeon.ytt_android.data.model.SignInDTO
 import com.wonchihyeon.ytt_android.data.model.SignUpDTO
@@ -19,10 +20,10 @@ class AuthRepository(private val context: android.content.Context) {
     suspend fun signIn(signInDTO: SignInDTO): Pair<String, Pair<String?, String?>> {
         return suspendCoroutine { continuation ->
             try {
-                apiService.signIn(signInDTO).enqueue(object : Callback<ResponseDTO<String>> {
+                apiService.signIn(signInDTO).enqueue(object : Callback<ResponseDTO> {
                     override fun onResponse(
-                        call: Call<ResponseDTO<String>>,
-                        response: Response<ResponseDTO<String>>,
+                        call: Call<ResponseDTO>,
+                        response: Response<ResponseDTO>,
                     ) {
                         if (response.isSuccessful) {
                             val accessToken = response.headers()["Authorization"]
@@ -34,7 +35,7 @@ class AuthRepository(private val context: android.content.Context) {
                         }
                     }
 
-                    override fun onFailure(call: Call<ResponseDTO<String>>, t: Throwable) {
+                    override fun onFailure(call: Call<ResponseDTO>, t: Throwable) {
                         continuation.resume("로그인 실패: ${t.message}" to (null to null))
                     }
                 })
@@ -47,20 +48,27 @@ class AuthRepository(private val context: android.content.Context) {
     suspend fun signUp(signUpDTO: SignUpDTO): Pair<String, String?> {
         return suspendCoroutine { continuation ->
             try {
-                apiService.signUp(signUpDTO).enqueue(object : Callback<ResponseDTO<String>> {
-                    override fun onResponse(
-                        call: Call<ResponseDTO<String>>,
-                        response: Response<ResponseDTO<String>>,
+                apiService.signUp(signUpDTO)
+                    .enqueue(object : Callback<ResponseDTO> {
+                     override fun onResponse(
+                        call: Call<ResponseDTO>,
+                        response: Response<ResponseDTO>,
                     ) {
                         if (response.isSuccessful) {
                             continuation.resume("회원가입 성공" to response.body()?.toString())
                         } else {
-                            val errorMessage = response.errorBody()?.string() ?: "알 수 없는 오류"
-                            continuation.resume("회원가입 실패: $errorMessage" to null)
+                            val errorMessage = response.errorBody()?.string()
+                            errorMessage?.let {
+                                val gson = Gson()
+                                val errorResponse = gson.fromJson(it, ResponseDTO::class.java)
+                                // 여기에 에러 로그 찍기
+                                Log.d("Errorbody", "${errorResponse.code} ${errorResponse.message}")
+                                continuation.resume("회원가입 실패" to errorResponse?.toString())
+                            }
                         }
                     }
 
-                    override fun onFailure(call: Call<ResponseDTO<String>>, t: Throwable) {
+                    override fun onFailure(call: Call<ResponseDTO>, t: Throwable) {
                         continuation.resume("회원가입 요청 실패: ${t.message}" to null)
                     }
                 })
