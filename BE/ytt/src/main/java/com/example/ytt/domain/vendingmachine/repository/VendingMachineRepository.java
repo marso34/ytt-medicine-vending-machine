@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface VendingMachineRepository extends JpaRepository<VendingMachine, Long> {
+public interface VendingMachineRepository extends JpaRepository<VendingMachine, Long>, VendingMachineRepositoryCustom {
     List<VendingMachine> findByNameContaining(String name);
 
 //    ST_DISTANCE_SPHERE 미지원으로 인해 ST_DISTANCE ST_TRANSFORM(3857, 단위를 1m로)으로 구현

@@ -6,7 +6,7 @@ data class VendingMachineDetailDTO(
     val state: String,
     val address: String,
     val latitude: Double,
-    val longtitude: Double,
+    val longitude: Double,
     val capacity: Int,
     val isFavorite: Boolean,
     val medicines: List<Medicine>,

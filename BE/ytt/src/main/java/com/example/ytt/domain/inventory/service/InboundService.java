@@ -26,7 +26,7 @@ public class InboundService {
     // 약품 입고
     public MedicineDto inboundMedicine(InboundReqDto inboundReqDto) {
         Inventory inventory = inventoryRepository
-                .findByMedicineIdAndVendingMachineId(inboundReqDto.medicineId(), inboundReqDto.machineId())
+                .getInventory(inboundReqDto.medicineId(), inboundReqDto.machineId())
                 .orElseThrow(() -> new InboundException(ExceptionType.UNREGISTERED_INBOUND)); // 등록되지 않은 약의 입고는 불가. 자판기-약 등록과 입고를 분리하기 위함
 
         inventoryRepository.save(inventory.addQuantity(inboundReqDto.quantity())); // 수량 추가

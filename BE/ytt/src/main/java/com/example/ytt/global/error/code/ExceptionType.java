@@ -46,15 +46,18 @@ public enum ExceptionType {
     // 자판기 에러
     NOT_FOUND_VENDING_MACHINE(700, HttpStatus.NOT_FOUND, "자판기 정보가 없습니다."), // 404 Not Found
     NO_CONTENT_VENDING_MACHINE(701, HttpStatus.NO_CONTENT, "자판기 정보가 없습니다."), // 204 No Content
-    ALREADY_EXIST_LOCATION(702, HttpStatus.CONFLICT, "이미 존재하는 위치입니다."), // 409 Conflict, 아직 사용X
+
+    ALREADY_EXIST_LOCATION(710, HttpStatus.CONFLICT, "이미 존재하는 위치입니다."), // 409 Conflict, 아직 사용X
 
     // 약 에러
     NOT_FOUND_MEDICINE(800, HttpStatus.NOT_FOUND, "약 정보가 없습니다."), // 404 Not Found
-    NO_CONTENT_MEDICINE(801, HttpStatus.NO_CONTENT, "약 정보가 없습니다."), // 204 No Content
-    ALREADY_EXIST_MEDICINE(802, HttpStatus.CONFLICT, "이미 등록된 약입니다."), // 409 Conflict
-    NOT_FOUND_MEDICINE_REGISTER(810, HttpStatus.NOT_FOUND, "약 등록 정보가 없습니다."), // 404 Not Found
-    NO_CONTENT_MEDICINE_REGISTER(811, HttpStatus.NO_CONTENT, "약 등록 정보가 없습니다."), // 204 No Content
-    ALREADY_EXIST_MEDICINE_REGISTER(812, HttpStatus.CONFLICT, "이미 등록된 약입니다."), // 409 Conflict
+    NO_CONTENT_MEDICINE(801, HttpStatus.NO_CONTENT, "조건에 맞는 약 정보가 없습니다."), // 204 No Content
+    BAD_REQUEST_MEDICINE_SEARCH(802, HttpStatus.BAD_REQUEST, "약 ID 또는 약품 코드를 입력해주세요"), // 400 Bad Request
+
+    ALREADY_EXIST_MEDICINE(810, HttpStatus.CONFLICT, "이미 등록된 약입니다."), // 409 Conflict
+    NOT_FOUND_MEDICINE_REGISTER(811, HttpStatus.NOT_FOUND, "약 등록 정보가 없습니다."), // 404 Not Found
+    NO_CONTENT_MEDICINE_REGISTER(812, HttpStatus.NO_CONTENT, "약 등록 정보가 없습니다."), // 204 No Content
+    ALREADY_EXIST_MEDICINE_REGISTER(813, HttpStatus.CONFLICT, "이미 등록된 약입니다."), // 409 Conflict
 
     // 약 성분 에러
     NOT_FOUND_INGREDIENT(900, HttpStatus.NOT_FOUND, "약 성분 정보가 없습니다."), // 404 Not Found
@@ -65,6 +68,7 @@ public enum ExceptionType {
     NOT_FOUND_INBOUND_LOG(1000, HttpStatus.NOT_FOUND, "입고 정보가 없습니다."), // 404 Not Found
     NO_CONTENT_INBOUND_LOG(1001, HttpStatus.NO_CONTENT, "입고 정보가 없습니다."), // 204 No Content
     UNREGISTERED_INBOUND(1002, HttpStatus.BAD_REQUEST, "등록되지 않은 약의 입고는 불가합니다."), // 400 Bad Request
+
     NOT_FOUND_INVENOTRY(1010, HttpStatus.NOT_FOUND, "재고 정보가 없습니다."), // 404 Not Found
     NO_CONTENT_INVENOTRY(1011, HttpStatus.NO_CONTENT, "재고 정보가 없습니다."), // 204 No Content
     

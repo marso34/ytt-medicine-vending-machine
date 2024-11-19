@@ -21,7 +21,7 @@ public class InventoryService {
 
     // 자판기의 재고 목록 조회
     public List<MedicineDto> getMedicinesByVendingMachine(Long machineId) {
-        List<Inventory> list = inventoryRepository.findByVendingMachineId(machineId);
+        List<Inventory> list = inventoryRepository.getInventories(machineId);
 
         if (list.isEmpty()) {
             throw new InventoryException(ExceptionType.NO_CONTENT_INVENOTRY);
@@ -32,7 +32,7 @@ public class InventoryService {
 
     // 특정 자판기의 특정 약품 조회
     public MedicineDetailDto getMedicineByInventory(Long machineId, Long medicineId) {
-        Inventory inventory = inventoryRepository.findByMedicineIdAndVendingMachineId(machineId, medicineId).orElseThrow(() -> new InventoryException(ExceptionType.NOT_FOUND_INVENOTRY));
+        Inventory inventory = inventoryRepository.getInventory(machineId, medicineId).orElseThrow(() -> new InventoryException(ExceptionType.NOT_FOUND_INVENOTRY));
 
         return MedicineDetailDto.from(inventory);
     }
