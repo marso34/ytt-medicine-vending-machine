@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class WebSocketTestController {
 
-    @GetMapping("/test")
+    @GetMapping("/websocket-test")
     public String testPage(Model model) {
-        return "test";
+        return "websocket-test";
     }
 }

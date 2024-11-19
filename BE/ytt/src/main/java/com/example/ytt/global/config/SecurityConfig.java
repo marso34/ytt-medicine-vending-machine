@@ -32,7 +32,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final String[] allowedUrls ={"/user/signUp","/user/signIn", "/h2-console/**","/auth/**", "/api-docs/**", "/swagger-ui/**", "/v3/api-docs/**", "/error-docs/**", "/actuator/**", "/ws/**", "/test"};
+    private final String[] allowedUrls ={"/user/signUp","/user/signIn", "/h2-console/**","/auth/**", "/api-docs/**", "/swagger-ui/**", "/v3/api-docs/**", "/error-docs/**", "/actuator/**", "/ws/**", "/websocket-test"};
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
     private final LoginSuccessHandler loginSuccessHandler;
