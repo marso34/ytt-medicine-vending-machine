@@ -12,15 +12,15 @@ public record OrderVendingMachineDto(
         @Schema(description = "UUID") UUID id,
         @Schema(description = "주문 상태")OrderState orderState,
         @Schema(description = "주문 시간") LocalDateTime orderAt,
-        @Schema(description = "주문 상세 목록") List<OrderDetailVendingMachineDto> orderItems
+        @Schema(description = "주문 상세 목록") List<OrderDetailReqDto> orderItems
 ){
-    public static OrderVendingMachineDto of(UUID id, OrderState orderState, LocalDateTime orderAt, List<OrderDetailVendingMachineDto> orderItems) {
+    public static OrderVendingMachineDto of(UUID id, OrderState orderState, LocalDateTime orderAt, List<OrderDetailReqDto> orderItems) {
         return new OrderVendingMachineDto(id, orderState, orderAt, orderItems);
     }
 
     public static OrderVendingMachineDto from(Order order) {
-        List<OrderDetailVendingMachineDto> orderDetailDtos = order.getOrderItems().stream()
-                .map(detail -> new OrderDetailVendingMachineDto(
+        List<OrderDetailReqDto> orderDetailDtos = order.getOrderItems().stream()
+                .map(detail -> new OrderDetailReqDto(
                         detail.getMedicine().getProductCode(),
                         detail.getQuantity()
                 ))
