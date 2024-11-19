@@ -18,7 +18,7 @@ class VendingMachineAdapter(private val items: List<VendingMachineDTO>) : Recycl
 
         fun bind(item: VendingMachineDTO) {
             nameTextView.text = item.name
-            stateTextView.text = item.state
+            stateTextView.text = item.state.toString()
             addressTextView.text = item.address
 
             // 자판기 클릭 시 상세 페이지로 이동
