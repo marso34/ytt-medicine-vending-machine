@@ -63,8 +63,8 @@ interface ApiService {
     // 특정 자판기의 특정 약 조회
     @GET("/vending-machine/{id}/medicine")
     fun getMedicineById(
-        @Path("id") id: String,
-        @Query("medicineId") medicineId: Long
+        @Path("id") id: Int,
+        @Query("medicineId") medicineId: Int
     ): Call<ResponseDTO>
 
     @GET("/medicine/{id}")
