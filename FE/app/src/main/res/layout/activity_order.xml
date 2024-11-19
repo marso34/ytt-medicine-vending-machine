@@ -1,136 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white">
 
-    <ScrollView
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="주문하기"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:paddingBottom="16dp" />
+
+    <ListView
+        android:id="@+id/ordered_items_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/btn_order">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp" />
 
-
-    <LinearLayout
+    <Button
+        android:id="@+id/btn_confirm_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:background="@android:color/white">
-
-        <!-- 약품 이미지 -->
-        <ImageView
-            android:id="@+id/iv_medicine_image"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:contentDescription="약품 이미지"
-            android:layout_marginBottom="16dp" />
-
-        <!-- 약품 이름 -->
-        <TextView
-            android:id="@+id/tv_medicine_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
-
-        <!-- 약품 가격 -->
-        <TextView
-            android:id="@+id/tv_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_marginBottom="4dp" />
-
-        <!-- 재고 조절 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
-
-            <Button
-                android:id="@+id/btn_decrease"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-"
-                android:backgroundTint="@color/purple_500"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:id="@+id/tv_quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="16dp"
-                android:textSize="18sp"
-                android:layout_marginHorizontal="16dp" />
-
-            <Button
-                android:id="@+id/btn_increase"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+"
-                android:backgroundTint="@color/purple_500"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
-        <!-- 약품 제조사 -->
-        <TextView
-            android:id="@+id/tv_manufacturer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="4dp" />
-
-        <!-- 약품 효능 -->
-        <TextView
-            android:id="@+id/tv_efficacy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="4dp" />
-
-        <!-- 사용법 -->
-        <TextView
-            android:id="@+id/tv_usage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="4dp" />
-
-        <!-- 주의사항 -->
-        <TextView
-            android:id="@+id/tv_precautions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="4dp" />
-
-        <!-- 유효기간 -->
-        <TextView
-            android:id="@+id/tv_validity_period"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
-
-    </LinearLayout>
-</ScrollView>
-
-    <!-- 주문 버튼 -->
-<Button
-android:id="@+id/btn_order"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:text="담기"
-android:textColor="@android:color/white"
-android:backgroundTint="@color/purple_500"
-android:padding="12dp"
-android:layout_alignParentBottom="true" />
-    </RelativeLayout>
+        android:text="주문하기"
+    android:textColor="@android:color/white"
+    android:padding="16dp"
+    android:layout_marginTop="16dp" />
+</LinearLayout>
