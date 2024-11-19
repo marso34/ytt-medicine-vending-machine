@@ -5,48 +5,14 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-        <ImageView
-            android:id="@+id/iv_medicine_image"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp" />
 
-        <TextView
-            android:id="@+id/tv_medicine_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:paddingTop="8dp" />
-
-        <TextView
-            android:id="@+id/tv_manufacturer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="4dp" />
-
-        <TextView
-            android:id="@+id/tv_efficacy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="4dp" />
-
-        <TextView
-            android:id="@+id/tv_usage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="4dp" />
-
-        <TextView
-            android:id="@+id/tv_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tv_stock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="4dp" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:text="주문하기"></Button>
 </LinearLayout>
