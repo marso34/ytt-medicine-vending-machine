@@ -2,16 +2,17 @@ package com.wonchihyeon.ytt_android.fragments
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.internal.LinkedTreeMap
+import com.google.gson.reflect.TypeToken
 import com.wonchihyeon.ytt_android.R
 import com.wonchihyeon.ytt_android.R.layout.bottom_sheet_address
+import com.wonchihyeon.ytt_android.data.model.ResponseDTO
+import com.wonchihyeon.ytt_android.data.model.VendingMachineDTO
 import com.wonchihyeon.ytt_android.data.network.ApiService
 import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
 import com.wonchihyeon.ytt_android.data.repository.VendingMachineRepository
@@ -22,8 +23,6 @@ class AddressBottomSheetFragment : Fragment(bottom_sheet_address) {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: VendingMachineAdapter
     private lateinit var repository: VendingMachineRepository
-    private lateinit var binding: AddressBottomSheetFragment
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,33 +34,43 @@ class AddressBottomSheetFragment : Fragment(bottom_sheet_address) {
         val apiService = RetrofitAPI.getRetrofit(requireContext()).create(ApiService::class.java)
         repository = VendingMachineRepository(apiService)
 
-        view.findViewById<TextView>(R.id.pull).setOnClickListener {
-            fetchVendingMachines()
-        }
+            fetchNearByMachines(latitude = 37.305121, longitude = 127.922653)
+
     }
 
-    private fun fetchVendingMachines() {
-        Log.d("AddressBottomSheetFragment", "Fetching vending machines...")
-        repository.getAllVendingMachines { vendingMachineResponse ->
+    private fun fetchNearByMachines(latitude: Double, longitude: Double) {
+        Log.d("AddressBottomSheetFragment", "Fetching nearby vending machines...")
+        repository.getNearByMachine(latitude, longitude) { vendingMachineResponse ->
             if (vendingMachineResponse != null) {
                 Log.d("AddressBottomSheetFragment", "Response Body: $vendingMachineResponse")
 
-                /*// Adapter에 데이터를 설정
-                adapter = VendingMachineAdapter(vendingMachineResponse.body)
-                recyclerView.adapter = adapter*/
+                if (vendingMachineResponse.code == "200") {
 
-                // 각 자판기 정보 로그 출력
-                vendingMachineResponse.body?.forEach { machine ->
-                    Log.d("AddressBottomSheetFragment", "Vending Machine:")
-                    Log.d("AddressBottomSheetFragment", "  ID: ${machine.id}")
-                    Log.d("AddressBottomSheetFragment", "  Name: ${machine.name}")
-                    Log.d("AddressBottomSheetFragment", "  State: ${machine.state}")
-                    Log.d("AddressBottomSheetFragment", "  Address: ${machine.address}")
-                    Log.d("AddressBottomSheetFragment", "  Latitude: ${machine.latitude}")
-                    Log.d("AddressBottomSheetFragment", "  Longitude: ${machine.longitude}")
+                    val List = vendingMachineResponse.body as List<LinkedTreeMap<String, Any>>
+
+                    val gson = Gson()
+                    val json = gson.toJson(List)
+                    val listType = object : TypeToken<List<VendingMachineDTO>>() {}.type
+                    val ResponseList: List<VendingMachineDTO> = gson.fromJson(json, listType)
+                    ResponseList.forEach {
+                        Log.d("list",it.toString())
+                    }
+                    //호출받으면 ui 할당
+                    // Adapter에 데이터를 설정
+                    adapter =
+                        VendingMachineAdapter(ResponseList)
+                    recyclerView.adapter = adapter
+                } else {
+                    // 200이 아니면 error 코드
+                    Log.e(
+                        "error",
+                        "${vendingMachineResponse.code}, ${vendingMachineResponse.message}"
+                    )
                 }
+
+
             } else {
-                Log.d("AddressBottomSheetFragment", "Failed to fetch vending machines.")
+                Log.d("AddressBottomSheetFragment", "Failed to fetch nearby vending machines.")
             }
         }
     }

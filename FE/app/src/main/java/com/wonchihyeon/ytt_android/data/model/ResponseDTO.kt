@@ -1,7 +1,7 @@
 package com.wonchihyeon.ytt_android.data.model
 
-data class ResponseDTO<T> (
-    val code: String,
+data class ResponseDTO (
+    var code: String,
     val message: String,
-    val body: T?
+    val body: Any
 )
