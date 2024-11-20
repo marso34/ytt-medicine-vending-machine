@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
+public interface FavoriteRepository extends JpaRepository<Favorite, Long>, FavoriteRepositoryCustom {
 
     boolean existsByUserIdAndVendingMachineId(Long userId, Long vendingMachineId);
 
