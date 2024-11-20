@@ -27,8 +27,8 @@ public class Favorite {
 
     @Builder
     public Favorite(User user, VendingMachine vendingMachine) {
-        Assert.notNull(user, "user must not be null");
-        Assert.notNull(vendingMachine, "vendingMachine must not be null");
+        Assert.notNull(user, "유저는 필수입니다.");
+        Assert.notNull(vendingMachine, "자판기는 필수입니다.");
 
         this.user = user;
         this.vendingMachine = vendingMachine;
