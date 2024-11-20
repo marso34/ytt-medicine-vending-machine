@@ -1,6 +1,7 @@
 package com.example.ytt.global.common.annotation;
 
 
+import com.example.ytt.global.common.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
@@ -19,5 +20,6 @@ import java.lang.annotation.Target;
 public @interface SwaggerApi {
     String summary() default "Default Summary";
     String description() default "Default Description";
-    Class<?> implementation();
+    String responseCode() default "200";
+    Class<?> implementation() default ResponseDto.class;
 }
