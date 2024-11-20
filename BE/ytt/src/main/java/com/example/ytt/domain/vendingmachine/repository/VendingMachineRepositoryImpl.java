@@ -14,8 +14,6 @@ import java.util.Optional;
 
 import static com.example.ytt.domain.inventory.domain.QInventory.inventory;
 import static com.example.ytt.domain.medicine.domain.QMedicine.medicine;
-import static com.example.ytt.domain.user.domain.QUser.user;
-import static com.example.ytt.domain.vendingmachine.domain.QFavorite.favorite;
 import static com.example.ytt.domain.vendingmachine.domain.QVendingMachine.vendingMachine;
 
 @Repository
@@ -48,16 +46,6 @@ public class VendingMachineRepositoryImpl implements VendingMachineRepositoryCus
                 .fetch();
     }
 
-    // 즐겨찾기는 즐겨찾기 생성 후 테스트
-    @Override
-    public List<VendingMachine> getFavoriteVendingMachines(Long userId) {
-        return jpaQueryFactory
-                .selectFrom(vendingMachine)
-                .join(favorite).on(vendingMachine.id.eq(favorite.vendingMachine.id))
-                .join(favorite.user, user)
-                .where(favorite.user.id.eq(userId))
-                .fetch();
-    }
 
     @Override
     public Optional<VendingMachine> getVendingMachineDetail(Long vendingMachineId) {
