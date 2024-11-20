@@ -22,7 +22,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
@@ -30,7 +32,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final String[] allowedUrls ={"/user/signUp","/user/signIn", "/h2-console/**","/auth/**", "/api-docs/**", "/swagger-ui/**", "/v3/api-docs/**", "/error-docs/**", "/actuator/**"};
+    private final String[] allowedUrls ={"/user/signUp","/user/signIn", "/h2-console/**","/auth/**", "/api-docs/**", "/swagger-ui/**", "/v3/api-docs/**", "/error-docs/**", "/actuator/**", "/ws/**", "/websocket-vm-test","/websocket-user-test"};
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
     private final LoginSuccessHandler loginSuccessHandler;
@@ -65,29 +67,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         // CORS 설정
-        http
-                .cors((cors) -> cors
-                        .configurationSource(new CorsConfigurationSource() {
-                            @Override
-                            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-
-                                CorsConfiguration configuration = new CorsConfiguration();
-
-                                configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-                                configuration.setAllowedMethods(Collections.singletonList("*"));
-                                configuration.setAllowCredentials(true);
-                                configuration.setAllowedHeaders(Collections.singletonList("*"));
-                                configuration.setMaxAge(3600L);
-
-                                configuration.setExposedHeaders(Collections.singletonList("Authorization"));
-
-                                return configuration;
-                            }
-                        })
-                );
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
         // 개발시 h2 사용위한 설정 차후 제거
         http
-                .csrf((csrf) -> csrf.ignoringRequestMatchers("/h2-console/**"))  // H2 콘솔에 대한 CSRF 비활성화
+                .csrf((csrf) -> csrf.ignoringRequestMatchers("/h2-console/**", "/ws/**"))  // H2 콘솔에 대한 CSRF 비활성화
                 .headers((headers) -> headers.frameOptions((frame) -> frame.sameOrigin()));  // 동일 출처에서 프레임 허용
 
         http
@@ -115,4 +98,20 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // 모든 경로에 대해 CORS 설정
+        return source;
+    }
+
 }

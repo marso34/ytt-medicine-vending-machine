@@ -13,14 +13,14 @@ public record OrderDto(
         @Schema(description = "주문자 ID") Long userId,
         @Schema(description = "주문자 이름") String userName,
         @Schema(description = "자판기 ID")String vendingMachineName,
-        @Schema(description = "주문 상태") String orderState, //
+        @Schema(description = "주문 상태") OrderState orderState,
         @Schema(description = "주문 시간") LocalDateTime orderAt,
         @Schema(description = "총 가격") int totalPrice,
         @Schema(description = "주문 상세 목록") List<OrderDetailDto> orderItems
 ) {
     public static OrderDto of(UUID id, Long userId, String userName, String vendingMachineName, OrderState orderState,
                               LocalDateTime orderAt, int totalPrice, List<OrderDetailDto> orderItems) {
-        return new OrderDto(id, userId, userName, vendingMachineName, orderState.getMessage(), orderAt, totalPrice, orderItems);
+        return new OrderDto(id, userId, userName, vendingMachineName, orderState, orderAt, totalPrice, orderItems);
     }
 
     public static OrderDto from(Order order) {
@@ -29,7 +29,7 @@ public record OrderDto(
                 order.getUser().getId(),
                 order.getUser().getName(),
                 order.getVendingMachine().getName(),
-                order.getOrderState().getMessage(),
+                order.getOrderState(),
                 order.getOrderAt(),
                 order.getTotalPrice(),
                 order.getOrderItems().stream()

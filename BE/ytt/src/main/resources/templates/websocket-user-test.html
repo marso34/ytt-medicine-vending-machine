@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>유저 주문 테스트</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style>
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #orderItems {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f5f5f5;
+        }
+
+        #orderItems div {
+            margin: 5px 0;
+        }
+
+        .message-area {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .message {
+            padding: 5px;
+            margin: 2px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+    </style>
+</head>
+<body>
+<h1>유저 주문 테스트</h1>
+
+<div class="test-section">
+    <h2>주문 생성</h2>
+    <div>
+        <label for="userId">유저 ID:</label>
+        <input type="text" id="userId" placeholder="유저 ID 입력" />
+    </div>
+    <div>
+        <label for="orderVendingMachineId">자판기 ID:</label>
+        <input type="text" id="orderVendingMachineId" placeholder="자판기 ID 입력" />
+    </div>
+    <div id="orderItems">
+        <h3>주문 상품</h3>
+        <div>
+            <label>상품 코드:</label>
+            <input type="text" class="product-code" value="199303108" />
+            <label>수량:</label>
+            <input type="number" class="quantity" value="1" min="1" />
+        </div>
+        <div>
+            <label>상품 코드:</label>
+            <input type="text" class="product-code" value="199400202" />
+            <label>수량:</label>
+            <input type="number" class="quantity" value="1" min="1" />
+        </div>
+    </div>
+    <button onclick="createOrder()">주문 생성</button>
+</div>
+
+<div class="test-section">
+    <h2>주문 관리</h2>
+    <div>
+        <label for="manageOrderId">주문 ID:</label>
+        <input type="text" id="manageOrderId" placeholder="주문 ID 입력" />
+        <button onclick="completeOrder()">수령 완료</button>
+        <button onclick="cancelOrder()">주문 취소</button>
+    </div>
+</div>
+
+<div class="test-section">
+    <h2>활성 구독 목록</h2>
+    <div id="activeSubscriptions"></div>
+</div>
+
+<div id="messages" class="message-area">
+    <h2>메시지 로그</h2>
+</div>
+
+<script>
+    let stompClient = null;
+    let userOrderSubscriptions = new Map();
+
+    function connect(callback) {
+        if (stompClient && stompClient.connected) {
+            console.log('Already connected');
+            if (callback) callback();
+            return;
+        }
+
+        const socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.debug = function(str) {
+            console.log(str);
+        };
+        stompClient.connect({}, function(frame) {
+            console.log('Connected: ' + frame);
+            showMessage('웹소켓 연결 성공', 'success');
+            updateSubscriptionsList();
+            if (callback) callback();
+        }, function(error) {
+            console.error('STOMP error:', error);
+            showMessage('웹소켓 연결 실패: ' + error, 'error');
+        });
+    }
+
+    function disconnect() {
+        if (stompClient !== null) {
+            userOrderSubscriptions.forEach((subscription, orderId) => {
+                subscription.unsubscribe();
+            });
+            userOrderSubscriptions.clear();
+            stompClient.disconnect();
+            stompClient = null;
+            showMessage('웹소켓 연결 해제', 'info');
+            updateSubscriptionsList();
+        }
+    }
+
+    function subscribeToOrder(orderId) {
+        if (!stompClient) {
+            showMessage('웹소켓이 연결되어 있지 않습니다.', 'error');
+            return;
+        }
+
+        console.log(`Subscribing to /topic/orders/store/${orderId}`);
+        const subscription = stompClient.subscribe(`/topic/orders/store/${orderId}`, function(response) {
+            console.log('Received message:', response);
+            const responseData = JSON.parse(response.body);
+            showMessage(`주문 ${orderId} 상태 변경: ${JSON.stringify(responseData)}`, 'info');
+        });
+
+        userOrderSubscriptions.set(orderId, subscription);
+        showMessage(`주문 ${orderId} 구독 시작`, 'success');
+        updateSubscriptionsList();
+    }
+
+
+
+    function createOrder() {
+        const userId = document.getElementById("userId").value;
+        const vendingMachineId = document.getElementById("orderVendingMachineId").value;
+
+        if (!userId || !vendingMachineId) {
+            showMessage("유저 ID와 자판기 ID를 입력하세요.", 'error');
+            return;
+        }
+
+        const orderItems = Array.from(document.querySelectorAll('#orderItems > div')).map(div => ({
+            productCode: div.querySelector('.product-code').value,
+            quantity: parseInt(div.querySelector('.quantity').value)
+        })).filter(item => item.productCode && item.quantity > 0);
+
+        const orderRequest = {
+            userId: parseInt(userId),
+            vendingMachineId: parseInt(vendingMachineId),
+            orderItems: orderItems
+        };
+
+        // 주문 생성 요청 전송
+        fetch('/orders/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderRequest)
+        })
+        .then(response => response.json())
+        .then(data => {
+            showMessage(`주문 생성 성공: ${JSON.stringify(data)}`, 'success');
+            if (data.body && data.body.id) {
+                connect(() => subscribeToOrder(data.body.id));
+                document.getElementById("manageOrderId").value = data.body.id; // 주문 ID 자동 입력
+            }
+        })
+        .catch(error => {
+            showMessage(`주문 생성 실패: ${error.message}`, 'error');
+        });
+    }
+
+
+
+    function completeOrder() {
+        const orderId = document.getElementById("manageOrderId").value;
+        if (!orderId) {
+            showMessage("주문 ID를 입력하세요.", 'error');
+            return;
+        }
+        stompClient.send("/app/order/complete/" + orderId, {}, "");
+        showMessage(`수령 완료 요청: ${orderId}`, 'info');
+    }
+
+    function cancelOrder() {
+        const orderId = document.getElementById("manageOrderId").value;
+        if (!orderId) {
+            showMessage("주문 ID를 입력하세요.", 'error');
+            return;
+        }
+        stompClient.send("/app/order/cancel/" + orderId, {}, "");
+        showMessage(`주문 취소 요청: ${orderId}`, 'info');
+    }
+
+    function updateSubscriptionsList() {
+        const subscriptionsList = document.getElementById('activeSubscriptions');
+        subscriptionsList.innerHTML = '';
+        if (userOrderSubscriptions.size === 0) {
+            subscriptionsList.innerHTML = '<p>활성 구독 없음</p>';
+        } else {
+            const ul = document.createElement('ul');
+            userOrderSubscriptions.forEach((sub, orderId) => {
+                const li = document.createElement('li');
+                li.textContent = `주문 ID: ${orderId}`;
+                ul.appendChild(li);
+            });
+            subscriptionsList.appendChild(ul);
+        }
+    }
+
+    function unsubscribeFromOrder(orderId) {
+        const subscription = userOrderSubscriptions.get(orderId);
+        if (subscription) {
+            subscription.unsubscribe();
+            userOrderSubscriptions.delete(orderId);
+            showMessage(`주문 ${orderId} 구독 해제`, 'info');
+            updateSubscriptionsList();
+        }
+    }
+
+    function handleOrderUpdate(response) {
+        const responseData = JSON.parse(response.body);
+        showMessage(`주문 ${responseData.id} 상태 변경: ${JSON.stringify(responseData)}`, 'info');
+
+        if (responseData.orderState === 'COMPLETED' || responseData.orderState === 'CANCELED') {
+            unsubscribeFromOrder(responseData.id);
+        }
+    }
+
+    function showMessage(message, type = 'info') {
+        const messageArea = document.getElementById('messages');
+        const timestamp = new Date().toLocaleTimeString();
+        const messageHtml = `<div class="message ${type}">[${timestamp}] ${message}</div>`;
+        messageArea.insertAdjacentHTML('afterbegin', messageHtml);
+    }
+</script>
+</body>
+</html>
