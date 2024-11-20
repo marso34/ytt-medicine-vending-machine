@@ -53,7 +53,7 @@ public class VendingMachineManageService {
 
     // 자판기에 약 등록
     public VendingMachineDetailDto addMedicineToVendingMachine(Long machineId, InboundReqDto reqDto, Long userId) {
-        VendingMachine vendingMachine = vendingMachineRepository.findById(machineId).orElseThrow(() -> new VendingMachineException(ExceptionType.NOT_FOUND_VENDING_MACHINE));
+        VendingMachine vendingMachine = vendingMachineRepository.getVendingMachineDetail(machineId).orElseThrow(() -> new VendingMachineException(ExceptionType.NOT_FOUND_VENDING_MACHINE));
         Medicine medicine = medicineRepository.findById(reqDto.medicineId()).orElseThrow(() -> new MedicineException(ExceptionType.NOT_FOUND_MEDICINE));
         Inventory inventory = inventoryService.save(vendingMachine, medicine, reqDto.quantity());
 
