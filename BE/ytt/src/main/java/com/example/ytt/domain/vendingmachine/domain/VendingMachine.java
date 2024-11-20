@@ -63,27 +63,33 @@ public class VendingMachine extends BaseEntity {
                 .build();
     }
 
-    public void updateName(final String name) {
+    public VendingMachine updateName(final String name) {
         this.name = name;
+        return this;
     }
 
-    public void updateAddress(final Address address) {
+    public VendingMachine updateAddress(final Address address) {
         this.address = address;
+        return this;
     }
 
-    public void updateState(final MachineState state) {
+    public VendingMachine updateState(final MachineState state) {
         this.state = state;
+        return this;
     }
 
-    public void updateCapacity(final int capacity) {
+    public VendingMachine updateCapacity(final int capacity) {
         this.capacity = capacity;
+        return this;
     }
 
-    public void addInventory(Inventory inventory) {
+    public VendingMachine addInventory(Inventory inventory) {
         this.inventories.add(inventory);
+        return this;
     }
 
-    public void removeInventory(Inventory inventory) {
+    public VendingMachine removeInventory(Inventory inventory) {
         this.inventories.remove(inventory);
+        return this;
     }
 }
