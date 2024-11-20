@@ -1,5 +1,6 @@
 package com.example.ytt.domain.vendingmachine.service;
 
+import com.example.ytt.domain.favorite.service.FavoriteService;
 import com.example.ytt.domain.inventory.domain.Inventory;
 import com.example.ytt.domain.inventory.repository.InventoryRepository;
 import com.example.ytt.domain.medicine.exception.MedicineException;

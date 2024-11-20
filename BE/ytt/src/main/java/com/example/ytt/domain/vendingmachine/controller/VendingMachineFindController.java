@@ -6,7 +6,7 @@ import com.example.ytt.domain.medicine.dto.MedicineDto;
 import com.example.ytt.domain.user.auth.security.CustomUserDetails;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDetailDto;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDto;
-import com.example.ytt.domain.vendingmachine.service.FavoriteService;
+import com.example.ytt.domain.favorite.service.FavoriteService;
 import com.example.ytt.domain.vendingmachine.service.VendingMachineFindService;
 import com.example.ytt.global.common.annotation.SwaggerApi;
 import com.example.ytt.global.common.response.ResponseDto;
@@ -84,12 +84,6 @@ public class VendingMachineFindController {
             @RequestParam(value = "medicine_id", required = true)                        Long medicineId
     ) {
         return ResponseUtil.success(vendingMachineFindService.getVendingMachinesByMedicine(latitude, longitude, distance, medicineId));
-    }
-
-    @GetMapping("/favorites")
-    @SwaggerApi(summary = "즐겨찾기 자판기 조회", description = "즐겨찾기한 자판기 리스트 조회")
-    public ResponseEntity<ResponseDto<List<VendingMachineDto>>> getFavoriteVendingMachines(@AuthenticationPrincipal CustomUserDetails user) {
-        return ResponseUtil.success(favoriteService.getFavorites(user.getId()));
     }
 
     /* -- 자판기 상세 조회 -- */

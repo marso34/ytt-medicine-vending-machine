@@ -6,7 +6,7 @@ import com.example.ytt.domain.user.dto.Role;
 import com.example.ytt.domain.vendingmachine.domain.MachineState;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDetailDto;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineReqDto;
-import com.example.ytt.domain.vendingmachine.service.FavoriteService;
+import com.example.ytt.domain.favorite.service.FavoriteService;
 import com.example.ytt.domain.vendingmachine.service.VendingMachineManageService;
 import com.example.ytt.global.common.annotation.SwaggerApi;
 import com.example.ytt.global.common.response.ResponseDto;
@@ -76,18 +76,5 @@ public class VendingMachineManageController {
     // TODO: 자판기 약 삭제
 //    @DeleteMapping("/{machineId}/medicine/{medicineId}")
 
-    @PostMapping("/favorites/{machineId}")
-    @SwaggerApi(summary = "즐겨찾기 추가", description = "자판기를 즐겨찾기에 추가하는 API")
-    public ResponseEntity<ResponseDto<Boolean>> addFavorite(@PathVariable(value = "machineId") Long productId, @AuthenticationPrincipal CustomUserDetails user) {
-        favoriteService.addFavorite(user.getId(), productId);
-        return ResponseUtil.success(null);
-    }
-
-    @DeleteMapping("/favorites/{machineId}")
-    @SwaggerApi(summary = "즐겨찾기 삭제", description = "자판기를 즐겨찾기에서 삭제하는 API")
-    public ResponseEntity<ResponseDto<Boolean>> removeFavorite(@PathVariable(value = "machineId") Long productId, @AuthenticationPrincipal CustomUserDetails user) {
-        boolean isRemoved = favoriteService.removeFavorite(user.getId(), productId);
-        return ResponseUtil.success(isRemoved);
-    }
 
 }

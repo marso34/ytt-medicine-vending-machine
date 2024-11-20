@@ -3,6 +3,7 @@ package com.example.ytt.domain.vendingmachine.service;
 import com.example.ytt.domain.inventory.domain.Inventory;
 import com.example.ytt.domain.inventory.dto.InboundReqDto;
 import com.example.ytt.domain.inventory.service.InventoryService;
+import com.example.ytt.domain.management.service.ManagementService;
 import com.example.ytt.domain.medicine.domain.Medicine;
 import com.example.ytt.domain.medicine.exception.MedicineException;
 import com.example.ytt.domain.medicine.repository.MedicineRepository;
@@ -30,11 +31,14 @@ public class VendingMachineManageService {
     private final MedicineRepository medicineRepository;
 
     private final InventoryService inventoryService;
+    private final ManagementService managementService;
 
     // 자판기 생성
     public VendingMachineDetailDto createVendingMachine(VendingMachineReqDto reqDto, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserException(ExceptionType.NOT_FOUND_USER));
         VendingMachine saved = vendingMachineRepository.save(VendingMachine.from(reqDto));
+
+        managementService.addManager(user, saved);
 
         return VendingMachineDetailDto.from(saved);
     }

@@ -1,6 +1,7 @@
-package com.example.ytt.domain.vendingmachine.domain;
+package com.example.ytt.domain.favorite.domain;
 
 import com.example.ytt.domain.user.domain.User;
+import com.example.ytt.domain.vendingmachine.domain.VendingMachine;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.util.Assert;
