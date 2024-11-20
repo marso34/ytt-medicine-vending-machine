@@ -8,7 +8,6 @@ import com.example.ytt.domain.vendingmachine.domain.VendingMachine;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDetailDto;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDto;
 import com.example.ytt.domain.vendingmachine.exception.VendingMachineException;
-import com.example.ytt.domain.vendingmachine.repository.FavoriteRepository;
 import com.example.ytt.domain.vendingmachine.repository.VendingMachineRepository;
 import com.example.ytt.global.error.code.ExceptionType;
 import com.example.ytt.global.util.GeometryUtil;
@@ -25,8 +24,9 @@ import java.util.List;
 public class VendingMachineFindService {
 
     private final VendingMachineRepository vendingMachineRepository;
+
+    private final FavoriteService favoriteService;
     private final InventoryRepository inventoryRepository;
-    private final FavoriteRepository favoriteRepository;
     private final MedicineRepository medicineRepository;
 
     public List<VendingMachineDto> getAllVendingMachines() {
@@ -109,26 +109,15 @@ public class VendingMachineFindService {
         return list.stream().map(VendingMachineDto::from).toList();
     }
 
-    public List<VendingMachineDto> getFavoriteVendingMachines(Long userId) {
-        List<VendingMachine> list = vendingMachineRepository.getFavoriteVendingMachines(userId);
-
-        if (list.isEmpty()) {
-            throw new VendingMachineException(ExceptionType.NO_CONTENT_VENDING_MACHINE);
-        }
-
-        return list.stream().map(VendingMachineDto::from).toList();
-    }
-
     public VendingMachineDetailDto getVendingMachineDetail(Long machineId, Long userId) {
         VendingMachine vendingMachine = vendingMachineRepository.getVendingMachineDetail(machineId).orElseThrow(() -> new VendingMachineException(ExceptionType.NOT_FOUND_VENDING_MACHINE));
 
         return convertToVendingMachineDetailDto(vendingMachine, userId);
     }
 
-
     // 즐겨찾기 여부를 포함한 자판기 상세 정보로 변환
     private VendingMachineDetailDto convertToVendingMachineDetailDto(VendingMachine vendingMachine, Long userId) {
-        boolean isFavorite = favoriteRepository.existsByUserIdAndVendingMachineId(userId, vendingMachine.getId());
+        boolean isFavorite = favoriteService.isFavorite(userId, vendingMachine.getId());
 
         return VendingMachineDetailDto.of(vendingMachine, isFavorite);
     }
