@@ -14,7 +14,7 @@ import org.springframework.util.Assert;
 @ToString
 public class Management extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "management_id", nullable = false)
     private Long id;
 
