@@ -51,7 +51,7 @@ public class InboundController {
             @RequestParam(value = "productCode", required = false) String productCode,
             @RequestParam(value = "startDate", required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")       LocalDateTime startDate,
-            @RequestParam(value = "startDate", required = false)
+            @RequestParam(value = "endDate", required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")       LocalDateTime endDate,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
