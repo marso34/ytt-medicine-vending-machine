@@ -22,7 +22,7 @@ public class FavoriteController {
 
     /* 조회 */
 
-    @GetMapping("/favorites")
+    @GetMapping
     @SwaggerApi(summary = "즐겨찾기 자판기 조회", description = "즐겨찾기한 자판기 리스트 조회")
     public ResponseEntity<ResponseDto<List<VendingMachineDto>>> getFavoriteVendingMachines(@AuthenticationPrincipal CustomUserDetails user) {
         return ResponseUtil.success(favoriteService.getFavorites(user.getId()));
