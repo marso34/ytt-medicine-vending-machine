@@ -2,8 +2,6 @@ package com.example.ytt.domain.vendingmachine.repository;
 
 import com.example.ytt.domain.vendingmachine.domain.VendingMachine;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
@@ -71,12 +69,7 @@ public class VendingMachineRepositoryImpl implements VendingMachineRepositoryCus
             return null;
         }
 
-        // 공간 거리 표현식 정의
-        NumberTemplate<Double> distanceExpression = Expressions.numberTemplate(Double.class,
-                "ST_DISTANCE(ST_TRANSFORM({0}, 3857), ST_TRANSFORM({1}, 3857))",
-                vendingMachine.address.location, location);
-
-        return distanceExpression.loe(distance);
+        return vendingMachine.address.location.buffer(distance).intersects(location);
     }
 
     // 특정 약을 포함하는 자판기 리스트 필터
