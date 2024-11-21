@@ -8,7 +8,9 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -23,6 +25,8 @@ import com.wonchihyeon.ytt_android.data.network.ApiService
 import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
 import com.wonchihyeon.ytt_android.data.repository.VendingMachineRepository
 import com.wonchihyeon.ytt_android.ui.adapter.MedicineAdapter
+import com.wonchihyeon.ytt_android.viewmodel.SignUpViewModel
+import com.wonchihyeon.ytt_android.viewmodel.VendingMachineViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,13 +40,15 @@ class VendingMachineDetailActivity : AppCompatActivity() {
     private lateinit var orderedItemsAdapter: ArrayAdapter<String>
     private val orderedItems = mutableListOf<String>()
 
+    private val viewModel by viewModels<VendingMachineViewModel>()
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vending_machine_detail)
 
         // 레포지토리 및 API 서비스 초기화
-  r      val apiService = RetrofitAPI.getRetrofit(this).create(ApiService::class.java)
+        val apiService = RetrofitAPI.getRetrofit(this).create(ApiService::class.java)
         repository = VendingMachineRepository(apiService)
 
         // Intent로부터 자판기 ID, 이름, 주소 받아오기
@@ -55,7 +61,7 @@ class VendingMachineDetailActivity : AppCompatActivity() {
 
         // RecyclerView 초기화
         recyclerView = findViewById(R.id.recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+       recyclerView.layoutManager = LinearLayoutManager(this)
 
         orderedItemsListView = findViewById(R.id.ordered_items_list_view)
         orderedItemsAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, orderedItems)
@@ -70,7 +76,20 @@ class VendingMachineDetailActivity : AppCompatActivity() {
         }
 
         // 상세 약 정보 불러오기
-        fetchMedicineDetails(vendingMachineId)
+        viewModel.fetchMedicineDetails(vendingMachineId)
+
+        viewModel.vendingMachine.observe(this, Observer{
+            Log.d("a", viewModel.vendingMachine.value!!.address)
+
+            adapter = MedicineAdapter(
+                viewModel.vendingMachine.value!!.medicines,
+                this@VendingMachineDetailActivity,
+                viewModel.vendingMachine.value!!.id.toString(),
+                viewModel.getVendingMachineName(),
+                viewModel.getVendingMachineAddress(),
+            )
+            recyclerView.adapter = adapter
+        })
 
         // 주문 버튼 설정
         setupOrderButton()
@@ -99,37 +118,5 @@ class VendingMachineDetailActivity : AppCompatActivity() {
                 orderedItems.add("${item.name} - 수량: ${item.stock}, 총 가격: $totalPrice 원")
             }
         }
-    }
-
-    private fun fetchMedicineDetails(vendingMachineId: String) {
-        Log.d("VendingMachineDetail", "Fetching details for vendingMachineId: $vendingMachineId")
-        repository.getVendingMachineById(vendingMachineId).enqueue(object : Callback<ResponseDTO> {
-            override fun onResponse(call: Call<ResponseDTO>, response: Response<ResponseDTO>) {
-                Log.d("VendingMachineDetail", "Response code: ${response.code()}")
-                if (response.isSuccessful && response.body() != null) {
-                    if (response.body()!!.code == "200") {
-                        val body = response.body()!!.body as LinkedTreeMap<String, Any>
-                        val gson = Gson()
-                        val json = gson.toJson(body)
-                        val vendingMachine = gson.fromJson(json, VendingMachineDetailDTO::class.java)
-
-                        adapter = MedicineAdapter(
-                            vendingMachine.medicines,
-                            this@VendingMachineDetailActivity,
-                            vendingMachineId,
-                            vendingMachine.name,
-                            vendingMachine.address
-                        )
-                        recyclerView.adapter = adapter
-                    } else {
-                        Log.d("error", response.body()!!.message)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseDTO>, t: Throwable) {
-                Log.d("error", "Error: ${t.message}")
-            }
-        })
     }
 }
