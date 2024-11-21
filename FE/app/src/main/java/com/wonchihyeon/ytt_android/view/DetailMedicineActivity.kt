@@ -26,6 +26,7 @@ import retrofit2.Response
 class DetailMedicineActivity : AppCompatActivity() {
 
     private lateinit var medicineNameTextView: TextView
+    private lateinit var medicineStockTextView: TextView
     private lateinit var priceTextView: TextView
     private lateinit var medicineImageView: ImageView
     private lateinit var orderButton: Button
@@ -54,6 +55,7 @@ class DetailMedicineActivity : AppCompatActivity() {
         quantityTextView = findViewById(R.id.tv_quantity)
         btnIncrease = findViewById(R.id.btn_increase)
         btnDecrease = findViewById(R.id.btn_decrease)
+        medicineStockTextView = findViewById(R.id.tv_stock)
 
         // 레포지토리 및 API 서비스 초기화
         val apiService = RetrofitAPI.getRetrofit(this).create(ApiService::class.java)
@@ -89,6 +91,7 @@ class DetailMedicineActivity : AppCompatActivity() {
             navigateToOrderActivity()
         }
     }
+
     private fun addToOrderList() {
         // MedicineDTO 생성
         val medicineDetail = MedicineDTO(
@@ -134,9 +137,15 @@ class DetailMedicineActivity : AppCompatActivity() {
         vendingMachineId?.toInt()?.let {
             repository.getMedicineById(it, medicineId)
                 .enqueue(object : Callback<ResponseDTO> {
-                    override fun onResponse(call: Call<ResponseDTO>, response: Response<ResponseDTO>) {
+                    override fun onResponse(
+                        call: Call<ResponseDTO>,
+                        response: Response<ResponseDTO>,
+                    ) {
                         if (response.isSuccessful && response.body() != null) {
-                            Log.d("OrderActivity", "Response Body: ${Gson().toJson(response.body())}")
+                            Log.d(
+                                "OrderActivity",
+                                "Response Body: ${Gson().toJson(response.body())}"
+                            )
 
                             if (response.body()!!.code == "200") {
                                 // 데이터 파싱
@@ -144,25 +153,32 @@ class DetailMedicineActivity : AppCompatActivity() {
                                 body?.let {
                                     val gson = Gson()
                                     val json = gson.toJson(body)
-                                    val medicineDetail = gson.fromJson(json, MedicineDTO::class.java)
-
+                                    val medicineDetail =
+                                        gson.fromJson(json, MedicineDTO::class.java)
                                     // UI 업데이트
                                     medicineNameTextView.text = medicineDetail.name
                                     priceTextView.text = "가격: ${medicineDetail.price} 원"
-                                    Glide.with(this@DetailMedicineActivity)
-                                        .load(medicineDetail.imageURL)
-                                        .into(medicineImageView)
-
+                                    if (!medicineDetail.imageURL.isEmpty()) {
+                                        Glide.with(this@DetailMedicineActivity)
+                                            .load(medicineDetail.imageURL)
+                                            .into(medicineImageView)
+                                    }
+                                    medicineStockTextView.text = "재고: ${medicineDetail.stock} 개"
                                     // 초기 수량을 서버에서 받아온 재고 수량으로 설정
-                                    quantity = medicineDetail.stock
+                                    quantity = 0
                                     updateQuantityText() // 수량 텍스트 업데이트
 
                                     // 추가 정보 반영
-                                    findViewById<TextView>(R.id.tv_manufacturer).text = "제조사: ${medicineDetail.manufacturer}"
-                                    findViewById<TextView>(R.id.tv_efficacy).text = "효능: ${medicineDetail.efficacy}"
-                                    findViewById<TextView>(R.id.tv_usage).text = "사용법: ${medicineDetail.usage}"
-                                    findViewById<TextView>(R.id.tv_precautions).text = "주의사항: ${medicineDetail.precautions}"
-                                    findViewById<TextView>(R.id.tv_validity_period).text = "유효기간: ${medicineDetail.validityPeriod}"
+                                    findViewById<TextView>(R.id.tv_manufacturer).text =
+                                        "제조사: ${medicineDetail.manufacturer}"
+                                    findViewById<TextView>(R.id.tv_efficacy).text =
+                                        "효능: ${medicineDetail.efficacy}"
+                                    findViewById<TextView>(R.id.tv_usage).text =
+                                        "사용법: ${medicineDetail.usage}"
+                                    findViewById<TextView>(R.id.tv_precautions).text =
+                                        "주의사항: ${medicineDetail.precautions}"
+                                    findViewById<TextView>(R.id.tv_validity_period).text =
+                                        "유효기간: ${medicineDetail.validityPeriod}"
                                 }
                             } else {
                                 Log.e("OrderActivity", response.body()!!.message)
