@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Management")
+@RequestMapping("/management")
 @RequiredArgsConstructor
 @Tag(name = "관리자", description = "자판기 관리 API")
 public class ManagementController {
