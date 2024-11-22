@@ -1,0 +1,21 @@
+meta {
+  name: 자판기 생성
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/vending-machine
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "테스트 자판기",
+    "location": "주소",
+    "latitude": 37.000000,
+    "longitude": 127.0000000,
+    "quantity": 4
+  }
+}

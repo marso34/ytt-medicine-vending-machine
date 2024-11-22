@@ -1,0 +1,18 @@
+meta {
+  name: 자판기 기본 조회
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/vending-machine?latitude=37.301736&longitude=127.921354
+  body: none
+  auth: inherit
+}
+
+params:query {
+  latitude: 37.301736
+  longitude: 127.921354
+  ~distance: 1000.0
+  ~name: 테스트
+}

@@ -1,0 +1,21 @@
+meta {
+  name: SignUp
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/user/signUp
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "email@test.com",
+    "password": "password",
+    "name": "name",
+    "phoneNumber": "000-0000-0000",
+    "role": "CUSTOMER"
+  }
+}

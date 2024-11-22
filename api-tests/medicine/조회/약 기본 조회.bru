@@ -1,0 +1,17 @@
+meta {
+  name: 약 기본 조회
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/medicine
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~name: 코메키나
+  ~manufacturer: 한국존슨앤드존슨판매(유)
+  ~ingredientName: 메퀴타진
+}

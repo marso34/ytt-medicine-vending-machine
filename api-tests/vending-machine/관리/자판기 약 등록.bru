@@ -1,0 +1,22 @@
+meta {
+  name: 자판기 약 등록
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/vending-machine/{{machineId}}/medicine
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "medicineId": 6,
+    "quantity": 10
+  }
+}
+
+vars:pre-request {
+  machineId: 1
+}

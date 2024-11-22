@@ -1,0 +1,21 @@
+meta {
+  name: 자판기 운영 상태 변경
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{base_url}}/vending-machine/{{machineId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    아직!!
+  }
+}
+
+vars:pre-request {
+  machineId: 1
+}

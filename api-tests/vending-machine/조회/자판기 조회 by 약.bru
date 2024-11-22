@@ -1,0 +1,18 @@
+meta {
+  name: 자판기 조회 by 약
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{base_url}}/vending-machine/getByMedicine?medicine_id=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  medicine_id: 1
+  ~latitude: 37.301736
+  ~longitude: 127.921354
+  ~distance: 1000.0
+}

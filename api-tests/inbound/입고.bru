@@ -1,0 +1,22 @@
+meta {
+  name: 입고
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/inbound/{{machineId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "medicineId": 1,
+    "quantity": 5
+  }
+}
+
+vars:pre-request {
+  machineId: 1
+}
