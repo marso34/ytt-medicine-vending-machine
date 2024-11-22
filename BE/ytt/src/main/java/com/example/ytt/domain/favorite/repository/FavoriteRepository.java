@@ -1,11 +1,11 @@
-package com.example.ytt.domain.vendingmachine.repository;
+package com.example.ytt.domain.favorite.repository;
 
-import com.example.ytt.domain.vendingmachine.domain.Favorite;
+import com.example.ytt.domain.favorite.domain.Favorite;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
+public interface FavoriteRepository extends JpaRepository<Favorite, Long>, FavoriteRepositoryCustom {
 
     boolean existsByUserIdAndVendingMachineId(Long userId, Long vendingMachineId);
 

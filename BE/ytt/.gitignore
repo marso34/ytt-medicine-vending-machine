@@ -44,3 +44,5 @@ out/
 
 **/sql/data.sql
 **/sql/schema.sql
+
+**/src/main/generated/

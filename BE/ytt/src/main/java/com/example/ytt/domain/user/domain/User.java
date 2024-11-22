@@ -1,7 +1,8 @@
 package com.example.ytt.domain.user.domain;
 
+import com.example.ytt.domain.management.domain.Management;
 import com.example.ytt.domain.user.dto.Role;
-import com.example.ytt.domain.vendingmachine.domain.Favorite;
+import com.example.ytt.domain.favorite.domain.Favorite;
 import com.example.ytt.global.common.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -42,6 +43,9 @@ public class User extends BaseEntity{
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // orphanRemoval = true
     private List<Favorite> favorites;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // orphanRemoval = true
+    private List<Management> managements;
 
     @Builder
     public User(String email, String password, String name, String phoneNumber, Role role) {

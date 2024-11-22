@@ -6,6 +6,7 @@ import com.example.ytt.domain.medicine.dto.MedicineDto;
 import com.example.ytt.domain.user.auth.security.CustomUserDetails;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDetailDto;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDto;
+import com.example.ytt.domain.favorite.service.FavoriteService;
 import com.example.ytt.domain.vendingmachine.service.VendingMachineFindService;
 import com.example.ytt.global.common.annotation.SwaggerApi;
 import com.example.ytt.global.common.response.ResponseDto;
@@ -28,9 +29,8 @@ import java.util.List;
 public class VendingMachineFindController {
 
     private final VendingMachineFindService vendingMachineFindService;
+    private final FavoriteService favoriteService;
     private final InventoryService inventoryService;
-
-    // TODO: path 경로 수정 필요 (현재 임의로 설정)
 
     // 자판기 리스트 조회
 
@@ -64,8 +64,8 @@ public class VendingMachineFindController {
 
     /* -- QueryDSL을 사용한 코드 -- */
 
-    @GetMapping("/get")
-    @SwaggerApi(summary = "자판기 기본 조회", description = "일정 범위 내에 자판기 리스트 조회", implementation = ResponseDto.class)
+    @GetMapping
+    @SwaggerApi(summary = "자판기 기본 조회", description = "일정 범위 내에 자판기 리스트 조회")
     public ResponseEntity<ResponseDto<List<VendingMachineDto>>> getVendingMachines(
             @RequestParam(value = "latitude", required = true)                           Double latitude,
             @RequestParam(value = "longitude", required = true)                          Double longitude,
@@ -76,7 +76,7 @@ public class VendingMachineFindController {
     }
 
     @GetMapping("/getByMedicine")
-    @SwaggerApi(summary = "약품으로 자판기 조회", description = "약품이 포함되어 있는 자판기 리스트 조회", implementation = ResponseDto.class)
+    @SwaggerApi(summary = "약품으로 자판기 조회", description = "약품이 포함되어 있는 자판기 리스트 조회")
     public ResponseEntity<ResponseDto<List<VendingMachineDto>>> getVendingMachinesByMedicine(
             @RequestParam(value = "latitude", required = false)                          Double latitude,
             @RequestParam(value = "longitude", required = false)                         Double longitude,
@@ -86,29 +86,23 @@ public class VendingMachineFindController {
         return ResponseUtil.success(vendingMachineFindService.getVendingMachinesByMedicine(latitude, longitude, distance, medicineId));
     }
 
-    @GetMapping("/getFavorites")
-    @SwaggerApi(summary = "즐겨찾기 자판기 조회", description = "즐겨찾기한 자판기 리스트 조회", implementation = ResponseDto.class)
-    public ResponseEntity<ResponseDto<List<VendingMachineDto>>> getFavoriteVendingMachines(@AuthenticationPrincipal CustomUserDetails user) {
-        return ResponseUtil.success(vendingMachineFindService.getFavoriteVendingMachines(user.getId()));
-    }
-
     /* -- 자판기 상세 조회 -- */
 
-    @GetMapping("/{id}")
-    @SwaggerApi(summary = "자판기 ID로 조회", description = "자판기 ID로 자판기 조회", implementation = ResponseDto.class)
-    public  ResponseEntity<ResponseDto<VendingMachineDetailDto>> getVendingMachineById(@PathVariable(value = "id") Long machineId, @AuthenticationPrincipal CustomUserDetails user) {
+    @GetMapping("/{machineId}")
+    @SwaggerApi(summary = "자판기 ID로 조회", description = "자판기 ID로 자판기 조회")
+    public  ResponseEntity<ResponseDto<VendingMachineDetailDto>> getVendingMachineById(@PathVariable(value = "machineId") Long machineId, @AuthenticationPrincipal CustomUserDetails user) {
         return ResponseUtil.success(vendingMachineFindService.getVendingMachineDetail(machineId, user.getId()));
     }
 
-    @GetMapping("/{id}/medicines")
-    @SwaggerApi(summary = "특정 자판기의 전체 재고 조회", description = "자판기 ID로 자판기의 재고 조회", implementation = ResponseDto.class)
-    public ResponseEntity<ResponseDto<List<MedicineDto>>> getMedicinesInVendingMachine(@PathVariable(value = "id") Long id) {
+    @GetMapping("/{machineId}/medicines")
+    @SwaggerApi(summary = "특정 자판기의 전체 재고 조회", description = "자판기 ID로 자판기의 재고 조회")
+    public ResponseEntity<ResponseDto<List<MedicineDto>>> getMedicinesInVendingMachine(@PathVariable(value = "machineId") Long id) {
         return ResponseUtil.success(inventoryService.getMedicinesByVendingMachine(id));
     }
 
-    @GetMapping("/{id}/medicine")
-    @SwaggerApi(summary = "특정 자판기의 특정 약 조회", description = "자판기의 특정 약 상세 조회", implementation = ResponseDto.class)
-    public ResponseEntity<ResponseDto<MedicineDetailDto>> getMedicineInVendingMachine(@PathVariable(value = "id") Long machineId, @RequestParam("medicineId") Long medicineId) {
+    @GetMapping("/{machineId}/medicine")
+    @SwaggerApi(summary = "특정 자판기의 특정 약 조회", description = "자판기의 특정 약 상세 조회")
+    public ResponseEntity<ResponseDto<MedicineDetailDto>> getMedicineInVendingMachine(@PathVariable(value = "machineId") Long machineId, @RequestParam("id") Long medicineId) {
         return ResponseUtil.success(inventoryService.getMedicineByInventory(machineId, medicineId));
     }
 

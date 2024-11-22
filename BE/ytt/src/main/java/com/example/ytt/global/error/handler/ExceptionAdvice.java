@@ -20,6 +20,8 @@ import java.util.List;
 public class ExceptionAdvice {
 
     public static final String DEFAULT_ERROR_MESSAGE = "ERROR : {}";
+    public static final String DEFAULT_WARN_MESSAGE = "WARNING : {}";
+
 
     // @Valid, @NotBlank 어노테이션에 대한 유효성 검증 예외 처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -44,20 +46,20 @@ public class ExceptionAdvice {
             }
         }
 
-//        log.warn(DEFAULT_ERROR_MESSAGE, exceptionType.getErrorMessage(), exceptionType);
+        log.warn(DEFAULT_WARN_MESSAGE, exceptionType.getErrorMessage());
         return ResponseUtil.error(exceptionType, null);
     }
 
     // @Email 제약 조건에 대한 예외 처리 (ConstraintViolationException)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ResponseDto<Object>> handleConstraintViolationException(ConstraintViolationException ex) {
-        log.warn(DEFAULT_ERROR_MESSAGE, ex.getMessage());
+        log.warn(DEFAULT_WARN_MESSAGE, ex.getMessage());
         return ResponseUtil.error(ExceptionType.EMAIL_FORMAT_INVALID, null);
     }
 
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<ResponseDto<Object>> handleBaseEx(BaseException ex) {
-        log.warn(DEFAULT_ERROR_MESSAGE, ex.getMessage());
+        log.warn(DEFAULT_WARN_MESSAGE, ex.getMessage());
         return ResponseUtil.error(ex.getExceptionType(), null);
     }
 

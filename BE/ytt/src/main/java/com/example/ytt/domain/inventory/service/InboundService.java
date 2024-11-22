@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,9 +25,9 @@ public class InboundService {
     private final InboundLogRepository inboundLogRepository;
 
     // 약품 입고
-    public MedicineDto inboundMedicine(InboundReqDto inboundReqDto) {
+    public MedicineDto inboundMedicine(Long machineId, InboundReqDto inboundReqDto, Long userId) {
         Inventory inventory = inventoryRepository
-                .getInventory(inboundReqDto.medicineId(), inboundReqDto.machineId())
+                .getInventory(inboundReqDto.medicineId(), machineId)
                 .orElseThrow(() -> new InboundException(ExceptionType.UNREGISTERED_INBOUND)); // 등록되지 않은 약의 입고는 불가. 자판기-약 등록과 입고를 분리하기 위함
 
         inventoryRepository.save(inventory.addQuantity(inboundReqDto.quantity())); // 수량 추가
@@ -35,9 +36,8 @@ public class InboundService {
         return MedicineDto.from(inventory);
     }
 
-    // 입고 기록 조회 (모든 약)
-    public List<InboundLogDto> getInboundAllLogs(Long machineId) {
-        List<InboundLog> list = inboundLogRepository.findByVendingMachineId(machineId);
+    public List<InboundLogDto> getInboundLogs(Long machineId, Long medicineId, String productCode, LocalDateTime startDate, LocalDateTime endDate) {
+        List<InboundLog> list = inboundLogRepository.getInboundLogs(machineId, medicineId, productCode, startDate, endDate);
 
         if (list.isEmpty()) {
             throw new InboundException(ExceptionType.NO_CONTENT_INBOUND_LOG);
@@ -46,18 +46,4 @@ public class InboundService {
         return list.stream().map(InboundLogDto::from).toList();
     }
 
-    // 입고 기록 조회 (특정 약)
-    public List<InboundLogDto> getInboundLogs(Long machineId, Long medicineId) {
-        List<InboundLog> list = inboundLogRepository.findByVendingMachineIdAndMedicineId(machineId, medicineId);
-
-        if (list.isEmpty()) {
-            throw new InboundException(ExceptionType.NO_CONTENT_INBOUND_LOG);
-        }
-
-        return list.stream().map(InboundLogDto::from).toList();
-    }
-
-    // 특정 일의 입고 기록
-
-    // 특정 기간의 입고 기록
 }

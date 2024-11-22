@@ -70,7 +70,7 @@ public class SwaggerConfig {
     @Bean
     public GroupedOpenApi machineGroup() {
         return GroupedOpenApi.builder()
-                .group("vending-machine")     // 그룹 이름
+                .group("VendingMachine")     // 그룹 이름
                 .pathsToMatch("/vending-machine/**")  // 그룹에 속하는 경로
                 .build();
     }
@@ -78,7 +78,7 @@ public class SwaggerConfig {
     @Bean
     public GroupedOpenApi medicineGroup() {
         return GroupedOpenApi.builder()
-                .group("medicine")     // 그룹 이름
+                .group("Medicine")     // 그룹 이름
                 .pathsToMatch("/medicine/**")  // 그룹에 속하는 경로
                 .build();
     }
@@ -86,8 +86,25 @@ public class SwaggerConfig {
     @Bean
     public GroupedOpenApi inboundGroup() {
         return GroupedOpenApi.builder()
-                .group("inbound")     // 그룹 이름
+                .group("Inbound")     // 그룹 이름
                 .pathsToMatch("/inbound/**")  // 그룹에 속하는 경로
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi favoriteGroup() {
+        return GroupedOpenApi.builder()
+                .group("Favorite")     // 그룹 이름
+                .pathsToMatch("/favorites/**")  // 그룹에 속하는 경로
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi managementGroup() {
+        return GroupedOpenApi.builder()
+                .group("Management")     // 그룹 이름
+                .pathsToMatch("/management/**")  // 그룹에 속하는 경로
+                .build();
+    }
+
 }

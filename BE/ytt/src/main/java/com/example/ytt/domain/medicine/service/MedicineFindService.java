@@ -12,10 +12,12 @@ import com.example.ytt.domain.medicine.repository.MedicineRepository;
 import com.example.ytt.global.error.code.ExceptionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MedicineFindService {
 
