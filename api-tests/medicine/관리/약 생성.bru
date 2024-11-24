@@ -1,0 +1,18 @@
+meta {
+  name: 약 생성
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/medicine
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "productName": "타이레놀콜드-에스정",
+      "productPrice": 1500
+  }
+}

@@ -1,0 +1,16 @@
+meta {
+  name: 약 상세 조회
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{base_url}}/medicine/detail?medicineId=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  medicineId: 1
+  ~productCode: 202106954
+}

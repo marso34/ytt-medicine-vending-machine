@@ -1,0 +1,15 @@
+meta {
+  name: 특정 자판기의 전체 약 조회
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{base_url}}/vending-machine/{{machineId}}/medicines
+  body: none
+  auth: inherit
+}
+
+vars:pre-request {
+  machineId: 1
+}
