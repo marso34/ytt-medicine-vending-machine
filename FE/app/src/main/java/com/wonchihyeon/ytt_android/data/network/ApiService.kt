@@ -16,6 +16,8 @@ import retrofit2.http.Query
 
 interface ApiService {
 
+
+
     /*@GET("/medicine/{id}")
 
     @GET("/medicine/productCode")
@@ -42,6 +44,9 @@ interface ApiService {
 
     @POST("/auth/reissue")*/
 
+    @GET("/vending-machine/getFavorites")
+    fun getFavoriteMachine(): Call<ResponseDTO>
+
     @GET("/vending-machine/nearby")
     fun getNearByMachine(
         @Query("latitude") latitude: Double,
@@ -49,21 +54,21 @@ interface ApiService {
     ): Call<ResponseDTO>
 
     // 특정 자판기 ID로 조회 (상세조회)
-    @GET("/vending-machine/{id}")
+    @GET("/vending-machine/{machineId}")
     fun getVendingMachineById(
-        @Path("id") id: String,
+        @Path("machineId") id: String,
     ): Call<ResponseDTO>
 
     // 특정 자판기의 전체 약 조회
-    @GET("/vending-machine/{id}/medicines")
+    @GET("/vending-machine/{machineId}/medicines")
     fun getAllMedicineById(
-        @Path("id") id: String,
+        @Path("machineId") id: String,
     ): Call<ResponseDTO>
 
     // 특정 자판기의 특정 약 조회
     @GET("/vending-machine/{id}/medicine")
     fun getMedicineById(
-        @Path("id") id: Int,
+        @Path("machineId") id: Int,
         @Query("medicineId") medicineId: Int
     ): Call<ResponseDTO>
 
