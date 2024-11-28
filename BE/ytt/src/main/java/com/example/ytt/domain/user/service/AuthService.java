@@ -5,6 +5,7 @@ import com.example.ytt.domain.user.auth.security.CustomUserDetails;
 import com.example.ytt.domain.user.domain.JwtRefresh;
 import com.example.ytt.domain.user.domain.User;
 import com.example.ytt.domain.user.dto.Role;
+import com.example.ytt.domain.user.dto.SignUpDto;
 import com.example.ytt.domain.user.dto.TokenResponseDto;
 import com.example.ytt.domain.user.dto.UserDto;
 import com.example.ytt.domain.user.exception.UserException;
@@ -18,9 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Date;
 
 @Slf4j
@@ -32,6 +33,33 @@ public class AuthService implements UserDetailsService {
     private final UserRepository userRepository;
     private final JWTUtil jwtUtil;
     private final RefreshRepository refreshRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
+    // 회원가입
+    public void signUp(SignUpDto signUpDto) throws UserException {
+
+        signUpDto.setPassword(bCryptPasswordEncoder.encode(signUpDto.getPassword()));
+        User user = User.builder()
+                .email(signUpDto.getEmail())
+                .password(signUpDto.getPassword())
+                .name(signUpDto.getName())
+                .phoneNumber(signUpDto.getPhoneNumber())
+                .role(signUpDto.getRole())
+                .build();
+
+        // 아이디 중복 검사
+        if(userRepository.existsByEmail(signUpDto.getEmail())){
+            throw new UserException(ExceptionType.ALREADY_EXIST_USER);
+        }
+
+        // 폰번호 중복 검사
+        if(userRepository.existsByPhoneNumber(signUpDto.getPhoneNumber())){
+            throw new UserException(ExceptionType.ALREADY_EXIST_PHONENUMBER);
+        }
+
+        userRepository.save(user);
+    }
 
     // 토큰 재발급 요청 확인
     public TokenResponseDto reissueTokens(HttpServletRequest request, HttpServletResponse response) throws UserException {

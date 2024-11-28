@@ -56,6 +56,16 @@ public class User extends BaseEntity{
         this.role = role;
     }
 
+    public static User of(String email, String password, String name, String phoneNumber, Role role) {
+        return User.builder()
+                .email(email)
+                .password(password)
+                .name(name)
+                .phoneNumber(phoneNumber)
+                .role(role)
+                .build();
+    }
+
     public void updatePassword(String newPassword) {
         this.password = newPassword;
     }

@@ -17,8 +17,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class LoginAuthenticationProvider implements AuthenticationProvider {
 
-    // TODO : Line34 비밀번호 잘못 입력시 예외처리 수정하기 (UserException이 안잡히니까 다른방법 찾아서)
-
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 

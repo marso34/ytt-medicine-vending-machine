@@ -58,7 +58,7 @@ public class SecurityConfig {
         loginFilter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
         loginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);  // 로그인 성공했을 때 실행시킬 핸들러
         loginFilter.setAuthenticationFailureHandler(loginFailHandler);      // 로그인 실패했을 때 실행시킬 핸들러
-        loginFilter.setFilterProcessesUrl("/user/signIn");  // 로그인 경로 /login -> /user/signIn 으로 변경
+        loginFilter.setFilterProcessesUrl("/auth/signIn");  // 로그인 경로 /login -> /auth/signIn 으로 변경
         return loginFilter;
     }
 

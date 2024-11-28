@@ -21,36 +21,10 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthService authService;
 
-
-    // 회원가입
-    public void signUp(SignUpDto signUpDto) throws UserException {
-
-        signUpDto.setPassword(bCryptPasswordEncoder.encode(signUpDto.getPassword()));
-        User user = User.builder()
-                .email(signUpDto.getEmail())
-                .password(signUpDto.getPassword())
-                .name(signUpDto.getName())
-                .phoneNumber(signUpDto.getPhoneNumber())
-                .role(signUpDto.getRole())
-                .build();
-
-        // 아이디 중복 검사
-        if(userRepository.existsByEmail(signUpDto.getEmail())){
-            throw new UserException(ExceptionType.ALREADY_EXIST_USER);
-        }
-
-        // 폰번호 중복 검사
-        if(userRepository.existsByPhoneNumber(signUpDto.getPhoneNumber())){
-            throw new UserException(ExceptionType.ALREADY_EXIST_PHONENUMBER);
-        }
-
-        userRepository.save(user);
-    }
-
     // 사용자 이메일로 정보 조회
     public UserDto getUserByEmail(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new UserException(ExceptionType.NOT_FOUND_USER));
 
         UserDto userDto = new UserDto();
         userDto.setEmail(user.getEmail());
