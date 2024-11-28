@@ -15,7 +15,7 @@ public record OrderVendingMachineDto(
         @Schema(description = "주문 시간")     LocalDateTime orderAt,
         @Schema(description = "주문 상세 목록") List<OrderItemReqDto> orderItems
 ){
-    public static OrderVendingMachineDto of(UUID id, Long userId, OrderState orderState, LocalDateTime orderAt, List<OrderItemReqDto> orderItems) {
+    public static OrderVendingMachineDto of(UUID id, Long userId, OrderState orderState, LocalDateTime orderAt, List<OrderDetailReqDto> orderItems) {
         return new OrderVendingMachineDto(id.toString(), userId, orderState, orderAt, orderItems);
     }
 
