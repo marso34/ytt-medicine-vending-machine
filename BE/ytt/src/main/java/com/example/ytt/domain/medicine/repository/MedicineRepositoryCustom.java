@@ -9,6 +9,8 @@ public interface MedicineRepositoryCustom {
 
     List<Medicine> getMedicines(String name, String manufacturer, String ingredientName);
 
+    List<Medicine> getMedicines(List<Long> medicineId, List<String> poductCode);
+
     Optional<Medicine> getMedicineDetail(Long medicineId, String poductCode);
 
 }
