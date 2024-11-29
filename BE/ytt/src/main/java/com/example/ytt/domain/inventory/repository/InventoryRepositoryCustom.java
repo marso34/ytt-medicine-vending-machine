@@ -9,6 +9,8 @@ public interface InventoryRepositoryCustom {
 
     List<Inventory> getInventories(Long vendingMachineId);
 
+    List<Inventory> getInventories(Long vendingMachineId, List<String> poductCodes);
+
     Optional<Inventory> getInventory(Long vendingMachineId, Long medicineId);
 
 }

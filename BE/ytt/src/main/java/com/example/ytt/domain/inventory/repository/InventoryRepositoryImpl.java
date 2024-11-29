@@ -33,6 +33,18 @@ public class InventoryRepositoryImpl implements InventoryRepositoryCustom {
     }
 
     @Override
+    public List<Inventory> getInventories(Long vendingMachineId, List<String> poductCodes) {
+        return jpaQueryFactory
+                .selectFrom(inventory)
+                .join(inventory.vendingMachine, vendingMachine)
+                .join(inventory.medicine, medicine).fetchJoin()
+                .where(
+                        equalsVendingMachineId(vendingMachineId),
+                        inProductCode(poductCodes)
+                ).fetch();
+    }
+
+    @Override
     public Optional<Inventory> getInventory(Long vendingMachineId, Long medicineId) {
         Inventory inventory1 = jpaQueryFactory
                 .selectFrom(inventory)
@@ -57,6 +69,10 @@ public class InventoryRepositoryImpl implements InventoryRepositoryCustom {
     // 약품 ID 필터
     private BooleanExpression equalsMedicineIdEq(Long medicineId) {
         return medicineId != null ? medicine.id.eq(medicineId) : null;
+    }
+
+    private BooleanExpression inProductCode(List<String> productCodes) {
+        return productCodes != null ? inventory.medicine.productCode.in(productCodes) : null;
     }
 
 }
