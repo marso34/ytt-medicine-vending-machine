@@ -61,7 +61,7 @@ class VendingMachineDetailActivity : AppCompatActivity() {
 
         // RecyclerView 초기화
         recyclerView = findViewById(R.id.recycler_view)
-       recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
         orderedItemsListView = findViewById(R.id.ordered_items_list_view)
         orderedItemsAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, orderedItems)
@@ -85,8 +85,8 @@ class VendingMachineDetailActivity : AppCompatActivity() {
                 viewModel.vendingMachine.value!!.medicines,
                 this@VendingMachineDetailActivity,
                 viewModel.vendingMachine.value!!.id.toString(),
-                viewModel.getVendingMachineName(),
-                viewModel.getVendingMachineAddress(),
+                viewModel.vendingMachine.value!!.name.toString(),
+                viewModel.vendingMachine.value!!.address.toString(),
             )
             recyclerView.adapter = adapter
         })
