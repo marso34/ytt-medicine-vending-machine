@@ -1,11 +1,14 @@
 package com.example.ytt.domain.inventory.repository;
 
 import com.example.ytt.domain.inventory.domain.Inventory;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,15 +36,17 @@ public class InventoryRepositoryImpl implements InventoryRepositoryCustom {
     }
 
     @Override
-    public List<Inventory> getInventories(Long vendingMachineId, List<String> poductCodes) {
+    public List<Inventory> getInventories(Long vendingMachineId, List<String> productCodes) {
         return jpaQueryFactory
                 .selectFrom(inventory)
                 .join(inventory.vendingMachine, vendingMachine)
                 .join(inventory.medicine, medicine).fetchJoin()
                 .where(
                         equalsVendingMachineId(vendingMachineId),
-                        inProductCode(poductCodes)
-                ).fetch();
+                        inProductCode(productCodes)
+                )
+                .orderBy(orderByFieldList(productCodes)) // poductCodes 순서대로 정렬
+                .fetch();
     }
 
     @Override
@@ -72,7 +77,23 @@ public class InventoryRepositoryImpl implements InventoryRepositoryCustom {
     }
 
     private BooleanExpression inProductCode(List<String> productCodes) {
-        return productCodes != null ? inventory.medicine.productCode.in(productCodes) : null;
+        return productCodes != null ? medicine.productCode.in(productCodes) : null;
+    }
+
+    private OrderSpecifier<?> orderByFieldList(List<String> productCodes) {
+        StringBuilder template = new StringBuilder("FIELD({0}");
+
+        List<Object> list = new ArrayList<>();
+        list.add(medicine.productCode);
+
+        for (int i = 0; i < productCodes.size(); i++) {
+            template.append(", {").append(i + 1).append("}");
+            list.add(productCodes.get(i));
+        }
+
+        template.append(")");
+
+        return Expressions.stringTemplate(template.toString(), list).asc();
     }
 
 }
