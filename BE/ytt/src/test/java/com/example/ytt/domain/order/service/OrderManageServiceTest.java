@@ -5,8 +5,8 @@ import com.example.ytt.domain.medicine.domain.Medicine;
 import com.example.ytt.domain.medicine.repository.MedicineRepository;
 import com.example.ytt.domain.model.Address;
 import com.example.ytt.domain.order.domain.Order;
-import com.example.ytt.domain.order.domain.OrderDetail;
-import com.example.ytt.domain.order.dto.OrderDetailReqDto;
+import com.example.ytt.domain.order.domain.OrderItem;
+import com.example.ytt.domain.order.dto.request.OrderItemReqDto;
 import com.example.ytt.domain.order.repository.OrderRepository;
 import com.example.ytt.domain.user.domain.User;
 import com.example.ytt.domain.user.dto.Role;
@@ -25,7 +25,7 @@ import java.util.List;
 
 @SpringBootTest
 @Transactional
-class OrderServiceTest {
+class OrderManageServiceTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -33,7 +33,7 @@ class OrderServiceTest {
     @Autowired
     private VendingMachineRepository vendingMachineRepository;
     @Autowired
-    OrderService orderService;
+    OrderManageService orderManageService;
     @Autowired
     OrderRepository orderRepository;
     @Autowired
@@ -61,10 +61,10 @@ class OrderServiceTest {
     @Test
     @DisplayName("상품_정상_주문_테스트")
     public void 상품_정상_주문_테스트() throws Exception {
-        OrderDetailReqDto orderDetailReqDto1 = new OrderDetailReqDto(medicine1.getProductCode(), 2); // 2개 주문
-        OrderDetailReqDto orderDetailReqDto2 = new OrderDetailReqDto(medicine2.getProductCode(), 1); // 1개 주문
+        OrderItemReqDto orderDetailReqDto1 = new OrderItemReqDto(medicine1.getProductCode(), 2); // 2개 주문
+        OrderItemReqDto orderDetailReqDto2 = new OrderItemReqDto(medicine2.getProductCode(), 1); // 1개 주문
 
-        List<OrderDetailReqDto> orderItems = List.of(orderDetailReqDto1, orderDetailReqDto2);
+        List<OrderItemReqDto> orderItems = List.of(orderDetailReqDto1, orderDetailReqDto2);
 
         Order order = createOrder(user, vendingMachine, orderItems);
 
@@ -106,15 +106,15 @@ class OrderServiceTest {
                 .build();
     }
 
-    public Order createOrder(User user, VendingMachine vendingMachine, List<OrderDetailReqDto> orderItemDtos) {
-        List<OrderDetail> orderDetails = orderItemDtos.stream()
+    public Order createOrder(User user, VendingMachine vendingMachine, List<OrderItemReqDto> orderItemDtos) {
+        List<OrderItem> orderItems = orderItemDtos.stream()
                 .map(orderDetailService::createOrderDetail)
                 .toList();
 
         Order order = Order.builder()
                 .user(user)
                 .vendingMachine(vendingMachine)
-                .orderItems(orderDetails)
+                .orderItems(orderItems)
                 .build();
 
         return orderRepository.save(order);
