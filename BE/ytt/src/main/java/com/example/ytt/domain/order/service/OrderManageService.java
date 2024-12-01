@@ -54,49 +54,50 @@ public class OrderManageService {
 
     /**
      * 주문 생성
-     * @param orderReqDto
-     * @return
+     * @param orderReqDto 주문 요청 정보
+     * @return 주문 상세 정보
      */
     @Transactional
     public OrderDetailDto createOrder(OrderReqDto orderReqDto) {
-        // TODO: 동시성 제어 필요
         User user = userService.getUser(orderReqDto.userId());
         VendingMachine vendingMachine = vendingMachineFindService.getVendingMachine(orderReqDto.vendingMachineId());
 
+        // 주문 가능한지 확인
+        long pendingOrders = orderRepository.getOrderCount(vendingMachine.getId(), OrderState.PENDING); // PESSIMISTIC_READ
+
+        if (pendingOrders >= vendingMachine.getCapacity()) {
+            throw new OrderException(ExceptionType.FULL_VENDING_MACHINE_ORDER);
+        }
+
+        // 주문할 제품 코드를 통해 재고 조회
         List<String> productCodes = getProductCodesByOrderReq(orderReqDto.orderItems());
-        List<Inventory> inventories = inventoryService.getInventories(vendingMachine.getId(), productCodes); // 필요한 inventory만 조회
+        List<Inventory> inventories = inventoryService.getInventories(vendingMachine.getId(), productCodes); // 필요한 inventory 조회 (PESSIMISTIC_WRITE)
 
         if (productCodes.size() != inventories.size()) {
             throw new OrderException(ExceptionType.NOT_FOUND_MEDICINE);
         }
 
-        List<OrderItem> orderItems = createOrderItems(orderReqDto.orderItems(), inventories);
-
+        // 주문 생성
         Order savedOrder = Order.builder()
                 .user(user)
                 .vendingMachine(vendingMachine)
-                .orderItems(orderItems)
+                .orderItems(createOrderItems(orderReqDto.orderItems(), inventories))
                 .build();
 
-        long n = orderRepository.getOrderCount(vendingMachine.getId(), OrderState.PENDING);
-
-        if (n >= vendingMachine.getCapacity()) {
-            throw new OrderException(ExceptionType.FULL_VENDING_MACHINE_ORDER);
-        }
-
         orderRepository.save(savedOrder);
+
+        // 재고 업데이트
         updateInventories(orderReqDto.orderItems(), inventories);
 
         notifyOrderToVendingMachine(savedOrder);
-
         return OrderDetailDto.from(savedOrder);
     }
 
     /**
      * 자판기의 보관 결과 처리
-     * @param orderId
+     * @param orderId 주문 ID
      * @param storeResult 보관 성공 여부
-     * @return
+     * @return 주문 처리 결과
      */
     @Transactional
     public OrderResultDto processStoreResult(String orderId, OrderResultDto storeResult) {
@@ -119,8 +120,8 @@ public class OrderManageService {
 
     /**
      * 수령 완료
-     * @param orderId
-     * @return
+     * @param orderId 주문 ID
+     * @return 주문 처리 (수령) 결과
      */
     @Transactional
     public OrderResultDto completeOrder(String orderId) {
@@ -140,8 +141,8 @@ public class OrderManageService {
 
     /**
      * 주문 취소
-     * @param orderId
-     * @return
+     * @param orderId 주문 ID
+     * @return 주문 상세 정보
      */
     @Transactional
     public OrderDetailDto cancelOrder(String orderId) {
@@ -202,9 +203,10 @@ public class OrderManageService {
         List<Inventory> inventories = inventoryService.getInventories(vendingMachine.getId(), productCodes); // 필요한 inventory만 조회
 
         for (int i = 0; i < orderItems.size(); i++) {
-            int orderQuantity = orderItems.get(i).getQuantity();
-            inventoryService.update(inventories.get(i).addQuantity(orderQuantity));
+            inventories.get(i).addQuantity(orderItems.get(i).getQuantity());
         }
+
+        inventoryService.updateInventories(inventories);
     }
 
     private void restoreInventoryByActualStored(Order order, List<OrderItemReqDto> actualStoredItems) {
@@ -218,11 +220,12 @@ public class OrderManageService {
             int orderQuantity = orderItems.get(i).getQuantity();
             int actualStoredQuantity = actualStoredItems.get(i).quantity();
 
-            // 요청 수량과 실제 보관 수량의 차이만큼 재고 복구
-            int quantityToRestore = orderQuantity - actualStoredQuantity;
-
-            inventoryService.update(inventories.get(i).setQuantity(inventories.get(i).getQuantity() + quantityToRestore));
+            // 요청 수량과 실제 보관 수량의 차이만큼 재고 복구 (주문한 수량 - 실제 보관된 수량)
+            int quantityToRestore = inventories.get(i).getQuantity() + (orderQuantity - actualStoredQuantity);
+            inventories.get(i).setQuantity(quantityToRestore);
         }
+
+        inventoryService.updateInventories(inventories);
     }
 
 }
