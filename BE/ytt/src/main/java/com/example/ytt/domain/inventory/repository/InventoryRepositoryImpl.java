@@ -5,6 +5,7 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -46,6 +47,7 @@ public class InventoryRepositoryImpl implements InventoryRepositoryCustom {
                         inProductCode(productCodes)
                 )
                 .orderBy(orderByFieldList(productCodes)) // poductCodes 순서대로 정렬
+                .setLockMode(LockModeType.PESSIMISTIC_WRITE) // 비관적 락 설정
                 .fetch();
     }
 
