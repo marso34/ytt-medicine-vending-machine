@@ -5,6 +5,7 @@ import com.example.ytt.domain.order.domain.OrderState;
 import com.example.ytt.domain.order.util.UUIDutil;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -69,6 +70,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
                 .where(
                         eqVendingMachine(machineId),
                         eqState(state))
+                .setLockMode(LockModeType.PESSIMISTIC_READ)
                 .fetchOne();
     }
 
