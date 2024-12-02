@@ -70,7 +70,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
                 .where(
                         eqVendingMachine(machineId),
                         eqState(state))
-                .setLockMode(LockModeType.PESSIMISTIC_READ)
+                .setLockMode(LockModeType.PESSIMISTIC_WRITE)
                 .fetchOne();
     }
 
