@@ -8,6 +8,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
@@ -19,6 +21,7 @@ import com.wonchihyeon.ytt_android.data.network.ApiService
 import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
 import com.wonchihyeon.ytt_android.data.repository.MedicineRepository
 import com.wonchihyeon.ytt_android.ui.VendingMachineDetailActivity
+import com.wonchihyeon.ytt_android.viewmodel.VendingMachineViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,6 +44,8 @@ class DetailMedicineActivity : AppCompatActivity() {
 
     private var medicineId: Int = 0
     private var quantity: Int = 1 // 초기 수량 설정
+
+    private val viewModel by viewModels<VendingMachineViewModel>()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,7 +93,7 @@ class DetailMedicineActivity : AppCompatActivity() {
         // 주문 버튼 클릭 시 행동
         orderButton.setOnClickListener {
             addToOrderList()
-            navigateToOrderActivity()
+            navigateToVendingMachineDetailActivity() // 수정된 부분
         }
     }
 
@@ -104,26 +109,19 @@ class DetailMedicineActivity : AppCompatActivity() {
             precautions = "",
             validityPeriod = "",
             price = priceTextView.text.toString().replace("가격: ", "").replace(" 원", "").toInt(),
-            stock = quantity,
+            stock = 1, // 항상 1로 설정
             imageURL = "",
             ingredients = emptyList() // 필요 시 추가
         )
 
-        // 단일 MedicineDTO를 전달
-        val orderedItem = listOf(medicineDetail) // 단일 아이템 리스트 생성
-        val intent = Intent(this, VendingMachineDetailActivity::class.java)
-        intent.putExtra("orderedItems", Gson().toJson(orderedItem))
-        intent.putExtra("medicineId", medicineId)
-        intent.putExtra("vendingMachineId", vendingMachineId)
-        intent.putExtra("vendingMachineName", vendingMachineName)
-        intent.putExtra("vendingMachineAddress", vendingMachineAddress)
-        startActivity(intent)
+        // ViewModel에 주문 추가
+        viewModel.addOrderItem(medicineDetail)
+        Toast.makeText(this, "주문이 추가되었습니다.", Toast.LENGTH_SHORT).show()
     }
 
 
-    // OrderActivity로 이동하는 함수
-    private fun navigateToOrderActivity() {
-        // Intent는 addToOrderList에서 처리
+    private fun navigateToVendingMachineDetailActivity() {
+        finish()
     }
 
     private fun updateQuantityText() {
@@ -147,7 +145,7 @@ class DetailMedicineActivity : AppCompatActivity() {
                                 "Response Body: ${Gson().toJson(response.body())}"
                             )
 
-                            if (response.body()!!.code == "200") {
+                            if (response.body()!!.code == 200) {
                                 // 데이터 파싱
                                 val body = response.body()!!.body as? LinkedTreeMap<*, *>
                                 body?.let {
