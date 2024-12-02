@@ -74,4 +74,10 @@ public class UserService {
         user.updatePassword(bCryptPasswordEncoder.encode(newPassword));
         authService.removeUserRefreshTokens(user);
     }
+
+    /* User Entity 반환 */
+
+    public User getUser(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new UserException(ExceptionType.NOT_FOUND_USER));
+    }
 }

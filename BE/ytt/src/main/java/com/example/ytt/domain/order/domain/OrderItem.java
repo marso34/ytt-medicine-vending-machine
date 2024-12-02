@@ -11,7 +11,7 @@ import org.springframework.util.Assert;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = {"id", "order", "medicine"})
 @ToString(of = {"id", "order", "medicine", "quantity"})
-public class OrderDetail {
+public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class OrderDetail {
     private int totalPrice;
 
     @Builder
-    public OrderDetail(final Medicine medicine, final int quantity){
+    public OrderItem(final Medicine medicine, final int quantity){
         Assert.notNull(medicine, "구매할 약은 필수입니다.");
         Assert.isTrue(quantity > 0, "수량은 0개보다 커야 합니다.");
 
@@ -46,12 +46,16 @@ public class OrderDetail {
         this.order = order;
     }
 
-    public int calculateTotalPrice() {
+    public int getTotalPrice() {
+        return calculateTotalPrice();
+    }
+
+    private int calculateTotalPrice() {
         return medicine.getPrice() * quantity;
     }
 
-    public static OrderDetail of(final Medicine medicine, int quantity) {
-        return OrderDetail.builder()
+    public static OrderItem of(final Medicine medicine, int quantity) {
+        return OrderItem.builder()
                 .medicine(medicine)
                 .quantity(quantity)
                 .build();

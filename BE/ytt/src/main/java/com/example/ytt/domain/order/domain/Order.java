@@ -19,7 +19,7 @@ import java.util.UUID;
 public class Order {
 
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_id", nullable = false, columnDefinition = "BINARY(16)")
     private UUID id;
 
@@ -45,11 +45,11 @@ public class Order {
     private int totalPrice;
 
     @Setter
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<OrderDetail> orderItems = new ArrayList<>();
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     @Builder
-    public Order(User user, VendingMachine vendingMachine, List<OrderDetail> orderItems) {
+    public Order(User user, VendingMachine vendingMachine, List<OrderItem> orderItems) {
         Assert.notNull(user, "사용자는 필수입니다.");
         Assert.notNull(vendingMachine, "자판기는 필수입니다.");
         Assert.notEmpty(orderItems, "주문 항목은 1 이상이어야 합니다.");
@@ -57,30 +57,29 @@ public class Order {
         this.user = user;
         this.vendingMachine = vendingMachine;
         this.orderState = OrderState.PENDING;
+        this.totalPrice = 0;
+
         this.orderAt = LocalDateTime.now();
         this.completedAt = null;
+
         orderItems.forEach(this::addOrderDetail);
-        this.totalPrice = calculateTotalPrice();
     }
 
-    public void addOrderDetail(OrderDetail orderItem) {
+    public void addOrderDetail(OrderItem orderItem) {
         orderItems.add(orderItem);
         orderItem.setOrder(this);
+
+        this.totalPrice += orderItem.getTotalPrice();
     }
 
-    private int calculateTotalPrice() {
-        return orderItems.stream()
-                .mapToInt(OrderDetail::calculateTotalPrice)
-                .sum();
-    }
-
-    public void setOrderState(OrderState orderState) {
+    public Order setOrderState(OrderState orderState) {
         this.orderState = orderState;
+
+        return this;
     }
 
-    public void setCompletedAt(LocalDateTime completedAt) {
-        this.completedAt = completedAt;
+    public void setCompletedAt() {
+        this.completedAt = LocalDateTime.now();
     }
 
 }
-

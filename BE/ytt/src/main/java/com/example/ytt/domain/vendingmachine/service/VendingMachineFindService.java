@@ -43,7 +43,7 @@ public class VendingMachineFindService {
     /**
      * @deprecated 추후 QueryDSL로 구현한 코드로 대체 예정
      */
-    @Deprecated(since="", forRemoval=true)
+    @Deprecated
     public List<VendingMachineDto> getVendingMachinesByName(String name) {
         List<VendingMachine> list = vendingMachineRepository.findByNameContaining(name);
 
@@ -57,7 +57,7 @@ public class VendingMachineFindService {
     /**
      * @deprecated 추후 QueryDSL로 구현한 코드로 대체 예정
      */
-    @Deprecated(since="", forRemoval=true)
+    @Deprecated
     public List<VendingMachineDto> getVendingMachinesNearByLocation(Double latitude, Double longitude, Double distance) {
         List<VendingMachine> list = vendingMachineRepository.findNearByLocation(GeometryUtil.createPoint(latitude, longitude), distance);
 
@@ -71,7 +71,7 @@ public class VendingMachineFindService {
     /**
      * @deprecated 추후 QueryDSL로 구현한 코드로 대체 예정
      */
-    @Deprecated(since="", forRemoval=true)
+    @Deprecated
     public List<VendingMachineDto> getVendingMachinesByMedicine(Long medicineId) {
         if (!medicineRepository.existsById(medicineId)) {
             throw new MedicineException(ExceptionType.NOT_FOUND_MEDICINE); // 존재하는 약인지 검증
@@ -121,6 +121,26 @@ public class VendingMachineFindService {
         boolean isFavorite = favoriteService.isFavorite(userId, vendingMachine.getId());
 
         return VendingMachineDetailDto.of(vendingMachine, isFavorite);
+    }
+
+    /* VendingMachine Entity 반환 */
+
+    /**
+     * fetch join 적용 X
+     * @param machineId
+     * @return VendingMachine
+     */
+    public VendingMachine getVendingMachine(Long machineId) {
+        return vendingMachineRepository.findById(machineId).orElseThrow(() -> new VendingMachineException(ExceptionType.NOT_FOUND_VENDING_MACHINE));
+    }
+
+    /**
+     * fetch join 적용
+     * @param machineId
+     * @return VendingMachine
+     */
+    public VendingMachine getVendingMachineDetail(Long machineId) {
+        return vendingMachineRepository.getVendingMachineDetail(machineId).orElseThrow(() -> new VendingMachineException(ExceptionType.NOT_FOUND_VENDING_MACHINE));
     }
 
 }

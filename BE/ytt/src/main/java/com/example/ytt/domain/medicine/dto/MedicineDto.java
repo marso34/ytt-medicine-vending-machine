@@ -7,21 +7,20 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(title = "약 Respone DTO", description = "약 정보를 담은 DTO")
 public record MedicineDto(
-        @Schema(description = "약 ID")      Long id,
-        @Schema(description = "약 이름")     String name,
-        @Schema(description = "품목기준코드")  String productCode,
-        @Schema(description = "약 설명")     String description,
-        @Schema(description = "약 가격")     int price,
-        @Schema(description = "약 재고")     int stock,
-        @Schema(description = "이미지")      String imageURL
+        @Schema(description = "ID")     Long id,
+        @Schema(description = "이름")    String name,
+        @Schema(description = "설명")    String description,
+        @Schema(description = "가격")    int price,
+        @Schema(description = "재고")    int stock,
+        @Schema(description = "이미지")   String imageURL
 ) {
-    public static MedicineDto of(Long id, String name, String productCode, String description, int price, int stock, String imageURL) {
-        return new MedicineDto(id, name, productCode, description, price, stock, imageURL);
+    public static MedicineDto of(Long id, String name, String description, int price, int stock, String imageURL) {
+        return new MedicineDto(id, name, description, price, stock, imageURL);
     }
 
     public static MedicineDto of(Medicine medicine, int stock) {
         // description - 약의 효능을 설명으로
-        return new MedicineDto(medicine.getId(), medicine.getName(), medicine.getProductCode(), medicine.getEfficacy(), medicine.getPrice(), stock, medicine.getImageURL());
+        return new MedicineDto(medicine.getId(), medicine.getName(), medicine.getEfficacy(), medicine.getPrice(), stock, medicine.getImageURL());
     }
 
     public static MedicineDto from(Medicine medicine) {

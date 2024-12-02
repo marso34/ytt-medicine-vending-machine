@@ -2,8 +2,8 @@ package com.example.ytt.domain.order.service;
 
 import com.example.ytt.domain.medicine.domain.Medicine;
 import com.example.ytt.domain.medicine.repository.MedicineRepository;
-import com.example.ytt.domain.order.domain.OrderDetail;
-import com.example.ytt.domain.order.dto.OrderDetailReqDto;
+import com.example.ytt.domain.order.domain.OrderItem;
+import com.example.ytt.domain.order.dto.request.OrderItemReqDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +18,11 @@ public class OrderDetailService {
 
     private final MedicineRepository medicineRepository;
 
-    public OrderDetail createOrderDetail(OrderDetailReqDto orderDetailReqDto) {
+    public OrderItem createOrderDetail(OrderItemReqDto orderDetailReqDto) {
         Medicine medicine = medicineRepository.findByProductCode(orderDetailReqDto.productCode())
                 .orElseThrow(() -> new IllegalArgumentException("약품을 찾을 수 없습니다: " + orderDetailReqDto.productCode()));
 
-        return OrderDetail.builder()
+        return OrderItem.builder()
                 .medicine(medicine)
                 .quantity(orderDetailReqDto.quantity())
                 .build();

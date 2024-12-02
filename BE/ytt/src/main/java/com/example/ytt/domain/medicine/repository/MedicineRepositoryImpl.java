@@ -1,11 +1,14 @@
 package com.example.ytt.domain.medicine.repository;
 
 import com.example.ytt.domain.medicine.domain.Medicine;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +33,20 @@ public class MedicineRepositoryImpl implements MedicineRepositoryCustom {
                         manufacturerContains(manufacturer),
                         ingredientContains(ingredientName)
                 )
+                .fetch();
+    }
+
+    @Override
+    public List<Medicine> getMedicines(List<Long> medicineIds, List<String> productCodes) {
+        return jpaQueryFactory
+                .selectFrom(medicine)
+                .leftJoin(medicine.ingredients, medicineIngredient)
+                .leftJoin(medicineIngredient.ingredient, ingredient)
+                .where(
+                        inMedicineId(medicineIds),
+                        inProductCode(productCodes)
+                )
+                .orderBy(orderByFieldList(productCodes)) // poductCodes 순서대로 정렬
                 .fetch();
     }
 
@@ -68,5 +85,28 @@ public class MedicineRepositoryImpl implements MedicineRepositoryCustom {
         return productCode != null ? medicine.productCode.eq(productCode) : null;
     }
 
+    private BooleanExpression inMedicineId(List<Long> medicineIds) {
+        return medicineIds != null ? medicine.id.in(medicineIds) : null;
+    }
+
+    private BooleanExpression inProductCode(List<String> productCodes) {
+        return productCodes != null ? medicine.productCode.in(productCodes) : null;
+    }
+
+    private OrderSpecifier<?> orderByFieldList(List<String> productCodes) {
+        StringBuilder template = new StringBuilder("FIELD({0}");
+
+        List<Object> list = new ArrayList<>();
+        list.add(medicine.productCode);
+
+        for (int i = 0; i < productCodes.size(); i++) {
+            template.append(", {").append(i + 1).append("}");
+            list.add(productCodes.get(i));
+        }
+
+        template.append(")");
+
+        return Expressions.stringTemplate(template.toString(), list).asc();
+    }
 
 }

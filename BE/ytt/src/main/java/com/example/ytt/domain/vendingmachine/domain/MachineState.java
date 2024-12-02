@@ -18,12 +18,11 @@ public enum MachineState {
 
     public static MachineState from(String state) {
         for (MachineState machineState : MachineState.values()) {
-            if (machineState.state.equals(state)) {
+            if (machineState.state.equalsIgnoreCase(state)) {
                 return machineState;
             }
         }
 
-        // TODO: 일치하는 상태 없을 때 예외 처리 추가
         return UNKNOWN;
     }
 }

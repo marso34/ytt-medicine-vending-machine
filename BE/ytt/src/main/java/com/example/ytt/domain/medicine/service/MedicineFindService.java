@@ -128,4 +128,16 @@ public class MedicineFindService {
         return MedicineDetailDto.from(medicine);
     }
 
+    /* 아래는 Medicine Entity 반환 */
+
+    public List<Medicine> getMedicines(List<String> productCode) {
+        List<Medicine> list = medicineRepository.getMedicines(null, productCode);
+
+        if (list.isEmpty()) {
+            throw new MedicineException(ExceptionType.NO_CONTENT_MEDICINE);
+        }
+
+        return list;
+    }
+
 }

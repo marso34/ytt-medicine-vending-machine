@@ -4,7 +4,6 @@ import com.example.ytt.domain.inventory.domain.Inventory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface InventoryRepository extends JpaRepository<Inventory, Long>, InventoryRepositoryCustom {
 
@@ -12,5 +11,4 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long>, Inv
 
     void deleteByVendingMachineIdAndMedicineId(Long vendingMachineId, Long medicineId); // 자판기 ID와 약품 ID로 삭제 (특정 자판기의 특정 약품 삭제)
 
-    Optional<Inventory> findByMedicineIdAndVendingMachineId(Long medicineId, Long vendingMachineId); // 약품 ID와 자판기 ID로 검색 (특정 자판기에 특정 약품)
 }

@@ -32,16 +32,16 @@ public class FavoriteController {
 
     @PostMapping("/{machineId}")
     @SwaggerApi(summary = "즐겨찾기 추가", description = "자판기를 즐겨찾기에 추가하는 API")
-    public ResponseEntity<ResponseDto<Boolean>> addFavorite(@PathVariable(value = "machineId") Long productId, @AuthenticationPrincipal CustomUserDetails user) {
-        favoriteService.addFavorite(user.getId(), productId);
+    public ResponseEntity<ResponseDto<Boolean>> addFavorite(@PathVariable(value = "machineId") Long machineId, @AuthenticationPrincipal CustomUserDetails user) {
+        favoriteService.addFavorite(user.getId(), machineId);
 
         return ResponseUtil.success(null);
     }
 
     @DeleteMapping("/{machineId}")
     @SwaggerApi(summary = "즐겨찾기 삭제", description = "자판기를 즐겨찾기에서 삭제하는 API")
-    public ResponseEntity<ResponseDto<Boolean>> removeFavorite(@PathVariable(value = "machineId") Long productId, @AuthenticationPrincipal CustomUserDetails user) {
-        boolean isRemoved = favoriteService.removeFavorite(user.getId(), productId);
+    public ResponseEntity<ResponseDto<Boolean>> removeFavorite(@PathVariable(value = "machineId") Long machineId, @AuthenticationPrincipal CustomUserDetails user) {
+        boolean isRemoved = favoriteService.removeFavorite(user.getId(), machineId);
 
         return ResponseUtil.success(isRemoved);
     }

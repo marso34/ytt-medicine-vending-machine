@@ -67,4 +67,11 @@ public class Inventory {
         return this;
     }
 
+    public Inventory removeQuantity(int quantity) {
+        Assert.isTrue(this.quantity >= quantity, "수량은 재고보다 많을 수 없습니다.");
+        this.quantity -= quantity;
+
+        return this;
+    }
+
 }

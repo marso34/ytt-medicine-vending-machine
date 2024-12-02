@@ -39,14 +39,32 @@ public class InventoryService {
         return MedicineDetailDto.from(inventory);
     }
 
-    /* 저장, 삭제 */
+    /* 저장, 수정, 삭제 */
 
     public Inventory save(VendingMachine vendingMachine, Medicine medicine, int quantity) {
         return inventoryRepository.save(Inventory.of(vendingMachine, medicine, quantity));
     }
 
+    public Inventory update(Inventory inventory) {
+        return inventoryRepository.save(inventory);
+    }
+
+    public List<Inventory> updateInventories(List<Inventory> inventories) {
+        return inventoryRepository.saveAll(inventories);
+    }
+
     public void delete(Long machineId, Long medicineId) {
         inventoryRepository.deleteByVendingMachineIdAndMedicineId(machineId, medicineId);
+    }
+
+    /* 아래는 Inventory Entity 반환 */
+
+    public List<Inventory> getInventories(Long machineId, List<String> productCodes) {
+        return inventoryRepository.getInventories(machineId, productCodes);
+    }
+
+    public Inventory getInventory(Long machineId, Long medicineId) {
+        return inventoryRepository.getInventory(machineId, medicineId).orElseThrow(() -> new InventoryException(ExceptionType.NOT_FOUND_INVENOTRY));
     }
 
 }

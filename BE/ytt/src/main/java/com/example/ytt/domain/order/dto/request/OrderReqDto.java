@@ -1,4 +1,4 @@
-package com.example.ytt.domain.order.dto;
+package com.example.ytt.domain.order.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
@@ -7,6 +7,6 @@ import java.util.List;
 public record OrderReqDto(
         @Schema(description = "사용자 Id")   Long userId,
         @Schema(description = "자판기 Id")   Long vendingMachineId,
-        @Schema(description = "상품 리스트") List<OrderDetailReqDto> orderItems
+        @Schema(description = "상품 리스트")  List<OrderItemReqDto> orderItems
 ) {
 }

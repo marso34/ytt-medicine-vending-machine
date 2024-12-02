@@ -1,7 +1,8 @@
-package com.example.ytt.domain.order.dto;
+package com.example.ytt.domain.order.dto.machine;
 
 import com.example.ytt.domain.order.domain.Order;
 import com.example.ytt.domain.order.domain.OrderState;
+import com.example.ytt.domain.order.dto.request.OrderItemReqDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,18 +14,15 @@ public record OrderVendingMachineDto(
         @Schema(description = "유저 ID")      Long userId,
         @Schema(description = "주문 상태")     OrderState orderState,
         @Schema(description = "주문 시간")     LocalDateTime orderAt,
-        @Schema(description = "주문 상세 목록") List<OrderDetailReqDto> orderItems
+        @Schema(description = "주문 상세 목록") List<OrderItemReqDto> orderItems
 ){
-    public static OrderVendingMachineDto of(UUID id, Long userId, OrderState orderState, LocalDateTime orderAt, List<OrderDetailReqDto> orderItems) {
+    public static OrderVendingMachineDto of(UUID id, Long userId, OrderState orderState, LocalDateTime orderAt, List<OrderItemReqDto> orderItems) {
         return new OrderVendingMachineDto(id.toString(), userId, orderState, orderAt, orderItems);
     }
 
     public static OrderVendingMachineDto from(Order order) {
-        List<OrderDetailReqDto> orderDetailDtos = order.getOrderItems().stream()
-                .map(detail -> new OrderDetailReqDto(
-                        detail.getMedicine().getProductCode(),
-                        detail.getQuantity()
-                ))
+        List<OrderItemReqDto> orderDetailDtos = order.getOrderItems().stream()
+                .map(OrderItemReqDto::from)
                 .toList();
 
         return OrderVendingMachineDto.of(
