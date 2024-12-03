@@ -50,9 +50,10 @@ public class UserService {
     // 사용자 이메일로 정보 조회
     public UserDto getUserByEmail(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new UserException(ExceptionType.NOT_FOUND_USER));
 
         UserDto userDto = new UserDto();
+        userDto.setUserid(user.getId());
         userDto.setEmail(user.getEmail());
         userDto.setPassword(user.getPassword());
         userDto.setName(user.getName());
