@@ -15,13 +15,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -122,5 +123,13 @@ public class AuthService implements UserDetailsService {
         if (!refreshRepository.existsByRefresh(refresh)) {
             throw new UserException(ExceptionType.INVALID_REFRESH_TOKEN);
         }
+    }
+
+    // 기간 만료된 RefreshToken 삭제
+    @Scheduled(cron = "0 0 0 * * ?")   // Daily at 00:00
+    public void deleteExpiredRefreshTokens() {
+        Date now = new Date();
+        List<JwtRefresh> expiredTokens = refreshRepository.findAllByExpirationBefore(now);
+        refreshRepository.deleteAll(expiredTokens);
     }
 }
