@@ -126,7 +126,7 @@ public class AuthService implements UserDetailsService {
     }
 
     // 기간 만료된 RefreshToken 삭제
-    @Scheduled(fixedDelay = 1000 * 60 * 60)   // 1 hour
+    @Scheduled(cron = "0 0 0 * * ?")   // Daily at 00:00
     public void deleteExpiredRefreshTokens() {
         Date now = new Date();
         List<JwtRefresh> expiredTokens = refreshRepository.findAllByExpirationBefore(now);
