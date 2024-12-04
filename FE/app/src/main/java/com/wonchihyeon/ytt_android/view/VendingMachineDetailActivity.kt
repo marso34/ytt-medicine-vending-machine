@@ -42,6 +42,9 @@ class VendingMachineDetailActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<VendingMachineViewModel>()
 
+    private lateinit var recyclerViewOrders: RecyclerView
+    private lateinit var adapter2: OrdersAdapter
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,9 +66,20 @@ class VendingMachineDetailActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        orderedItemsListView = findViewById(R.id.ordered_items_list_view)
-        orderedItemsAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, orderedItems)
-        orderedItemsListView.adapter = orderedItemsAdapter
+        recyclerViewOrders = findViewById(R.id.recyclerViewOrders)
+        recyclerViewOrders.layoutManager = LinearLayoutManager(this)
+
+        adapter2 = OrdersAdapter(emptyList())
+        recyclerViewOrders.adapter = adapter2
+
+        // 저장된 주문 항목 로드
+        viewModel.loadOrdersFromPreferences()
+
+        // ViewModel에서 데이터를 가져옴
+        viewModel.orderedItems.observe(this) { items ->
+            adapter2.updateData(items)
+        }
+
 
         // Intent로부터 전달된 데이터 받기
         val orderedItemsJson = intent.getStringExtra("orderedItems")
@@ -92,11 +106,11 @@ class VendingMachineDetailActivity : AppCompatActivity() {
         })
 
         // 주문 버튼 설정
-        setupOrderButton()
+        setupOrderButton(vendingMachineId)
 
     }
 
-    private fun setupOrderButton() {
+    private fun setupOrderButton(vendingMachineId: String) {
         findViewById<Button>(R.id.order_button).setOnClickListener {
             // 주문 리스트를 JSON 형식으로 변환
             val orderedItemsJson = Gson().toJson(orderedItems)
@@ -104,6 +118,7 @@ class VendingMachineDetailActivity : AppCompatActivity() {
             // OrderActivity로 이동
             val intent = Intent(this, OrderActivity::class.java)
             intent.putExtra("orderedItems", orderedItemsJson)
+            intent.putExtra("vendingMachineId",vendingMachineId)
             startActivity(intent)
         }
     }
