@@ -2,20 +2,54 @@ package com.wonchihyeon.ytt_android.data.repository
 
 import android.util.Log
 import com.google.gson.Gson
+import com.wonchihyeon.ytt_android.data.model.OrderDTO
 import com.wonchihyeon.ytt_android.data.model.ResponseDTO
 import com.wonchihyeon.ytt_android.data.network.ApiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.Header
 
 class VendingMachineRepository(private val apiService: ApiService) {
 
-    fun createOrder(): Call<ResponseDTO> {
-        return apiService.createOrder()
+    fun getReissue(refreshToken: String): Call<ResponseDTO> {
+        return apiService.getReissue(refreshToken)
+    }
+
+    fun getMyOrders(state: String): Call<ResponseDTO> {
+        return apiService.getMyOrders(state)
+    }
+
+    fun addFavorites(machineId: Int): Call<ResponseDTO> {
+       return apiService.addFavorites(machineId)
+    }
+
+    fun deleteFavorites(machineId: Int): Call<ResponseDTO> {
+        return apiService.deleteFavorites(machineId)
+    }
+
+    fun getAllOrders(state: String): Call<ResponseDTO> {
+        return apiService.getAllOrders(state)
+    }
+
+    fun getFavorites(): Call<ResponseDTO> {
+        return apiService.getFavorites()
+    }
+
+    fun Logout(@Header("Authorization") refreshToken: String): Call<ResponseDTO> {
+        return apiService.Logout(refreshToken)
+    }
+
+    fun createOrder(orderDTO: OrderDTO): Call<ResponseDTO> {
+        return apiService.createOrder(orderDTO)
+    }
+
+    fun cancelOrder(orderId: String): Call<ResponseDTO> {
+        return apiService.cancelOrder(orderId)
     }
 
     fun myPage(): Call<ResponseDTO> {
-        return apiService.createOrder()
+        return apiService.getMyPage()
     }
 
     fun getVendingMachineById(vendingMachineId: String): Call<ResponseDTO> {
