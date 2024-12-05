@@ -1,20 +1,40 @@
 package com.wonchihyeon.ytt_android.ui
 
+import android.app.Application
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.internal.LinkedTreeMap
 import com.wonchihyeon.ytt_android.R
+import com.wonchihyeon.ytt_android.data.model.ResponseDTO
 import com.wonchihyeon.ytt_android.data.model.VendingMachineDTO
+import com.wonchihyeon.ytt_android.data.model.VendingMachineDetailDTO
+import com.wonchihyeon.ytt_android.data.network.ApiService
+import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
+import com.wonchihyeon.ytt_android.data.repository.VendingMachineRepository
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class VendingMachineAdapter(private val items: List<VendingMachineDTO>) : RecyclerView.Adapter<VendingMachineAdapter.ViewHolder>() {
+
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameTextView: TextView = itemView.findViewById(R.id.tv_name)
         private val stateTextView: TextView = itemView.findViewById(R.id.tv_state)
         private val addressTextView: TextView = itemView.findViewById(R.id.tv_address)
+        /*private val apiService = RetrofitAPI.getRetrofit().create(ApiService::class.java)
+        private val repository = VendingMachineRepository(apiService)*/
+
+        // 레포지토리 및 API 서비스 초기화
+        val apiService = RetrofitAPI.getRetrofit(itemView.context).create(ApiService::class.java)
+        private val repository = VendingMachineRepository(apiService)
+
 
         fun bind(item: VendingMachineDTO) {
             nameTextView.text = item.name
@@ -44,4 +64,6 @@ class VendingMachineAdapter(private val items: List<VendingMachineDTO>) : Recycl
     }
 
     override fun getItemCount(): Int = items.size
+
 }
+
