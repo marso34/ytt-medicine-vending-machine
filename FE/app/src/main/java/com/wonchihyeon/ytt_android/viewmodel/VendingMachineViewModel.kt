@@ -25,6 +25,10 @@ class VendingMachineViewModel(application: Application) : AndroidViewModel(appli
     private val _vendingMachine = MutableLiveData<VendingMachineDetailDTO>()
     val vendingMachine: LiveData<VendingMachineDetailDTO> get() = _vendingMachine
 
+   var boolean = _vendingMachine.value?.isFavorite
+
+    val id = _vendingMachine.value?.id?.toInt()
+
     private val _orderedItems = MutableLiveData<List<MedicineDTO>>().apply {
         value = emptyList()
     }
