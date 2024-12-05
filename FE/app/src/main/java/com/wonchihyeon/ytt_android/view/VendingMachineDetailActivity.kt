@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -13,23 +14,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.internal.LinkedTreeMap
 import com.google.gson.reflect.TypeToken
 import com.wonchihyeon.ytt_android.R
 import com.wonchihyeon.ytt_android.data.model.ResponseDTO
-import com.wonchihyeon.ytt_android.data.model.VendingMachineDetailDTO
+import com.wonchihyeon.ytt_android.data.model.SignInDTO
+import com.wonchihyeon.ytt_android.data.model.VendingMachineDTO
 import com.wonchihyeon.ytt_android.data.model.vendingmachine.MedicineDTO
 import com.wonchihyeon.ytt_android.data.network.ApiService
 import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
 import com.wonchihyeon.ytt_android.data.repository.VendingMachineRepository
 import com.wonchihyeon.ytt_android.ui.adapter.MedicineAdapter
-import com.wonchihyeon.ytt_android.viewmodel.SignUpViewModel
 import com.wonchihyeon.ytt_android.viewmodel.VendingMachineViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class VendingMachineDetailActivity : AppCompatActivity() {
 
@@ -39,6 +41,9 @@ class VendingMachineDetailActivity : AppCompatActivity() {
     private lateinit var orderedItemsListView: ListView
     private lateinit var orderedItemsAdapter: ArrayAdapter<String>
     private val orderedItems = mutableListOf<String>()
+
+    private lateinit var adapter1: VendingMachineAdapter
+
 
     private val viewModel by viewModels<VendingMachineViewModel>()
 
@@ -92,7 +97,7 @@ class VendingMachineDetailActivity : AppCompatActivity() {
         // 상세 약 정보 불러오기
         viewModel.fetchMedicineDetails(vendingMachineId)
 
-        viewModel.vendingMachine.observe(this, Observer{
+        viewModel.vendingMachine.observe(this, Observer {
             Log.d("a", viewModel.vendingMachine.value!!.address)
 
             adapter = MedicineAdapter(
@@ -108,6 +113,39 @@ class VendingMachineDetailActivity : AppCompatActivity() {
         // 주문 버튼 설정
         setupOrderButton(vendingMachineId)
 
+        // SharedPreferences 초기화
+        val sharedPreferences = getSharedPreferences("FavoritePreferences", MODE_PRIVATE)
+
+        // SharedPreferences에서 boolean 상태 로드
+        viewModel.boolean = sharedPreferences.getBoolean("isFavorite_${intent.getStringExtra("vendingMachineId")}", false)
+
+        // 초기 UI 상태 설정
+        if (viewModel.boolean!!) {
+            findViewById<ImageView>(R.id.heart_image_view).setImageResource(R.drawable.ic_heart_fill)
+        } else {
+            findViewById<ImageView>(R.id.heart_image_view).setImageResource(R.drawable.ic_heart)
+        }
+
+        // heart_image_view 클릭하면 즐겨찾기 추가/삭제
+        findViewById<ImageView>(R.id.heart_image_view).setOnClickListener {
+            val editor = sharedPreferences.edit() // SharedPreferences 편집기
+
+            if (viewModel.boolean!!) {
+                // 즐겨찾기에서 삭제
+                deleteFavorites(intent.getStringExtra("vendingMachineId")!!.toInt())
+                findViewById<ImageView>(R.id.heart_image_view).setImageResource(R.drawable.ic_heart)
+                viewModel.boolean = false
+            } else {
+                // 즐겨찾기 추가
+                addFavorites(intent.getStringExtra("vendingMachineId")!!.toInt())
+                findViewById<ImageView>(R.id.heart_image_view).setImageResource(R.drawable.ic_heart_fill)
+                viewModel.boolean = true
+            }
+
+            // 변경된 boolean 상태를 SharedPreferences에 저장
+            editor.putBoolean("isFavorite_${intent.getStringExtra("vendingMachineId")}", viewModel.boolean!!)
+            editor.apply()
+        }
     }
 
     private fun setupOrderButton(vendingMachineId: String) {
@@ -118,7 +156,7 @@ class VendingMachineDetailActivity : AppCompatActivity() {
             // OrderActivity로 이동
             val intent = Intent(this, OrderActivity::class.java)
             intent.putExtra("orderedItems", orderedItemsJson)
-            intent.putExtra("vendingMachineId",vendingMachineId)
+            intent.putExtra("vendingMachineId", vendingMachineId)
             startActivity(intent)
         }
     }
@@ -134,4 +172,87 @@ class VendingMachineDetailActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun getFavorites() {
+        repository.getFavorites()
+            .enqueue(object : Callback<ResponseDTO> {
+                override fun onResponse(call: Call<ResponseDTO>, response: Response<ResponseDTO>) {
+                    if (response.isSuccessful) {
+                        Log.d("Response Success", response.code().toString())
+                        Log.d("favoriteList", response.body()?.body.toString())
+                    } else {
+                        Log.e("Response Error", "Code: ${response.code()}")
+                        val errorBody = response.errorBody()?.string()
+                        errorBody?.let {
+                            Log.e("Error Body", it) // 오류 본문 로깅 추가
+                            val gson = Gson()
+                            val errorResponse = gson.fromJson(it, ResponseDTO::class.java)
+                            Log.e(
+                                "Error Response",
+                                "Code: ${errorResponse.code}, Message: ${errorResponse.message}"
+                            )
+                        } ?: Log.e("Error Response", "Error body is null")
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseDTO>, t: Throwable) {
+                    Log.e("Network Failure", t.message ?: "Unknown error")
+                }
+            })
+    }
+
+    fun addFavorites(machineId: Int) {
+        repository.addFavorites(machineId)
+            .enqueue(object : Callback<ResponseDTO> {
+                override fun onResponse(
+                    call: Call<ResponseDTO>,
+                    response: Response<ResponseDTO>,
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        Log.d("abc",responseBody.toString())
+
+                    } else {
+                        val errorMessage = response.errorBody()?.string()
+                        errorMessage?.let {
+                            val gson = Gson()
+                            val errorResponse = gson.fromJson(it, ResponseDTO::class.java)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseDTO>, t: Throwable) {
+                    Log.e("OrderError", "Error creating order: ${t.message}")
+                }
+            })
+    }
+
+
+    fun deleteFavorites(machineId: Int) {
+        repository.deleteFavorites(machineId)
+            .enqueue(object : Callback<ResponseDTO> {
+                override fun onResponse(call: Call<ResponseDTO>, response: Response<ResponseDTO>) {
+                    if (response.isSuccessful) {
+                        Log.d("Response Success", response.code().toString())
+                    } else {
+                        Log.e("Response Error", "Code: ${response.code()}")
+                        val errorBody = response.errorBody()?.string()
+                        errorBody?.let {
+                            Log.e("Error Body", it) // 오류 본문 로깅 추가
+                            val gson = Gson()
+                            val errorResponse = gson.fromJson(it, ResponseDTO::class.java)
+                            Log.e(
+                                "Error Response",
+                                "Code: ${errorResponse.code}, Message: ${errorResponse.message}"
+                            )
+                        } ?: Log.e("Error Response", "Error body is null")
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseDTO>, t: Throwable) {
+                    Log.e("Network Failure", t.message ?: "Unknown error")
+                }
+            })
+    }
+
 }
