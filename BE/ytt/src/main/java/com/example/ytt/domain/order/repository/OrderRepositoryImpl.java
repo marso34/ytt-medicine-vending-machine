@@ -28,8 +28,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         Long count = jpaQueryFactory
                 .select(order.id.count())
                 .from(order)
-                .where(
-                        order.id.eq(UUIDutil.convertUUID(id)),
+                .where(order.id.eq(UUIDutil.convertUUID(id)),
                         eqUser(userId))
                 .fetchOne();
 
@@ -41,10 +40,10 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         return jpaQueryFactory
                 .selectFrom(order)
                 .join(order.vendingMachine, vendingMachine).fetchJoin()
-                .where(
-                        eqUser(userId),
+                .where(eqUser(userId),
                         eqVendingMachine(machineId),
                         eqState(state))
+                .orderBy(order.orderAt.desc())
                 .fetch();
     }
 
@@ -55,21 +54,19 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
                 .join(order.vendingMachine, vendingMachine).fetchJoin()
                 .join(order.orderItems, orderItem).fetchJoin()
                 .join(orderItem.medicine, medicine).fetchJoin()
-                .where(
-                        order.id.eq(UUIDutil.convertUUID(orderId)))
+                .where(order.id.eq(UUIDutil.convertUUID(orderId)))
                 .fetchOne();
 
         return Optional.ofNullable(orders);
     }
 
     @Override
-    public Long getOrderCount(Long machineId, OrderState state) {
+    public Long getOrderCount(Long machineId) {
         return jpaQueryFactory
                 .select(order.id.count())
                 .from(order)
-                .where(
-                        eqVendingMachine(machineId),
-                        eqState(state))
+                .where(eqVendingMachine(machineId),
+                        order.orderState.eq(OrderState.PENDING).or(order.orderState.eq(OrderState.STORED)))
                 .setLockMode(LockModeType.PESSIMISTIC_WRITE)
                 .fetchOne();
     }

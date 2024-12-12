@@ -48,6 +48,10 @@ public class ManagementService {
         return list.stream().map(UserDto::from).toList();
     }
 
+    public boolean isMachineManager(Long vendingMachineId, Long userId) {
+        return managementRepository.isMachineManager(vendingMachineId, userId);
+    }
+
     // TODO: 모든 관리자 조회 기능 구현
 
     public List<UserDto> getAllManagers() {
