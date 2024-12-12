@@ -3,6 +3,7 @@ package com.example.ytt.domain.order.service;
 import com.example.ytt.domain.inventory.domain.Inventory;
 import com.example.ytt.domain.inventory.exception.InventoryException;
 import com.example.ytt.domain.inventory.service.InventoryService;
+import com.example.ytt.domain.management.service.ManagementService;
 import com.example.ytt.domain.order.domain.Order;
 import com.example.ytt.domain.order.domain.OrderItem;
 import com.example.ytt.domain.order.domain.OrderState;
@@ -36,6 +37,7 @@ public class OrderManageService {
     private final VendingMachineFindService vendingMachineFindService;
     private final InventoryService inventoryService;
     private final UserService userService;
+    private final ManagementService managementService;
 
     private final SimpMessagingTemplate messagingTemplate;
 
@@ -62,13 +64,6 @@ public class OrderManageService {
         User user = userService.getUser(orderReqDto.userId());
         VendingMachine vendingMachine = vendingMachineFindService.getVendingMachine(orderReqDto.vendingMachineId());
 
-        // 주문 가능한지 확인
-        long pendingOrders = orderRepository.getOrderCount(vendingMachine.getId(), OrderState.PENDING); // PESSIMISTIC_READ
-
-        if (pendingOrders >= vendingMachine.getCapacity()) {
-            throw new OrderException(ExceptionType.FULL_VENDING_MACHINE_ORDER);
-        }
-
         // 주문할 제품 코드를 통해 재고 조회
         List<String> productCodes = getProductCodesByOrderReq(orderReqDto.orderItems());
         List<Inventory> inventories = inventoryService.getInventories(vendingMachine.getId(), productCodes); // 필요한 inventory 조회 (PESSIMISTIC_WRITE)
@@ -77,10 +72,18 @@ public class OrderManageService {
             throw new OrderException(ExceptionType.NOT_FOUND_MEDICINE);
         }
 
+        // 주문 가능한지 확인
+        boolean isManager = managementService.isMachineManager(vendingMachine.getId(), orderReqDto.userId());
+
+        if (!isManager && vendingMachine.getCapacity() <= orderRepository.getOrderCount(vendingMachine.getId())) { // 관리자면 주문 수를 넘어도 가능하게, PESSIMISTIC_WRITE
+            throw new OrderException(ExceptionType.FULL_VENDING_MACHINE_ORDER);
+        }
+
         // 주문 생성
         Order savedOrder = Order.builder()
                 .user(user)
                 .vendingMachine(vendingMachine)
+                .state(isManager ? OrderState.COMPLETED : OrderState.PENDING)
                 .orderItems(createOrderItems(orderReqDto.orderItems(), inventories))
                 .build();
 
