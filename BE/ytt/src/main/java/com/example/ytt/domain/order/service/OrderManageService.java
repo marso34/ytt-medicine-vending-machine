@@ -165,6 +165,27 @@ public class OrderManageService {
         return OrderDetailDto.from(savedOrder);
     }
 
+    /**
+     * 특정 자판기의 모든 주문 취소 (pending 상태인 것만)
+     * @param vendingMachineId 자판기 ID
+     * @return List<OrderDetailDto>
+     */
+    @Transactional
+    public List<OrderDetailDto> cancelAllOrdersByVendingMachine(Long vendingMachineId) {
+        List<Order> orders = orderRepository.getOrders(null, vendingMachineId, OrderState.PENDING);
+
+        for (Order order : orders) {
+            restoreInventory(order);
+            order.setCompletedAt();
+            order.setOrderState(OrderState.CANCELED);
+        }
+
+        List<Order> savedOrders = orderRepository.saveAll(orders);
+
+        return savedOrders.stream().map(OrderDetailDto::from).toList();
+    }
+
+
     private List<String> getProductCodesByOrderReq(List<OrderItemReqDto> orderItems) {
         return orderItems.stream()
                 .map(OrderItemReqDto::productCode)
