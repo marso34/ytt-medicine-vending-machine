@@ -20,9 +20,13 @@
         <activity
             android:name=".auth.FindPasswordActivity"
             android:exported="false" />
+
         <activity
-            android:name=".view.OrderActivity"
+            android:name=".ui.VendingMachineDetailActivity"
             android:exported="false" />
+
+        <activity android:name=".ui.OrderActivity" />
+
         <activity
             android:name=".auth.FindIdActivity"
             android:exported="false" />
@@ -35,29 +39,35 @@
 
         </activity>
 
-        <activity android:name=".view.DetailMedicineActivity"   android:exported="true" /> <!-- OrderActivity 추가 -->
-        <activity android:name=".ui.VendingMachineDetailActivity"></activity>
+        <activity
+            android:name=".view.DetailMedicineActivity"
+            android:exported="true" />
 
-    <activity
-        android:name=".auth.LoginActivity"
-        android:exported="true">
-
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-
-    </activity>
-    <activity
-        android:name=".view.MyFragment"
-        android:exported="false" />
-
-    <meta-data
-        android:name="com.naver.maps.map.CLIENT_ID"
-        android:value="${NAVERMAP_CLIENT_ID}" />
+        <activity
+            android:name="MyApplication"
+            android:exported="true" />
 
 
-</application>
+        <activity
+            android:name=".auth.LoginActivity"
+            android:exported="true">
 
-    </manifest>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".view.MyFragment"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="${NAVERMAP_CLIENT_ID}" />
+
+
+    </application>
+
+</manifest>
