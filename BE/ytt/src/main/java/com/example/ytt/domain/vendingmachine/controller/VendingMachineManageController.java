@@ -6,7 +6,6 @@ import com.example.ytt.domain.user.dto.Role;
 import com.example.ytt.domain.vendingmachine.domain.MachineState;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDetailDto;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineReqDto;
-import com.example.ytt.domain.favorite.service.FavoriteService;
 import com.example.ytt.domain.vendingmachine.service.VendingMachineManageService;
 import com.example.ytt.global.common.annotation.SwaggerApi;
 import com.example.ytt.global.common.response.ResponseDto;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 public class VendingMachineManageController {
 
     private final VendingMachineManageService vendingMachineService;
-    private final FavoriteService favoriteService;
 
     @PostMapping
     @SwaggerApi(summary = "자판기 생성", description = "자판기 생성 API", responseCode = "201")
