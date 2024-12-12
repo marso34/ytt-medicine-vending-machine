@@ -55,6 +55,9 @@ class VendingMachineDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vending_machine_detail)
 
+        // SharedPreferences 초기화
+        clearSharedPreferences()
+
         // 레포지토리 및 API 서비스 초기화
         val apiService = RetrofitAPI.getRetrofit(this).create(ApiService::class.java)
         repository = VendingMachineRepository(apiService)
@@ -84,7 +87,6 @@ class VendingMachineDetailActivity : AppCompatActivity() {
         viewModel.orderedItems.observe(this) { items ->
             adapter2.updateData(items)
         }
-
 
         // Intent로부터 전달된 데이터 받기
         val orderedItemsJson = intent.getStringExtra("orderedItems")
@@ -117,7 +119,10 @@ class VendingMachineDetailActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("FavoritePreferences", MODE_PRIVATE)
 
         // SharedPreferences에서 boolean 상태 로드
-        viewModel.boolean = sharedPreferences.getBoolean("isFavorite_${intent.getStringExtra("vendingMachineId")}", false)
+        viewModel.boolean = sharedPreferences.getBoolean(
+            "isFavorite_${intent.getStringExtra("vendingMachineId")}",
+            false
+        )
 
         // 초기 UI 상태 설정
         if (viewModel.boolean!!) {
@@ -143,7 +148,10 @@ class VendingMachineDetailActivity : AppCompatActivity() {
             }
 
             // 변경된 boolean 상태를 SharedPreferences에 저장
-            editor.putBoolean("isFavorite_${intent.getStringExtra("vendingMachineId")}", viewModel.boolean!!)
+            editor.putBoolean(
+                "isFavorite_${intent.getStringExtra("vendingMachineId")}",
+                viewModel.boolean!!
+            )
             editor.apply()
         }
     }
@@ -201,6 +209,14 @@ class VendingMachineDetailActivity : AppCompatActivity() {
             })
     }
 
+    private fun clearSharedPreferences() {
+        val sharedPreferences = getSharedPreferences("FavoritePreferences", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear() // 모든 데이터를 삭제
+        editor.apply() // 변경사항 저장
+        Log.d("SharedPreferences", "All data cleared.")
+    }
+
     fun addFavorites(machineId: Int) {
         repository.addFavorites(machineId)
             .enqueue(object : Callback<ResponseDTO> {
@@ -210,7 +226,7 @@ class VendingMachineDetailActivity : AppCompatActivity() {
                 ) {
                     if (response.isSuccessful) {
                         val responseBody = response.body()
-                        Log.d("abc",responseBody.toString())
+                        Log.d("abc", responseBody.toString())
 
                     } else {
                         val errorMessage = response.errorBody()?.string()
