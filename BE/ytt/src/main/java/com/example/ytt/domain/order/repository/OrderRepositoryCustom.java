@@ -14,6 +14,6 @@ public interface OrderRepositoryCustom {
 
     Optional<Order> getOrderDetail(String orderId);
 
-    Long getOrderCount(Long machineId, OrderState state);
+    Long getOrderCount(Long machineId);
 
 }
