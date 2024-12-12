@@ -11,4 +11,6 @@ public interface ManagementRepositoryCustom {
 
     List<User> getManagers(Long vendingMachineId);
 
+    boolean isMachineManager(Long vendingMachineId, Long userId);
+
 }
