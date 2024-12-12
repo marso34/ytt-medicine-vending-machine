@@ -2,6 +2,7 @@ package com.wonchihyeon.ytt_android.data.repository
 
 import android.util.Log
 import com.google.gson.Gson
+import com.wonchihyeon.ytt_android.data.TokenManager
 import com.wonchihyeon.ytt_android.data.model.ResponseDTO
 import com.wonchihyeon.ytt_android.data.model.SignInDTO
 import com.wonchihyeon.ytt_android.data.model.SignUpDTO
@@ -16,6 +17,41 @@ import kotlin.coroutines.suspendCoroutine
 class AuthRepository(private val context: android.content.Context) {
     private val apiService: ApiService =
         RetrofitAPI.getAuthRetrofit(context).create(ApiService::class.java)
+
+    fun getMyPage(
+        callback: (ResponseDTO) -> Unit,
+    ) {
+        apiService.getMyPage()
+            .enqueue(object : Callback<ResponseDTO> {
+                override fun onResponse(
+                    call: Call<ResponseDTO>,
+                    response: Response<ResponseDTO>,
+                ) {
+                    if (response.isSuccessful) {
+                        Log.d("Response Success", response.code().toString())
+                        response.body()?.let { callback(it) }
+                    } else {
+                        Log.d("Response Error", response.code().toString())
+                        val errorBody = response.errorBody()?.string()
+                        errorBody?.let {
+                            val gson = Gson()
+                            val errorResponse = gson.fromJson(it, ResponseDTO::class.java)
+                            callback(errorResponse)
+                        }
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<ResponseDTO>,
+                    t: Throwable,
+                ) {
+                    Log.d("Network Failure", t.message ?: "Unknown error")
+                    callback(ResponseDTO(400, "${t.message}", "error"))
+                }
+            })
+    }
+
+
 
     suspend fun signIn(signInDTO: SignInDTO): Pair<String, Pair<String?, String?>> {
         return suspendCoroutine { continuation ->
@@ -75,6 +111,29 @@ class AuthRepository(private val context: android.content.Context) {
             } catch (e: Exception) {
                 continuation.resume("회원가입 요청 실패: ${e.message}" to null)
             }
+        }
+    }
+
+    suspend fun refreshAccessToken(refreshToken: String): String {
+        return suspendCoroutine { continuation ->
+            apiService.refreshAccessToken(refreshToken).enqueue(object : Callback<ResponseDTO> {
+                override fun onResponse(call: Call<ResponseDTO>, response: Response<ResponseDTO>) {
+                    if (response.isSuccessful) {
+                        Log.d("refreshToken",response.code().toString())
+                        val newAccessToken = response.headers()["Authorization"] // 새 액세스 토큰을 응답에서 가져옴
+                        newAccessToken?.let {
+                            TokenManager.saveAccessToken(context, it) // 새 액세스 토큰 저장
+                            continuation.resume("토큰 재발급 성공")
+                        } ?: continuation.resume("토큰 재발급 실패: 응답에 액세스 토큰이 없음")
+                    } else {
+                        continuation.resume("토큰 재발급 실패: ${response.message()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseDTO>, t: Throwable) {
+                    continuation.resume("토큰 재발급 실패: ${t.message}")
+                }
+            })
         }
     }
 }
