@@ -49,14 +49,15 @@ public class Order {
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @Builder
-    public Order(User user, VendingMachine vendingMachine, List<OrderItem> orderItems) {
+    public Order(User user, VendingMachine vendingMachine, OrderState state, List<OrderItem> orderItems) {
         Assert.notNull(user, "사용자는 필수입니다.");
         Assert.notNull(vendingMachine, "자판기는 필수입니다.");
+        Assert.notNull(state, "주문 상태는 필수입니다.");
         Assert.notEmpty(orderItems, "주문 항목은 1 이상이어야 합니다.");
 
         this.user = user;
         this.vendingMachine = vendingMachine;
-        this.orderState = OrderState.PENDING;
+        this.orderState = state;
         this.totalPrice = 0;
 
         this.orderAt = LocalDateTime.now();
