@@ -84,9 +84,15 @@ public class OrderController {
     }
 
     @PostMapping("/cancel/{orderId}")
-    @SwaggerApi(summary = "주문 취소", description = "주문 취소 처리 API", implementation = ResponseDto.class)
+    @SwaggerApi(summary = "주문 취소", description = "주문 취소 처리 API")
     public ResponseEntity<ResponseDto<OrderDetailDto>> cancelOrder(@PathVariable(value = "orderId") String orderId) {
         return ResponseUtil.success(orderManageService.cancelOrder(orderId));
+    }
+
+    @PostMapping("/cancel/all/{machineId}")
+    @SwaggerApi(summary = "자판기 주문 전체 취소", description = "자판기 내에 PENDING 주문 전체 취소 처리 API")
+    public ResponseEntity<ResponseDto<List<OrderDetailDto>>> cancelOrders(@PathVariable(value = "machineId") long machineId) {
+        return ResponseUtil.success(orderManageService.cancelAllOrdersByVendingMachine(machineId));
     }
 
 }
