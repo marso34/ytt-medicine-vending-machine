@@ -12,8 +12,11 @@ import androidx.core.content.ContextCompat
 import com.wonchihyeon.ytt_android.auth.LoginActivity
 import com.wonchihyeon.ytt_android.databinding.ActivityMainBinding
 import com.wonchihyeon.ytt_android.fragments.HomeFragment
+import com.wonchihyeon.ytt_android.view.FavoriteFragment
 import com.wonchihyeon.ytt_android.view.MyFragment
 import com.wonchihyeon.ytt_android.view.OrderListFragment
+
+/*import com.wonchihyeon.ytt_android.view.OrderListFragment*/
 
 class MainActivity : AppCompatActivity() {
 
@@ -85,37 +88,32 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.fragment_main -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, HomeFragment())
-                        .commit()
+                    loadHomeFragment() // 홈 화면 로드
                     true
                 }
-
                 R.id.fragment_favorite -> {
-                    // 바텀 시트의 TextView 값을 "즐겨찾기"로 수정
-                    findViewById<TextView>(R.id.address).text = "즐겨찾기"
+                    // 즐겨찾기 탭 선택 시
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_container, HomeFragment())
+                        .replace(R.id.main_container, FavoriteFragment())
                         .commit()
+                    // FavoriteFragment에서 getFavorites()를 호출하도록 구현
                     true
                 }
-
                 R.id.fragment_order -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_container, OrderListFragment())
                         .commit()
                     true
                 }
-
                 R.id.fragment_my -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_container, MyFragment())
                         .commit()
                     true
                 }
-
                 else -> false
             }
         }
     }
 }
+

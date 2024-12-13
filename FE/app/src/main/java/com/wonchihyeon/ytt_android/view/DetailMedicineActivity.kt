@@ -41,6 +41,7 @@ class DetailMedicineActivity : AppCompatActivity() {
     private var vendingMachineId: String = ""
     private var vendingMachineName: String = ""
     private var vendingMachineAddress: String = ""
+    private var productCode: String = ""
 
     private var medicineId: Int = 0
     private var quantity: Int = 1 // 초기 수량 설정
@@ -53,14 +54,14 @@ class DetailMedicineActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail_medicine)
 
         // UI 요소 초기화
-        medicineNameTextView = findViewById(R.id.tv_medicine_name)
-        priceTextView = findViewById(R.id.tv_price)
+        medicineNameTextView = findViewById(R.id.detail_medicine_name)
+        priceTextView = findViewById(R.id.detail_price)
         medicineImageView = findViewById(R.id.iv_medicine_image)
         orderButton = findViewById(R.id.btn_order)
         quantityTextView = findViewById(R.id.tv_quantity)
         btnIncrease = findViewById(R.id.btn_increase)
         btnDecrease = findViewById(R.id.btn_decrease)
-        medicineStockTextView = findViewById(R.id.tv_stock)
+        medicineStockTextView = findViewById(R.id.stock)
 
         // 레포지토리 및 API 서비스 초기화
         val apiService = RetrofitAPI.getRetrofit(this).create(ApiService::class.java)
@@ -72,6 +73,7 @@ class DetailMedicineActivity : AppCompatActivity() {
         vendingMachineId = intent.getStringExtra("vendingMachineId").toString()
         vendingMachineName = intent.getStringExtra("vendingMachineName").toString()
         vendingMachineAddress = intent.getStringExtra("vendingMachineAddress").toString()
+        productCode = intent.getStringExtra("productCode").toString()
 
         // 약품 정보 불러오기
         fetchMedicineDetails(medicineId)
@@ -102,22 +104,40 @@ class DetailMedicineActivity : AppCompatActivity() {
         val medicineDetail = MedicineDTO(
             id = medicineId.toLong(),
             name = medicineNameTextView.text.toString(),
-            productCode = "",
+            productCode = productCode, //필수
             manufacturer = "",
             efficacy = "",
             usage = "",
             precautions = "",
             validityPeriod = "",
             price = priceTextView.text.toString().replace("가격: ", "").replace(" 원", "").toInt(),
-            stock = 1, // 항상 1로 설정
+            stock = quantityTextView.text.toString().toInt(), // 필수 수량
             imageURL = "",
             ingredients = emptyList() // 필요 시 추가
         )
 
         // ViewModel에 주문 추가
         viewModel.addOrderItem(medicineDetail)
+
+        // SharedPreferences에서 저장된 아이템 로드 및 로그 출력
+        loadAndLogSavedOrder(medicineDetail.id)
+
         Toast.makeText(this, "주문이 추가되었습니다.", Toast.LENGTH_SHORT).show()
     }
+
+    private fun loadAndLogSavedOrder(medicineId: Long) {
+        val sharedPreferences = getSharedPreferences("OrderPreferences", MODE_PRIVATE)
+        val json = sharedPreferences.getString("order_$medicineId", null)
+
+        if (json != null) {
+            val gson = Gson()
+            val medicineItem = gson.fromJson(json, MedicineDTO::class.java)
+            Log.d("SavedMedicine", "Saved Medicine: $medicineItem")
+        } else {
+            Log.d("SavedMedicine", "No saved medicine found for id: $medicineId")
+        }
+    }
+
 
 
     private fun navigateToVendingMachineDetailActivity() {
@@ -161,7 +181,7 @@ class DetailMedicineActivity : AppCompatActivity() {
                                             .load(medicineDetail.imageURL)
                                             .into(medicineImageView)
                                     }
-                                    medicineStockTextView.text = "재고: ${medicineDetail.stock} 개"
+                                    medicineStockTextView.text = medicineDetail.stock.toString()
                                     // 초기 수량을 서버에서 받아온 재고 수량으로 설정
                                     quantity = 0
                                     updateQuantityText() // 수량 텍스트 업데이트
