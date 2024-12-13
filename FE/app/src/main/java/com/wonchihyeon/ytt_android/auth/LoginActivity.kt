@@ -13,16 +13,24 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.wonchihyeon.ytt_android.MainActivity
 import com.wonchihyeon.ytt_android.R
+import com.wonchihyeon.ytt_android.data.TokenManager
+import com.wonchihyeon.ytt_android.data.network.ApiService
+import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
+import com.wonchihyeon.ytt_android.data.repository.AuthRepository
+import com.wonchihyeon.ytt_android.data.repository.VendingMachineRepository
 import com.wonchihyeon.ytt_android.databinding.ActivityLoginBinding
 import com.wonchihyeon.ytt_android.viewmodel.SignInViewModel
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<SignInViewModel>()
     private lateinit var binding: ActivityLoginBinding
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var repository: AuthRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +46,12 @@ class LoginActivity : AppCompatActivity() {
 
         // 자동 로그인 체크
         checkAutoLogin()
+
+
+        // 레포지토리 및 API 서비스 초기화
+        val apiService = RetrofitAPI.getRetrofit(this).create(ApiService::class.java)
+        repository = AuthRepository(this)
+
 
         // 로그인 응답 관찰
         viewModel.signInResponse.observe(this, Observer { response ->
@@ -71,17 +85,8 @@ class LoginActivity : AppCompatActivity() {
         binding.findPassword.setOnClickListener {
             startActivity(Intent(this, FindPasswordActivity::class.java))
         }
-
+        checkAutoLogin()
         getHashKey()
-    }
-
-    private fun checkAutoLogin() {
-        val isLoggedIn = sharedPreferences.getBoolean("is_logged_in", false)
-        if (isLoggedIn) {
-            // 자동 로그인 처리
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
     }
 
     private fun saveLoginInfo() {
@@ -100,5 +105,36 @@ class LoginActivity : AppCompatActivity() {
             e.printStackTrace()
         }
         if (packageInfo == null) Log.e("KeyHash", "KeyHash:null")
+    }
+
+    private fun checkAutoLogin() {
+        val isLoggedIn = sharedPreferences.getBoolean("is_logged_in", false)
+        if (isLoggedIn) {
+            // 자동 로그인 처리
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+
+            val refreshToken = TokenManager.getRefreshToken(this)
+            if (refreshToken.isNullOrEmpty()) {
+                // 리프레시 토큰이 없으면 로그인 화면으로 이동
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+                return
+            }
+
+            // CoroutineScope를 사용하여 리프레시 토큰으로 액세스 토큰 재발급 요청
+            lifecycleScope.launch {
+                val result = repository.refreshAccessToken(refreshToken)
+                if (result.startsWith("토큰 재발급 성공")) {
+                    // 토큰 재발급 성공 시 홈 페이지로 이동
+                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    finish()
+                } else {
+                    // 토큰 재발급 실패 시 로그인 페이지로 이동
+                    startActivity(Intent(this@LoginActivity, LoginActivity::class.java))
+                    finish()
+                }
+            }
+        }
     }
 }

@@ -24,24 +24,27 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
 
     fun signIn() {
         viewModelScope.launch {
+            // 로그인 DTO 생성
             val signInDTO = SignInDTO(
                 email.value ?: "",
                 password.value ?: ""
             )
 
+            // 로그인 요청
             val (response, tokens) = repository.signIn(signInDTO)
             _signInResponse.value = response
-            Log.d("w", response)
+            Log.d("LoginResponse", response)
 
+            // 로그인 성공 시 토큰 저장
             tokens?.let { (token, refreshToken) ->
                 if (response == "로그인 성공") {
-                    if (token != null) {
-                        TokenManager.saveAccessToken(getApplication(), token)
+                    token?.let {
+                        TokenManager.saveAccessToken(getApplication(), it) // 액세스 토큰 저장
                     }
-                    if (refreshToken != null) {
-                        TokenManager.saveRefreshToken(getApplication(), refreshToken)
+                    refreshToken?.let {
+                        TokenManager.saveRefreshToken(getApplication(), it) // 리프레시 토큰 저장
                     }
-                    _navigateToHome.value = true
+                    _navigateToHome.value = true // 홈으로 네비게이션
                 }
             }
 
