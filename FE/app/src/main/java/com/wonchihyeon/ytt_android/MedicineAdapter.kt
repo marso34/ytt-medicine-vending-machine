@@ -22,14 +22,16 @@ class MedicineAdapter(
 ) : RecyclerView.Adapter<MedicineAdapter.MedicineViewHolder>() {
 
     inner class MedicineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val medicineNameTextView: TextView = itemView.findViewById(R.id.tv_medicine_name)
-        private val priceTextView: TextView = itemView.findViewById(R.id.tv_price)
-        private val medicineImageView: ImageView = itemView.findViewById(R.id.iv_medicine_image)
+        private val medicineNameTextView: TextView = itemView.findViewById(R.id.medicine_name)
+        private val priceTextView: TextView = itemView.findViewById(R.id.medicine_price)
+        private val medicineImageView: ImageView = itemView.findViewById(R.id.medicine_image)
+        private val productCode: TextView = itemView.findViewById(R.id.productCode)
 
         fun bind(medicine: Medicine) {
             medicineNameTextView.text = medicine.name
             priceTextView.text = "가격: ${medicine.price} 원"
             Glide.with(itemView.context).load(medicine.imageURL).into(medicineImageView)
+            productCode.text = medicine.productCode
 
             // 아이템 클릭 시 OrderActivity로 이동
             itemView.setOnClickListener {
@@ -41,6 +43,7 @@ class MedicineAdapter(
                     putExtra("medicineName", medicine.name)
                     putExtra("price", "가격: ${medicine.price} 원")
                     putExtra("imageUrl", medicine.imageURL)
+                    putExtra("productCode", medicine.productCode)
                 }
                 context.startActivity(intent)
             }
