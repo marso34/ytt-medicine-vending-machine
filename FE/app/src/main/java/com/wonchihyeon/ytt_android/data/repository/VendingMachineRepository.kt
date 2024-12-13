@@ -16,10 +16,6 @@ class VendingMachineRepository(private val apiService: ApiService) {
         return apiService.getReissue(refreshToken)
     }
 
-    fun getMyOrders(state: String): Call<ResponseDTO> {
-        return apiService.getMyOrders(state)
-    }
-
     fun addFavorites(machineId: Int): Call<ResponseDTO> {
        return apiService.addFavorites(machineId)
     }
@@ -28,8 +24,8 @@ class VendingMachineRepository(private val apiService: ApiService) {
         return apiService.deleteFavorites(machineId)
     }
 
-    fun getAllOrders(state: String): Call<ResponseDTO> {
-        return apiService.getAllOrders(state)
+    fun getAllOrders(state: String?): Call<ResponseDTO> {
+        return apiService.getAllOrders(state) // state를 매개변수로 전달
     }
 
     fun getFavorites(): Call<ResponseDTO> {
