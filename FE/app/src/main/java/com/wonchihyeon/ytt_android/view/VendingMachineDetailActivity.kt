@@ -26,6 +26,7 @@ import com.wonchihyeon.ytt_android.data.network.ApiService
 import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
 import com.wonchihyeon.ytt_android.data.repository.VendingMachineRepository
 import com.wonchihyeon.ytt_android.ui.adapter.MedicineAdapter
+import com.wonchihyeon.ytt_android.ui.adapter.OrdersAdapter
 import com.wonchihyeon.ytt_android.viewmodel.VendingMachineViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -77,7 +78,7 @@ class VendingMachineDetailActivity : AppCompatActivity() {
         recyclerViewOrders = findViewById(R.id.recyclerViewOrders)
         recyclerViewOrders.layoutManager = LinearLayoutManager(this)
 
-        adapter2 = OrdersAdapter(emptyList())
+        adapter2 = OrdersAdapter(mutableListOf())
         recyclerViewOrders.adapter = adapter2
 
         // 저장된 주문 항목 로드
