@@ -54,7 +54,7 @@ class MyFragment : Fragment() {
             return
         }
 
-        repository.Logout(refreshToken).enqueue(object : Callback<ResponseDTO> {
+        repository.Logout().enqueue(object : Callback<ResponseDTO> {
             override fun onResponse(call: Call<ResponseDTO>, response: Response<ResponseDTO>) {
                 if (response.isSuccessful && response.body() != null) {
                     Log.d("LogoutSuccess", "Logout successful: ${Gson().toJson(response.body())}")

@@ -32,8 +32,8 @@ class VendingMachineRepository(private val apiService: ApiService) {
         return apiService.getFavorites()
     }
 
-    fun Logout(@Header("Authorization") refreshToken: String): Call<ResponseDTO> {
-        return apiService.Logout(refreshToken)
+    fun Logout(): Call<ResponseDTO> {
+        return apiService.Logout()
     }
 
     fun createOrder(orderDTO: OrderDTO): Call<ResponseDTO> {

@@ -56,9 +56,6 @@ class VendingMachineDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vending_machine_detail)
 
-        // SharedPreferences 초기화
-        clearSharedPreferences()
-
         // 레포지토리 및 API 서비스 초기화
         val apiService = RetrofitAPI.getRetrofit(this).create(ApiService::class.java)
         repository = VendingMachineRepository(apiService)
@@ -167,6 +164,7 @@ class VendingMachineDetailActivity : AppCompatActivity() {
             intent.putExtra("orderedItems", orderedItemsJson)
             intent.putExtra("vendingMachineId", vendingMachineId)
             startActivity(intent)
+            finish()
         }
     }
 

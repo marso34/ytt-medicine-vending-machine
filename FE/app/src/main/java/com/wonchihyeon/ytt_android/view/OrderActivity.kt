@@ -75,7 +75,7 @@ class OrderActivity : AppCompatActivity() {
 
         val vendingMachineId = intent.getStringExtra("vendingMachineId") ?: ""
 
-        recyclerViewOrders = findViewById(R.id.recyclerViewOrders)
+        recyclerViewOrders = findViewById(R.id.recyclerViewOrders1)
         recyclerViewOrders.layoutManager = LinearLayoutManager(this)
 
         adapter = OrdersAdapter(mutableListOf())
@@ -101,6 +101,8 @@ class OrderActivity : AppCompatActivity() {
         findViewById<Button>(R.id.order_button1).setOnClickListener {
             loadAndLogSavedOrder(viewModel2.medicineId.toLong(), vendingMachineId)
             createOrder()
+
+            removeItemFromPreferences(this)
         }
 
         findViewById<Button>(R.id.order_button2).setOnClickListener {
@@ -117,6 +119,14 @@ class OrderActivity : AppCompatActivity() {
             showQRCodeDialog(findViewById<ImageView>(R.id.qrCodeImageView).drawable as BitmapDrawable)
         }
     }
+
+    private fun removeItemFromPreferences(context: android.content.Context) {
+        val sharedPreferences = context.getSharedPreferences("OrderPreferences", android.content.Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply() // 변경사항 저장
+    }
+
 
     private fun showQRCodeDialog(bitmapDrawable: BitmapDrawable) {
         val dialog = Dialog(this)
@@ -197,9 +207,9 @@ class OrderActivity : AppCompatActivity() {
                             orderId = (body as LinkedTreeMap<*, *>)["id"] as String // orderId 클래스 변수 저장
                             Log.d("OrderIdSaved", "Saved orderId: $orderId") // 디버깅용 로그
                             generateQRCode(orderId!!)
-                           /* // VendingMachineClient 초기화
-                            vendingMachineClient = VendingMachineClient(viewModel.vendingMachine.value!!.id.toString(), orderId.toString())
-                            vendingMachineClient.connect()*/
+
+                           /*vendingMachineClient = VendingMachineClient(viewModel.vendingMachine.value!!.id.toString(), orderId.toString())
+                           vendingMachineClient.connect()*/
                         }
                     } else {
                         val errorMessage = response.errorBody()?.string()

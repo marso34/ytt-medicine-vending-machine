@@ -30,7 +30,10 @@ class MedicineAdapter(
         fun bind(medicine: Medicine) {
             medicineNameTextView.text = medicine.name
             priceTextView.text = "가격: ${medicine.price} 원"
-            Glide.with(itemView.context).load(medicine.imageURL).into(medicineImageView)
+
+            if(!medicine.imageURL.isEmpty()) {
+                Glide.with(itemView.context).load(medicine.imageURL).into(medicineImageView)
+            }
             productCode.text = medicine.productCode
 
             // 아이템 클릭 시 OrderActivity로 이동

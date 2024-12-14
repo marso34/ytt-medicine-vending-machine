@@ -110,11 +110,13 @@ class LoginActivity : AppCompatActivity() {
     private fun checkAutoLogin() {
         val isLoggedIn = sharedPreferences.getBoolean("is_logged_in", false)
         if (isLoggedIn) {
+
             // 자동 로그인 처리
             startActivity(Intent(this, MainActivity::class.java))
             finish()
 
             val refreshToken = TokenManager.getRefreshToken(this)
+            Log.d("autoLogin", refreshToken.toString())
             if (refreshToken.isNullOrEmpty()) {
                 // 리프레시 토큰이 없으면 로그인 화면으로 이동
                 startActivity(Intent(this, LoginActivity::class.java))

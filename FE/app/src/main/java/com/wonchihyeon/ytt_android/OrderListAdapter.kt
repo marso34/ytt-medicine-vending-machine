@@ -33,7 +33,9 @@ class OrderListAdapter(private val orderList: List<OrderListDTO>) : RecyclerView
         // 아이템 클릭 이벤트 추가
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
+
             val intent = Intent(context, OrderActivity::class.java)
+
 
             context.startActivity(intent)
         }
