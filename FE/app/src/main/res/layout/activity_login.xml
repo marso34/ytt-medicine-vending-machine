@@ -27,6 +27,7 @@
             android:hint="이메일"
             android:text="@={viewModel.email}" />
 
+
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
