@@ -53,7 +53,7 @@ interface ApiService {
     fun getAllOrders(@Query("state") state: String?): Call<ResponseDTO>
 
     @POST("/user/logout")
-    fun Logout(@Header("Authorization") refreshToken: String): Call<ResponseDTO>
+    fun Logout(): Call<ResponseDTO>
 
 
 
@@ -78,7 +78,7 @@ interface ApiService {
     @POST("/orders/create")
     fun createOrder(@Body orderRequest: OrderDTO): Call<ResponseDTO>
 
-    @POST("auth/reissue")
+    @POST("/auth/reissue")
     fun refreshAccessToken(@Query("refresh") refreshToken: String): Call<ResponseDTO>
 
     // 주문처리결과
