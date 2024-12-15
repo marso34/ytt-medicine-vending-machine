@@ -20,7 +20,7 @@ import com.wonchihyeon.ytt_android.data.network.ApiService
 import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
 import com.wonchihyeon.ytt_android.data.repository.AuthRepository
 import com.wonchihyeon.ytt_android.databinding.ActivityLoginBinding
-import com.wonchihyeon.ytt_android.viewmodel.SignInViewModel
+import com.wonchihyeon.ytt_android.viewmodel.user.SignInViewModel
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {

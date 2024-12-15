@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.wonchihyeon.ytt_android.viewmodel.SignInViewModel" />
+            type="com.wonchihyeon.ytt_android.viewmodel.user.SignInViewModel" />
     </data>
 
     <LinearLayout

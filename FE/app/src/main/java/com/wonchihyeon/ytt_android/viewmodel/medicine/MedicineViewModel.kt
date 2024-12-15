@@ -1,4 +1,4 @@
-package com.wonchihyeon.ytt_android.viewmodel
+package com.wonchihyeon.ytt_android.viewmodel.medicine
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

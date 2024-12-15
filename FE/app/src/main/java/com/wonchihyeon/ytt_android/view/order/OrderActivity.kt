@@ -31,8 +31,8 @@ import com.wonchihyeon.ytt_android.data.network.ApiService
 import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
 import com.wonchihyeon.ytt_android.data.repository.AuthRepository
 import com.wonchihyeon.ytt_android.data.repository.VendingMachineRepository
-import com.wonchihyeon.ytt_android.viewmodel.MedicineViewModel
-import com.wonchihyeon.ytt_android.viewmodel.VendingMachineViewModel
+import com.wonchihyeon.ytt_android.viewmodel.medicine.MedicineViewModel
+import com.wonchihyeon.ytt_android.viewmodel.vendingmachine.VendingMachineViewModel
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Call

@@ -16,7 +16,7 @@ import com.wonchihyeon.ytt_android.data.model.ResponseDTO
 import com.wonchihyeon.ytt_android.data.network.ApiService
 import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
 import com.wonchihyeon.ytt_android.data.repository.VendingMachineRepository
-import com.wonchihyeon.ytt_android.viewmodel.VendingMachineViewModel
+import com.wonchihyeon.ytt_android.viewmodel.vendingmachine.VendingMachineViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

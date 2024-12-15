@@ -1,4 +1,4 @@
-package com.wonchihyeon.ytt_android.viewmodel
+package com.wonchihyeon.ytt_android.viewmodel.vendingmachine
 
 import android.app.Application
 import android.util.Log

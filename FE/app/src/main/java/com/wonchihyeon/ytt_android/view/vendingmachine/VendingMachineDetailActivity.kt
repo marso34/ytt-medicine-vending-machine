@@ -25,7 +25,7 @@ import com.wonchihyeon.ytt_android.data.repository.VendingMachineRepository
 import com.wonchihyeon.ytt_android.view.medicine.MedicineAdapter
 import com.wonchihyeon.ytt_android.view.order.OrdersAdapter
 import com.wonchihyeon.ytt_android.view.order.OrderActivity
-import com.wonchihyeon.ytt_android.viewmodel.VendingMachineViewModel
+import com.wonchihyeon.ytt_android.viewmodel.vendingmachine.VendingMachineViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.databinding.DataBindingUtil
 import com.wonchihyeon.ytt_android.R
 import com.wonchihyeon.ytt_android.databinding.ActivityJoinBinding
-import com.wonchihyeon.ytt_android.viewmodel.SignUpViewModel
+import com.wonchihyeon.ytt_android.viewmodel.user.SignUpViewModel
 
 class JoinActivity : AppCompatActivity() {
 
