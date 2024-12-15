@@ -4,7 +4,7 @@
 ## 프로젝트 개요
 
 ### 개발 환경 
-- IDE: Android Studio 버전 11 이상상
+- IDE: Android Studio 버전 11 이상
 - 프로그래밍 언어: Kotlin 
 - SDK: compileSdk 34, minSdk 30 
 - 버전 관리 도구: Git 
