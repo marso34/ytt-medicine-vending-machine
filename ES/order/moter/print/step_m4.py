@@ -1,14 +1,15 @@
 import RPi.GPIO as GPIO
 from time import sleep
+import threading
 
 # GPIO 설정
 GPIO.setmode(GPIO.BCM)
 
 # ULN2003 제어 핀 정의 (라즈베리파이에 연결되는 핀)
-IN1 = 5   # 모터 IN1
-IN2 = 6   # 모터 IN2
-IN3 = 13  # 모터 IN3
-IN4 = 19  # 모터 IN4
+IN1 = 12   # 모터 IN1
+IN2 = 16   # 모터 IN2
+IN3 = 20  # 모터 IN3
+IN4 = 21  # 모터 IN4
 
 # GPIO 핀을 출력 모드로 설정
 GPIO.setup(IN1, GPIO.OUT)
@@ -32,7 +33,7 @@ def rotate_motor_one_turn():
     for step in range(steps_per_revolution):
         for pin in range(4):
             GPIO.output([IN1, IN2, IN3, IN4][pin], step_sequence[step % 4][pin])
-        sleep(0.003)  # 스텝 사이의 지연 시간으로 속도 조절
+        sleep(0.01)  # 스텝 사이의 지연 시간으로 속도 조절
 
 try:
     rotate_motor_one_turn()  # 모터를 한 바퀴 정회전
