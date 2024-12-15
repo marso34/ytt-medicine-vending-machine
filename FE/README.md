@@ -32,7 +32,7 @@ SubUrl = "your websocket url"
 - ViewModel: UI와 Model 간의 데이터 연결 및 비즈니스 로직 처리를 담당하여, 애플리케이션의 흐름을 관리합니다. 이를 통해 사용자 인터페이스의 반응성을 높이고, 코드의 재사용성을 극대화합니다.
 
 #### Model
-![image](https://github.com/user-attachments/assets/c6886721-c1b0-4e91-9859-ffd60df6b158)
+![image](https://github.com/user-attachments/assets/7e9645f4-512f-4ea9-b3a2-2f4e47434111)
 - 데이터는 user, medicine, vendingmachine, order로 나누어져 있어 각 기능별로 관리됩니다. 이를 통해 코드의 가독성과 유지보수성이 향상됩니다. 
 - 각 모델은 API와의 상호작용을 통해 실시간으로 데이터를 업데이트합니다.
 #### network
