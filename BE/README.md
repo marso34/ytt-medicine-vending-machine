@@ -14,11 +14,19 @@
 - Gradle
 - AWS - EC2 (`Ubuntu`), RDS (`MySQL`)
 - IntelliJ IDEA
-- 
 
 ### 개발 기술
 
-- *내용 입력*
+- Spring MVC
+- Spring Data JPA
+- Spring Security
+- Swagger
+- WebSocket
+- JWT - Authentication, Authorization
+- QueryDSL
+- MySQL GIS
+- Spring Actuator & Prometheus & Grafana
+
 
 <p align="right">(<a href="#약톡톡-백엔드-ytt-back-end">back to top</a>)</p>
 
@@ -30,9 +38,37 @@
 
 <details>
   <summary>패키지 구조</summary>
-
-  *내용 입력*
   
+```
+└── src  
+    └── main  
+        ├── java  
+        │   └── com  
+        │       └── example  
+        │           └── ytt  
+        │               ├── App.java  
+        │               ├── domain
+        │               │   ├── favorite
+        │               │   ├── inventory
+        │               │   ├── management
+        │               │   ├── medicine
+        │               │   ├── model
+        │               │   ├── order
+        │               │   ├── user
+        │               │   └── vendingmachine  
+        │               └── global  
+        │               │   ├── common 
+        │               │   ├── config 
+        │               │   ├── error 
+        │               │   └── util
+        │               └──YttApplication
+        └── resources
+            ├── application.yml
+            ├── application-common.yml
+            ├── application-local.yml  
+            ├── application-prod.yml  
+            └── application-secret.yml
+```
 </details>
 
 <details>
@@ -41,6 +77,7 @@
   *내용 입력*
   
 </details>
+
 
 <p align="right">(<a href="#약톡톡-백엔드-ytt-back-end">back to top</a>)</p>
 
