@@ -1,4 +1,5 @@
-![2](https://github.com/user-attachments/assets/0ba916c3-ff7f-4bc6-837c-54f050577508)# 약톡톡 프론트엔드 (ytt Front-End)
+#![1](https://github.com/user-attachments/assets/d2a0b38a-4617-4d2b-bca6-2c4a35477b44)
+ 약톡톡 프론트엔드 (ytt Front-End)
 
 <!-- ABOUT THE PROJECT -->
 ## 프로젝트 개요
