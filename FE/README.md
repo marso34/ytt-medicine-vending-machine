@@ -82,8 +82,7 @@ SubUrl = "ws://13.125.128.15:8080"
 
 #### 즐겨찾기 기능
         
-![image](https://github.com/user-attachments/assets/b2536a5c-9b53-47b1-b803-6f80fce09fd8)
-![image](https://github.com/user-attachments/assets/67814b99-8b01-4bd3-a2e4-9f4fce276512)
+![image](https://github.com/user-attachments/assets/b2536a5c-9b53-47b1-b803-6f80fce09fd8)![image](https://github.com/user-attachments/assets/67814b99-8b01-4bd3-a2e4-9f4fce276512)
       
 - 최상단의 하트를 누르면 즐겨찾기 추가가 되며 즐겨찾기 탭에서 즐겨찾기한 자판기를 따로 확인할 수 있습니다.
 
