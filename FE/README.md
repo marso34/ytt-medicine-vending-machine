@@ -59,9 +59,8 @@ SubUrl = "your websocket url"
 ## 상세 기능
 
 ##### 회원 로그인 기능
-![1](https://github.com/user-attachments/assets/47b8688d-e736-4965-a9ae-aa5c74bfc060)
+![1](https://github.com/user-attachments/assets/cd87700e-2b30-4828-8987-0aea0196a8a0)
 
-![1](https://github.com/user-attachments/assets/473c4dd7-b40d-4626-ab67-9852d905731d)
 - 사용자는 회원 가입 시 등록한 아이디와 비밀번호를 이용하여 손쉽게 로그인할 수 있습니다.
 - 로그인 과정에서 발생하는 오류 메시지를 통해 사용자 경험을 개선할 수 있도록 하였습니다.
 - 로그인 후 사용자는 개인화된 서비스를 제공받을 수 있습니다.
