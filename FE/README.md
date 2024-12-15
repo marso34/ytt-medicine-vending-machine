@@ -1,40 +1,30 @@
-# 약톡톡 백엔드 (ytt Back-End)
+# 약톡톡 백엔드 (ytt Front-End)
 
 <!-- ABOUT THE PROJECT -->
 ## 프로젝트 개요
-
-*내용 입력*
-
 <br>
-
 ### 개발 환경
 <br>
-운영체제: Windows
-IDE: Android Studio
-프로그래밍 언어: Kotlin / Java
-SDK: Android SDK
-버전: Android 5.0 이상
-기타 도구: Git (버전 관리), Spring Boot (백엔드 서비스)
+- 운영체제: Windows
+- IDE: Android Studio
+- 프로그래밍 언어: Kotlin / Java
+- SDK: Android SDK
+- 버전: Android 5.0 이상
+- 기타 도구: Git (버전 관리), Spring Boot (백엔드 서비스)
 
 
 
 ### 개발 기술
 
-UI 설계: XML 레이아웃 파일을 사용하여 사용자 인터페이스 디자인
-네트워킹: Retrofit 라이브러리를 이용한 API 호출
-데이터 관리: SharedPreference를 사용하여 데이터 관리
+- UI 설계: XML 레이아웃 파일을 사용하여 사용자 인터페이스 디자인
+- 네트워킹: Retrofit 라이브러리를 이용한 API 호출
+- 데이터 관리: SharedPreference를 사용하여 데이터 관리
 
 
 <p align="right">(<a href="#프로젝트-개요">back to top</a>)</p>
 
 ## 프로젝트 구조 (Architecture)
-
-
-
-<br>
-
 <details>
-
 
 아키텍처 (프로젝트 구조)
 MVVM 아키텍처: Model-View-ViewModel 패턴을 적용하여 코드의 유지보수성과 테스트 용이성을 향상
