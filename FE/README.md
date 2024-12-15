@@ -11,7 +11,7 @@
 - SDK: compileSdk 34, minSdk 30
 - 버전: Android 5.0 이상
 - 기타 도구: Git (버전 관리)
-
+ 
 
 
 ### 개발 기술
