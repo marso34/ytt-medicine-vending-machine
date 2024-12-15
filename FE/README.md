@@ -39,10 +39,10 @@ SubUrl = "your websocket url"
 
 #### Model
 ![image](https://github.com/user-attachments/assets/7e9645f4-512f-4ea9-b3a2-2f4e47434111)       
-User: 사용자 정보를 관리하며, 로그인 및 회원 가입 시 필요한 인증 로직을 포함합니다. 사용자의 상태(로그인 여부 등)를 저장하고, 개인 정보를 안전하게 처리합니다.
-VendingMachine: 자판기 정보를 저장하고, 자판기 위치 및 운영 상태를 처리합니다. 사용자가 가까운 자판기를 조회할 수 있도록 데이터를 제공합니다.
-Medicine: 자판기에서 판매되는 약의 정보를 관리합니다. 약의 이름, 가격, 이미지, 재고 상태 등을 포함하여 사용자가 쉽게 약을 선택할 수 있도록 합니다.
-Order: 사용자가 주문한 약의 정보를 관리합니다. 주문 내역, 수량, 가격 등의 데이터를 처리하여 사용자가 주문 상태를 확인할 수 있게 합니다.
+- User: 사용자 정보를 관리하며, 로그인 및 회원 가입 시 필요한 인증 로직을 포함합니다. 사용자의 상태(로그인 여부 등)를 저장하고, 개인 정보를 안전하게 처리합니다.
+- VendingMachine: 자판기 정보를 저장하고, 자판기 위치 및 운영 상태를 처리합니다. 사용자가 가까운 자판기를 조회할 수 있도록 데이터를 제공합니다.
+- Medicine: 자판기에서 판매되는 약의 정보를 관리합니다. 약의 이름, 가격, 이미지, 재고 상태 등을 포함하여 사용자가 쉽게 약을 선택할 수 있도록 합니다.
+- Order: 사용자가 주문한 약의 정보를 관리합니다. 주문 내역, 수량, 가격 등의 데이터를 처리하여 사용자가 주문 상태를 확인할 수 있게 합니다.
 
 #### network
 ![image](https://github.com/user-attachments/assets/ce91867b-d9fc-44c1-ab6e-0df281f43d83)      
@@ -53,7 +53,7 @@ Order: 사용자가 주문한 약의 정보를 관리합니다. 주문 내역, �
 ![image](https://github.com/user-attachments/assets/756bd6c5-f9da-4cc2-8180-91b672959aa2)      
 - Repository: auth, medicine, order, vendingmachine에 관련된 메서드들을 관리하여 데이터 접근을 통합적으로 처리합니다. 이를 통해 데이터 관리의 일관성을 유지합니다.
 - 각 Repository는 필요한 데이터 소스에 따라 적절한 메서드를 호출하여 필요한 정보를 효율적으로 가져옵니다.
-- 
+
 #### View
 ![image](https://github.com/user-attachments/assets/3ca8dd91-915a-478a-aea5-91764b6ee56a)      
 - User Interface (UI): Activity와 Fragment로 구성되어 있으며, 사용자와의 상호작용을 최적화하도록 설계되었습니다.
