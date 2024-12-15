@@ -47,7 +47,8 @@
 - user, medicine, order, vendingmachine 과 하단 4개 탭과 관련한 Fragment로 구성되어 있습니다.
 
 #### ViewModel
-![img_1.png](img_1.png)
+![image](https://github.com/user-attachments/assets/70974de4-a500-40ea-8c92-0ae1019e600a)
+
 - UI와 Model 간의 데이터 연결 및 비즈니스 로직 처리를 진행합니다.
 
 ## 상세 기능
