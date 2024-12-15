@@ -8,7 +8,7 @@
 
 - IDE: Android Studio
 - 프로그래밍 언어: Kotlin
-- SDK: Android minSDK
+- SDK: compileSdk 34, minSdk 30
 - 버전: Android 5.0 이상
 - 기타 도구: Git (버전 관리)
 
