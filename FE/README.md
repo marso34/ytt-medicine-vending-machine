@@ -4,11 +4,10 @@
 ## 프로젝트 개요
 
 ### 개발 환경 
-- IDE: Android Studio - 안드로이드 애플리케이션 개발을 위한 통합 개발 환경입니다. 다양한 플러그인과 도구를 지원하여 효율적인 개발이 가능합니다.
-- 프로그래밍 언어: Kotlin - 현대적이고 간결한 문법을 제공하여 안드로이드 개발에 최적화된 언어입니다. 코틀린은 자바와의 호환성이 뛰어나 기존 자바 코드를 쉽게 통합할 수 있습니다.
-- SDK: compileSdk 34, minSdk 30 - 최신 안드로이드 API를 사용하여 기능을 구현하며, 최소 안드로이드 버전은 5.0 이상입니다. 이를 통해 다양한 기기에서의 호환성을 확보합니다.
-- 기타 도구: Git - 버전 관리를 통해 코드 변경 사항을 효율적으로 관리합니다. 협업 시에도 코드 충돌을 최소화할 수 있도록 도와줍니다.
-
+- IDE: Android Studio 버전 11 이상상
+- 프로그래밍 언어: Kotlin 
+- SDK: compileSdk 34, minSdk 30 
+- 버전 관리 도구: Git 
 
 ### 개발 기술
 
@@ -33,8 +32,11 @@ SubUrl = "your websocket url"
 
 #### Model
 ![image](https://github.com/user-attachments/assets/7e9645f4-512f-4ea9-b3a2-2f4e47434111)
-- 데이터는 user, medicine, vendingmachine, order로 나누어져 있어 각 기능별로 관리됩니다. 이를 통해 코드의 가독성과 유지보수성이 향상됩니다. 
-- 각 모델은 API와의 상호작용을 통해 실시간으로 데이터를 업데이트합니다.
+User: 사용자 정보를 관리하며, 로그인 및 회원 가입 시 필요한 인증 로직을 포함합니다. 사용자의 상태(로그인 여부 등)를 저장하고, 개인 정보를 안전하게 처리합니다.
+VendingMachine: 자판기 정보를 저장하고, 자판기 위치 및 운영 상태를 처리합니다. 사용자가 가까운 자판기를 조회할 수 있도록 데이터를 제공합니다.
+Medicine: 자판기에서 판매되는 약의 정보를 관리합니다. 약의 이름, 가격, 이미지, 재고 상태 등을 포함하여 사용자가 쉽게 약을 선택할 수 있도록 합니다.
+Order: 사용자가 주문한 약의 정보를 관리합니다. 주문 내역, 수량, 가격 등의 데이터를 처리하여 사용자가 주문 상태를 확인할 수 있게 합니다.
+
 #### network
 ![image](https://github.com/user-attachments/assets/ce91867b-d9fc-44c1-ab6e-0df281f43d83)
 - ApiService에는 서버 경로가 정의되어 있으며, RetrofitAPI에는 Retrofit 관련 라이브러리 파일이 저장되어 있습니다.
@@ -42,19 +44,20 @@ SubUrl = "your websocket url"
 
 #### repository
 ![image](https://github.com/user-attachments/assets/756bd6c5-f9da-4cc2-8180-91b672959aa2)
-- Repository에는 auth, medicine, order, vendingmachine에 관한 메서드들이 관리되고 있어, 데이터 접근을 통합적으로 처리합니다. 이를 통해 데이터 관리의 일관성을 보장합니다. 
-- 각 Repository는 필요한 데이터 소스에 따라 적절한 메서드를 호출하여 정보를 가져옵니다.
-
+- Repository: auth, medicine, order, vendingmachine에 관련된 메서드들을 관리하여 데이터 접근을 통합적으로 처리합니다. 이를 통해 데이터 관리의 일관성을 유지합니다.
+- 각 Repository는 필요한 데이터 소스에 따라 적절한 메서드를 호출하여 필요한 정보를 효율적으로 가져옵니다.
+- 
 #### View
 ![image](https://github.com/user-attachments/assets/3ca8dd91-915a-478a-aea5-91764b6ee56a)
-- View는 user, medicine, order, vendingmachine 관련 Fragment로 구성되어 있으며, 각 탭에서 사용자가 원하는 정보를 쉽게 조회할 수 있도록 설계되었습니다. 
-- UI 요소는 사용자 친화적으로 배치되어 있어 직관적인 조작이 가능합니다.
-
+- User Interface (UI): Activity와 Fragment로 구성되어 있으며, 사용자와의 상호작용을 최적화하도록 설계되었습니다.
+- 예를 들어, 자판기 목록 화면은 지도와 리스트 형태로 자판기 정보를 제공하여 사용자가 쉽게 탐색할 수 있습니다. 약 조회 화면은 그리드 형태로 약의 정보를 표시하여 사용자가 선택하기 쉽게 구성되어 있습니다.
+- Navigation: 사용자 경험을 고려하여 화면 간의 전환을 매끄럽게 처리합니다. 버튼 클릭이나 탭 선택 시 적절한 Fragment로 이동하도록 설계되어 있습니다.
+  
 #### ViewModel
 ![image](https://github.com/user-attachments/assets/d65d18c6-9eef-4809-918e-f071d3a6ead3)
-- UI와 Model 간의 데이터 연결 및 비즈니스 로직 처리를 진행하여, 
-- 애플리케이션의 흐름을 관리합니다. 이를 통해 사용자 인터페이스의 반응성을 높입니다. ViewModel은 LiveData를 통해 UI를 자동으로 업데이트하여 사용자 경험을 향상시킵니다.
-
+- ViewModel: 각 모델에 대한 ViewModel이 존재하여 UI와 데이터 간의 연결을 효과적으로 관리합니다.
+- UserViewModel은 로그인 및 사용자 정보 처리를 담당하며, VendingMachineViewModel은 자판기 데이터를 제공하여 사용자가 쉽게 접근할 수 있도록 합니다.
+- MedicineViewModel은 약 정보 조회를 담당하여 사용자가 필요한 약을 빠르게 찾을 수 있도록 지원합니다.
 
 ## 상세 기능
 
