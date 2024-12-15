@@ -86,7 +86,7 @@
 <details>
   <summary>데이터베이스 모델링 (ERD)</summary>
 
-  *내용 입력*
+  ![YTT_ERD](https://github.com/user-attachments/assets/fede486b-7f2e-4811-8e39-46b16ed4b3fe)
   
 </details>
 <details>
