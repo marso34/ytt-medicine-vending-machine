@@ -52,7 +52,7 @@
         │               │   ├── inventory
         │               │   ├── management
         │               │   ├── medicine
-        │               │   ├── model
+        │               │   ├── model        # 공통 Enum, Embeddable 등
         │               │   ├── order
         │               │   ├── user
         │               │   └── vendingmachine  
@@ -69,6 +69,18 @@
             ├── application-prod.yml  
             └── application-secret.yml
 ```
+
+- 도메인 상세
+```
+└── vendingmachine
+    ├── controller
+    ├── domain      # Entity, Enum, Embeddable 등
+    ├── dto
+    ├── exception
+    ├── repository
+    └── service
+```
+
 </details>
 
 <details>
@@ -76,6 +88,32 @@
 
   *내용 입력*
   
+</details>
+<details>
+  <summary>Getting Started</summary>
+
+  `application-common.yml` - 로깅 등 공통 환경 설정 
+  `application-local.yml` - 로컬 개발을 위한 H2 DB 설정  
+  `application-prod.yml` - 운영 환경 설정. 운영 DB(MySQL) 설정  
+  `application-secret.yml` - jwt, 공공데이터 키 설정
+  ```
+  jwt:
+    secret: {{your_jwt_key}}
+    expiration:
+      authorization; {{your_expiration}}
+      refresh: {{your_refresh_expiration}}
+
+  open-api: # 의약품 허가정보 기준
+    url:
+      base-url: http://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService06
+      dtl-url: /getDrugPrdtPrmsnDtlInq05
+      list-url: /getDrugPrdtPrmsnInq06
+
+    serviceKey: {{your_open_api_key}}
+  ```
+
+  *프로메테우스, 그라파나 설정 추가*
+    
 </details>
 
 
