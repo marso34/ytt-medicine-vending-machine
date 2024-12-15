@@ -53,7 +53,7 @@ SubUrl = "ws://13.125.128.15:8080"
 - user, medicine, order, vendingmachine 과 하단 4개 탭과 관련한 Fragment로 구성되어 있습니다.
 
 #### ViewModel
-
+![image](https://github.com/user-attachments/assets/d65d18c6-9eef-4809-918e-f071d3a6ead3)
 - UI와 Model 간의 데이터 연결 및 비즈니스 로직 처리를 진행하여, 
 - 애플리케이션의 흐름을 관리합니다. 이를 통해 사용자 인터페이스의 반응성을 높입니다. ViewModel은 LiveData를 통해 UI를 자동으로 업데이트하여 사용자 경험을 향상시킵니다.
 
