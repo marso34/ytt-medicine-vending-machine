@@ -61,6 +61,7 @@ SubUrl = "your websocket url"
 ##### 회원 로그인 기능
 <img src="https://github.com/user-attachments/assets/cd87700e-2b30-4828-8987-0aea0196a8a0" width="300" height="600">     
 <br>
+
 - 사용자는 회원 가입 시 등록한 아이디와 비밀번호를 이용하여 손쉽게 로그인할 수 있습니다.
 - 로그인 과정에서 발생하는 오류 메시지를 통해 사용자 경험을 개선할 수 있도록 하였습니다.
 - 로그인 후 사용자는 개인화된 서비스를 제공받을 수 있습니다.
@@ -68,6 +69,7 @@ SubUrl = "your websocket url"
 #### 자판기 조회 기능
 <img src="https://github.com/user-attachments/assets/eb4aaf23-96d0-4244-99a2-f73e8e6055c8" width="300" height="600">      
 <br>
+
 - 사용자는 자신의 현재 위치를 기반으로 가까운 자판기를 검색하고 목록을 조회할 수 있습니다.
 - UI는 지도상에 자판기의 위치를 표시하고, 하단 바텀 시트에서 자판기 목록을 그리드 형태로 제공하여 쉽게 접근할 수 있도록 설계되었습니다. 
 - 지도와 리스트 뷰 간의 전환이 원활하여 사용자 편의성이 높습니다.
@@ -75,6 +77,7 @@ SubUrl = "your websocket url"
 ##### 약 조회 기능
 <img src="https://github.com/user-attachments/assets/b0bc1ba0-ec6f-4458-8bc2-811ea0f0ba7c" width="300" height="600">
 <br>
+
 - 사용자는 선택한 자판기에서 판매 중인 약 목록을 손쉽게 조회할 수 있습니다.
 - UI는 약 목록을 그리드 형태로 표시하며, 각 약의 이미지와 가격, 상품 코드가 함께 나타나 사용자에게 유용한 정보를 제공합니다. 
 - 검색 기능을 통해 원하는 약을 더욱 쉽게 찾을 수 있습니다.
@@ -97,23 +100,27 @@ SubUrl = "your websocket url"
 #### 약 주문하기 및 취소하기 기능  
 <img src="https://github.com/user-attachments/assets/318d0f59-c60e-4598-9b9b-215622aef3db" width="300" height="600">   
 <br>
+
 - 사용자가 선택한 약을 주문할 수 있는 기능을 제공하며, 주문한 약의 이름, 가격, 수량을 한눈에 확인할 수 있습니다.
 - 주문하기 버튼을 누르면 자판기에 입력할 수 있는 QR 코드가 생성되며, 필요 시 주문 취소도 가능합니다. 주문 내역은 사용자가 쉽게 관리할 수 있도록 구성되어 있습니다.
 
 #### 주문 실패 시 사유 확인 기능
 <img src="https://github.com/user-attachments/assets/0074f543-654d-4fc5-942e-ee6fb3bfd89b" width="300" height="600">    
 <br>
+
 - 주문이 실패했을 경우, 사용자는 그 이유를 다이얼로그로 확인할 수 있습니다.      
 이를 통해 사용자는 문제를 빠르게 인지하고 해결할 수 있습니다.
 - 
 #### 주문 목록 확인 기능  
 <img src="https://github.com/user-attachments/assets/46fc9ba5-1a40-447f-86e4-61621863b314" width="300" height="600">  
 <br>
+
 - 사용자는 자신의 주문 목록을 전체적으로 확인할 수 있으며, 주문 내역을 쉽게 관리할 수 있습니다.
 - 각 주문 항목에 대한 상세 정보도 제공하여, 사용자 경험을 더욱 향상시킵니다.
 
 #### 사용자 정보 확인, 로그아웃 기능
 <img src="https://github.com/user-attachments/assets/ce60f22c-0f15-47a1-8c10-85932cf0402f" width="300" height="600">   
 <br>
+
 - 로그인한 사용자는 자신의 이름 정보를 확인할 수 있으며, 로그아웃 기능을 통해 안전하게 계정을 종료할 수 있습니다.
 - 이 기능은 사용자 개인정보 보호를 위해 필수적인 요소입니다. 로그아웃 후에도 사용자의 세션 정보가 안전하게 관리됩니다.
