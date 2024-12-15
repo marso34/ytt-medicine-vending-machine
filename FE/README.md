@@ -30,6 +30,23 @@
 - View: UI 구성 요소 (Activity, Fragment)
 - ViewModel: UI와 Model 간의 데이터 연결 및 비즈니스 로직 처리
 
+#### Model
+![image](https://github.com/user-attachments/assets/c6886721-c1b0-4e91-9859-ffd60df6b158)        
+    user, medicine, vendingmachine, order로 나누어져있습니다.
+#### network
+![image](https://github.com/user-attachments/assets/ce91867b-d9fc-44c1-ab6e-0df281f43d83)
+ApiService에는 서버 경로, RetrofitAPI에는 Retrofit 관련 라이브러리 관련 파일이 저장되어 있습니다.
+토큰, 웹소켓 관련 클래스가 포함되어 있습니다.
+
+#### repository
+![image](https://github.com/user-attachments/assets/756bd6c5-f9da-4cc2-8180-91b672959aa2)        
+repository에는 auth, medicine, Order, Vendingmachine Repository로 관련 메서드들을 관리합니다.
+ 
+#### View & ViewModel 
+![image](https://github.com/user-attachments/assets/3ca8dd91-915a-478a-aea5-91764b6ee56a)
+user, medicine, order, vendingmachine 과 하단 4개 탭과 관련한 Fragment로 구성되어 있습니다.
+
+
 ## 상세 기능
 
 ##### 회원 로그인 기능
