@@ -60,7 +60,7 @@ SubUrl = "your websocket url"
 
 ##### 회원 로그인 기능
 
-![image](https://github.com/user-attachments/assets/fb0830c7-c9a9-4161-8b3d-296d5f5e9dc1)
+
 
 - 사용자는 회원 가입 시 등록한 아이디와 비밀번호를 이용하여 손쉽게 로그인할 수 있습니다.
 - 로그인 과정에서 발생하는 오류 메시지를 통해 사용자 경험을 개선할 수 있도록 하였습니다.
