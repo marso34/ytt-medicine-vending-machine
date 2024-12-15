@@ -112,6 +112,14 @@
     serviceKey: {{your_open_api_key}}
   ```
 
+  H2 DB 사용 시 아래 sql 추가
+  ```
+  CREATE ALIAS IF NOT EXISTS H2GIS_SPATIAL FOR
+  "org.h2gis.functions.factory.H2GISFunctions.load";
+  
+  CALL H2GIS_SPATIAL();
+  ```
+
   *프로메테우스, 그라파나 설정 추가*
     
 </details>
