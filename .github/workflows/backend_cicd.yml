@@ -3,7 +3,7 @@ name: Back-End CI/CD
 on:
   push:
     branches: [ "master" ]
-    paths: "BE/**" # 백엔드 관련 push만 동작하게
+    paths: "BE/ytt/**" # 백엔드 관련 push만 동작하게
 
 jobs:
   build:
