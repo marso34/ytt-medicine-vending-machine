@@ -103,7 +103,7 @@
 ![image](https://github.com/user-attachments/assets/61ab7178-897b-40bc-8c3f-2782fb40b7e2)
 - 사용자가 주문한 목록들을 전체적으로 확인할 수 있습니다.
         
-#### 마이페이지, 로그아웃 기능
+#### 사용자 정보 확인, 로그아웃 기능
           
 ![image](https://github.com/user-attachments/assets/904fd24a-b5fc-4f0c-9556-5599ab95de77)
 - 로그인한 사용자의 이름 정보를 확인할 수 있고 로그아웃 기능을 확인할 수 있습니다.
