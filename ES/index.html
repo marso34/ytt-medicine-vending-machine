@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시스템</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            position: relative;
+            top: -90px; /* 위로 50px 이동 */
+        }
+
+        .button {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .order {
+            background-color: green;
+            left: 20%; /* 가로 3분의 1 */
+        }
+
+        .search {
+            background-color: blue;
+            left: 60%; /* 가로 3분의 2 */
+        }
+
+        /* 팝업 스타일 */
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+
+        /* 오버레이 배경 */
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 500;
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay"></div>
+    <div id="popup"></div>
+
+    <div class="container">
+        <a href="/home/capstone/order/order.html" class="button order">주문</a>
+        <a href="javascript:void(0)" class="button search" id="searchButton">찾기</a>
+    </div>
+
+    <script>
+        document.getElementById("searchButton").addEventListener("click", function() {
+            // Flask 서버의 /run_cam 엔드포인트 호출
+            fetch('http://127.0.0.1:8081/run_cam', { method: 'POST' })
+                .then(response => response.json())
+                .catch(error => {
+                    alert("서버 오류 발생!");
+                    console.error(error);
+                });
+        });
+    </script>
+</body>
+</html>
