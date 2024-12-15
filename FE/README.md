@@ -1,4 +1,4 @@
-# 약톡톡 백엔드 (ytt Front-End)
+# 약톡톡 프론트엔드 (ytt Front-End)
 
 <!-- ABOUT THE PROJECT -->
 ## 프로젝트 개요
