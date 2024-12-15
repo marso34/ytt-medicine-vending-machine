@@ -48,7 +48,7 @@
  	- threading
  	- subprocess
   	- os
-* QR코드 처리 미 카메라 제어
+* QR코드 처리 및및 카메라 제어
   	- cv2(OpenCV)
  	- pyzbar
  	- Picamera2
@@ -104,7 +104,7 @@
 	- 수신한 데이터를 Flask 서버가 내부 Python 로직으로 전달하여 자판기 동작 수행
 
 ## 상세 기술
-1. 모터 동작 제어 (moter)
+- 모터 동작 제어 (moter)
 	* 주요 라이브러리:
 		- RPi.GPIO: 라즈베리파이 GPIO 핀 제어
 		- time.sleep: 대기 시간 설정
@@ -112,7 +112,7 @@
 	* 기능 설명:
 		- 약 배출 및 보관함 제어와 같은 하드웨어 동작 로직을 구현
 		- 모터 핀 초기화, 동작 명령, 스레드를 활용한 비동기적 모터 작동 처리
-2. Flask 내부 서버 및 외부 서버 연결 (app.py)
+- Flask 내부 서버 및 외부 서버 연결 (app.py)
 	* 주요 라이브러리:
 		- Flask, request, jsonify, render_template: RESTful API 및 웹 서버 구현
 		- flask_cors: CORS 설정을 통해 프론트엔드와의 데이터 송수신 허용
@@ -124,7 +124,7 @@
 		- 프론트엔드에서 주문 데이터를 수신하여 외부 STOMP 서버와 연결
 		- MariaDB를 통해 주문 데이터 저장 및 상태 확인
 		- 주문 처리와 연동된 Flask 기반 웹 서버 구현
-3. QR 코드 인식 (cam.py)
+- QR 코드 인식 (cam.py)
 	* 주요 라이브러리:
 		- cv2 (OpenCV): 카메라를 통해 QR 코드 이미지 처리
 		- pyzbar: QR 코드 디코딩
@@ -135,7 +135,7 @@
 	* 기능 설명:
 		- 카메라로 QR 코드를 스캔하여 주문 데이터와 매칭
 		- DB에서 QR 코드 정보를 조회하고 주문 처리 로직으로 전송
-4. 주문 데이터 처리 (play.py)
+- 주문 데이터 처리 (play.py)
 	* 주요 라이브러리:
 		- json: 주문 데이터 처리
 		- pymysql: DB에서 주문 상태 조회 및 갱신
@@ -145,7 +145,7 @@
 	* 기능 설명:
 		- STOMP 서버에서 받은 데이터를 처리하여 주문 상태를 갱신
 		- 주문 데이터를 DB에 저장하고, 자판기 동작 로직과 연동
-5. 물품 수령 처리 (specific_task.py)
+- 물품 수령 처리 (specific_task.py)
 	* 주요 라이브러리:
 		- time.sleep: 물품 수령 대기 시간 구현
 		- subprocess, os, sys: 시스템 명령을 실행하여 물품 수령 로직 수행
