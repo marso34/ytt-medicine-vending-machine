@@ -6,9 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.wonchihyeon.ytt_android.data.TokenManager
-import com.wonchihyeon.ytt_android.data.model.Role
-import com.wonchihyeon.ytt_android.data.model.SignUpDTO
+import com.wonchihyeon.ytt_android.data.model.user.Role
+import com.wonchihyeon.ytt_android.data.model.user.SignUpDTO
 import com.wonchihyeon.ytt_android.data.repository.AuthRepository
 import kotlinx.coroutines.launch
 

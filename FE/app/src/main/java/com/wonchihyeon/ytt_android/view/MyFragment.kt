@@ -2,7 +2,6 @@ package com.wonchihyeon.ytt_android.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,13 +11,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.wonchihyeon.ytt_android.R
-import com.wonchihyeon.ytt_android.auth.LoginActivity
-import com.wonchihyeon.ytt_android.data.TokenManager
+import com.wonchihyeon.ytt_android.data.network.TokenManager
 import com.wonchihyeon.ytt_android.data.model.ResponseDTO
 import com.wonchihyeon.ytt_android.data.network.ApiService
 import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
 import com.wonchihyeon.ytt_android.data.repository.VendingMachineRepository
 import com.wonchihyeon.ytt_android.databinding.FragmentMyBinding
+import com.wonchihyeon.ytt_android.view.user.LoginActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

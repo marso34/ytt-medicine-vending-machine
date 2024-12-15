@@ -7,13 +7,12 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import com.wonchihyeon.ytt_android.auth.LoginActivity
-import com.wonchihyeon.ytt_android.data.TokenManager
+import com.wonchihyeon.ytt_android.view.user.LoginActivity
+import com.wonchihyeon.ytt_android.data.network.TokenManager
 import com.wonchihyeon.ytt_android.data.network.ApiService
 import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
 import com.wonchihyeon.ytt_android.data.repository.AuthRepository
@@ -21,10 +20,10 @@ import com.wonchihyeon.ytt_android.databinding.ActivityMainBinding
 import com.wonchihyeon.ytt_android.fragments.HomeFragment
 import com.wonchihyeon.ytt_android.view.FavoriteFragment
 import com.wonchihyeon.ytt_android.view.MyFragment
-import com.wonchihyeon.ytt_android.view.OrderListFragment
+import com.wonchihyeon.ytt_android.view.order.OrderListFragment
 import kotlinx.coroutines.launch
 
-/*import com.wonchihyeon.ytt_android.view.OrderListFragment*/
+/*import com.wonchihyeon.ytt_android.view.order.OrderListFragment*/
 
 class MainActivity : AppCompatActivity() {
 

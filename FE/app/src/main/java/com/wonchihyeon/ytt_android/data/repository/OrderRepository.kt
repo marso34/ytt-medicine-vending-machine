@@ -1,6 +1,6 @@
 package com.wonchihyeon.ytt_android.data.repository
 
-import com.wonchihyeon.ytt_android.data.model.OrderDTO
+import com.wonchihyeon.ytt_android.data.model.order.OrderDTO
 import com.wonchihyeon.ytt_android.data.model.ResponseDTO
 import com.wonchihyeon.ytt_android.data.network.ApiService
 import retrofit2.Call

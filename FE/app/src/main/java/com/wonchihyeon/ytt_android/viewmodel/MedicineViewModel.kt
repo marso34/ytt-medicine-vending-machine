@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.wonchihyeon.ytt_android.data.model.Medicine
+import com.wonchihyeon.ytt_android.data.model.medicine.Medicine
 import com.wonchihyeon.ytt_android.data.network.ApiService
 import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
 import com.wonchihyeon.ytt_android.data.repository.MedicineRepository

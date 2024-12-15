@@ -1,15 +1,13 @@
 package com.wonchihyeon.ytt_android.data.network
 
-import com.wonchihyeon.ytt_android.data.model.OrderDTO
+import com.wonchihyeon.ytt_android.data.model.order.OrderDTO
 import com.wonchihyeon.ytt_android.data.model.ResponseDTO
-import com.wonchihyeon.ytt_android.data.model.SignInDTO
-import com.wonchihyeon.ytt_android.data.model.SignUpDTO
+import com.wonchihyeon.ytt_android.data.model.user.SignInDTO
+import com.wonchihyeon.ytt_android.data.model.user.SignUpDTO
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query

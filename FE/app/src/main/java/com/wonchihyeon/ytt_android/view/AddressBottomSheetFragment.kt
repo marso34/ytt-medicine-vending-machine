@@ -11,15 +11,11 @@ import com.google.gson.internal.LinkedTreeMap
 import com.google.gson.reflect.TypeToken
 import com.wonchihyeon.ytt_android.R
 import com.wonchihyeon.ytt_android.R.layout.bottom_sheet_address
-import com.wonchihyeon.ytt_android.data.model.ResponseDTO
-import com.wonchihyeon.ytt_android.data.model.VendingMachineDTO
+import com.wonchihyeon.ytt_android.data.model.vendingmachine.VendingMachineDTO
 import com.wonchihyeon.ytt_android.data.network.ApiService
 import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
 import com.wonchihyeon.ytt_android.data.repository.VendingMachineRepository
-import com.wonchihyeon.ytt_android.ui.VendingMachineAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.wonchihyeon.ytt_android.view.vendingmachine.VendingMachineAdapter
 
 class AddressBottomSheetFragment : Fragment(bottom_sheet_address) {
 

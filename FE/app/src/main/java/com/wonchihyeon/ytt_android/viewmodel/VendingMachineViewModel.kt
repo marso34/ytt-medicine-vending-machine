@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.internal.LinkedTreeMap
 import com.wonchihyeon.ytt_android.data.model.ResponseDTO
-import com.wonchihyeon.ytt_android.data.model.VendingMachineDetailDTO
+import com.wonchihyeon.ytt_android.data.model.vendingmachine.VendingMachineDetailDTO
 import com.wonchihyeon.ytt_android.data.model.vendingmachine.MedicineDTO
 import com.wonchihyeon.ytt_android.data.network.ApiService
 import com.wonchihyeon.ytt_android.data.network.RetrofitAPI

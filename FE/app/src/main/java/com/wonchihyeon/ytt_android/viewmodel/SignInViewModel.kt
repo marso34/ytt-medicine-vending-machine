@@ -6,8 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.wonchihyeon.ytt_android.data.TokenManager
-import com.wonchihyeon.ytt_android.data.model.SignInDTO
+import com.wonchihyeon.ytt_android.data.network.TokenManager
+import com.wonchihyeon.ytt_android.data.model.user.SignInDTO
 import com.wonchihyeon.ytt_android.data.repository.AuthRepository
 import kotlinx.coroutines.launch
 

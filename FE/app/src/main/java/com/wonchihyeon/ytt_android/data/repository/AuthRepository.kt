@@ -2,10 +2,10 @@ package com.wonchihyeon.ytt_android.data.repository
 
 import android.util.Log
 import com.google.gson.Gson
-import com.wonchihyeon.ytt_android.data.TokenManager
+import com.wonchihyeon.ytt_android.data.network.TokenManager
 import com.wonchihyeon.ytt_android.data.model.ResponseDTO
-import com.wonchihyeon.ytt_android.data.model.SignInDTO
-import com.wonchihyeon.ytt_android.data.model.SignUpDTO
+import com.wonchihyeon.ytt_android.data.model.user.SignInDTO
+import com.wonchihyeon.ytt_android.data.model.user.SignUpDTO
 import com.wonchihyeon.ytt_android.data.network.ApiService
 import com.wonchihyeon.ytt_android.data.network.RetrofitAPI
 import retrofit2.Call

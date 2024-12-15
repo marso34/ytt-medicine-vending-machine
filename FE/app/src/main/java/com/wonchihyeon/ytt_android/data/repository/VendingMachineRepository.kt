@@ -2,13 +2,12 @@ package com.wonchihyeon.ytt_android.data.repository
 
 import android.util.Log
 import com.google.gson.Gson
-import com.wonchihyeon.ytt_android.data.model.OrderDTO
+import com.wonchihyeon.ytt_android.data.model.order.OrderDTO
 import com.wonchihyeon.ytt_android.data.model.ResponseDTO
 import com.wonchihyeon.ytt_android.data.network.ApiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Header
 
 class VendingMachineRepository(private val apiService: ApiService) {
 
