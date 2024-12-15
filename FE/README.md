@@ -29,12 +29,12 @@ UI 설계: XML 레이아웃 파일을 사용하여 사용자 인터페이스 디
 
 ## 프로젝트 구조 (Architecture)
 
-*내용 입력*
+
 
 <br>
 
 <details>
-  <summary>패키지 구조</summary>
+  
 
 아키텍처 (프로젝트 구조)
 MVVM 아키텍처: Model-View-ViewModel 패턴을 적용하여 코드의 유지보수성과 테스트 용이성을 향상
