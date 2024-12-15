@@ -92,7 +92,7 @@
 <details>
   <summary>Getting Started</summary>
 
-  `application-common.yml` - 로깅 등 공통 환경 설정 
+  `application-common.yml` - 로깅 등 공통 환경 설정  
   `application-local.yml` - 로컬 개발을 위한 H2 DB 설정  
   `application-prod.yml` - 운영 환경 설정. 운영 DB(MySQL) 설정  
   `application-secret.yml` - jwt, 공공데이터 키 설정
