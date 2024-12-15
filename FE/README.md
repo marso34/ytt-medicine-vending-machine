@@ -5,22 +5,28 @@
 <br>
 ### 개발 환경
 <br>
-- 운영체제: Windows
+
 - IDE: Android Studio
-- 프로그래밍 언어: Kotlin / Java
-- SDK: Android SDK
+- 프로그래밍 언어: Kotlin
+- SDK: Android minSDK
 - 버전: Android 5.0 이상
-- 기타 도구: Git (버전 관리), Spring Boot (백엔드 서비스)
+- 기타 도구: Git (버전 관리)
 
 
 
 ### 개발 기술
 
+- 지도 API: 네이버 지도를 사용하기 위해 Naver Cloud Api를 사용하여 지도 개발
 - UI 설계: XML 레이아웃 파일을 사용하여 사용자 인터페이스 디자인
 - 네트워킹: Retrofit 라이브러리를 이용한 API 호출
 - 데이터 관리: SharedPreference를 사용하여 데이터 관리
-
-
+- 암호화: HashKey로 암호화하여 비밀번호 외부 유출 방지
+- 서버에서 사용되는 엔드포인트 주소를 local.properties에서 다음과 같이 사용
+```
+NAVERMAP_CLIENT_ID = aipi7vjj4g
+BaseUrl = "http://13.125.128.15:8080"
+SubUrl = "ws://13.125.128.15:8080"
+```
 <p align="right">(<a href="#프로젝트-개요">back to top</a>)</p>
 
 ## 프로젝트 구조 (Architecture)
@@ -47,8 +53,7 @@
 - user, medicine, order, vendingmachine 과 하단 4개 탭과 관련한 Fragment로 구성되어 있습니다.
 
 #### ViewModel
-![image](https://github.com/user-attachments/assets/70974de4-a500-40ea-8c92-0ae1019e600a)
-
+![img_1.png](img_1.png)
 - UI와 Model 간의 데이터 연결 및 비즈니스 로직 처리를 진행합니다.
 
 ## 상세 기능
@@ -77,6 +82,7 @@
 
 #### 즐겨찾기 기능
 ![image](https://github.com/user-attachments/assets/67814b99-8b01-4bd3-a2e4-9f4fce276512)
+![image](https://github.com/user-attachments/assets/b2536a5c-9b53-47b1-b803-6f80fce09fd8)
 
 - 최상단의 하트를 누르면 즐겨찾기 추가가 되며 즐겨찾기 탭에서 즐겨찾기한 자판기를 따로 확인할 수 있습니다.
 
