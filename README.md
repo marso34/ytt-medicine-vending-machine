@@ -67,7 +67,7 @@
 - GitHub: [@Eeeegarden](https://github.com/Eeeegarden)
 - Mail: <a href="mailto:???">???</a>
 
-**윤종현 YUN JONGHUN : ES**
+**윤종훈 YUN JONGHUN : ES**
 - GitHub: [@JongNim](https://github.com/JongNim)
 - Mail: <a href="mailto:???">???</a>
 
