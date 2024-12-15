@@ -18,7 +18,11 @@
 - 데이터 관리: SharedPreference를 사용하여 사용자 설정 및 간단한 데이터를 안전하게 저장합니다. 이를 통해 앱의 성능을 최적화하고, 사용자의 편리함을 증대시킵니다.
 - 암호화: HashKey로 비밀번호를 암호화하여 외부 유출 방지 및 보안을 강화합니다. 사용자 데이터 보호를 최우선으로 생각하여 설계하였습니다.
 - 서버 엔드포인트 주소 관리: local.properties 파일을 통해 서버 주소 관리하여 보안성을 높이고 유연성을 제공합니다. 이를 통해 개발 및 배포 환경에 맞춰 쉽게 조정할 수 있습니다.
-
+```
+NAVERMAP_CLIENT_ID ="your_API_ID"
+BaseUrl = "your server url"
+SubUrl = "your websocket url"
+```
 <p align="right">(<a href="#프로젝트-개요">back to top</a>)</p>
 
 ## 프로젝트 구조 (Architecture)
