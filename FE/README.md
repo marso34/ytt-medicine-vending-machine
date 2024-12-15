@@ -25,10 +25,17 @@ SubUrl = "your websocket url"
 <p align="right">(<a href="#프로젝트-개요">back to top</a>)</p>
 
 ## 프로젝트 구조 (Architecture)
-- 아키텍처 (프로젝트 전체 구조): MVVM 아키텍처를 적용하여 코드의 유지보수성과 테스트 용이성을 향상시킵니다. 각 컴포넌트는 명확한 책임을 가지고 있어 시스템의 복잡성을 줄입니다.
-- Model: 데이터 및 비즈니스 로직을 처리하며, 애플리케이션의 핵심 기능을 담당합니다. 데이터의 일관성을 유지하기 위해 다양한 검증 로직을 포함하고 있습니다.
-- View: 사용자 인터페이스를 구성하는 Activity와 Fragment로 이루어져 있으며, 사용자 경험을 극대화합니다. 각 UI 요소는 사용자의 입력을 쉽게 받을 수 있도록 설계되었습니다.
-- ViewModel: UI와 Model 간의 데이터 연결 및 비즈니스 로직 처리를 담당하여, 애플리케이션의 흐름을 관리합니다. 이를 통해 사용자 인터페이스의 반응성을 높이고, 코드의 재사용성을 극대화합니다.
+- 아키텍처 (프로젝트 전체 구조): MVVM 아키텍처를 적용하여 각 컴포넌트는 medicine, vendingmachine, user, order 패키지에 따라 명확한 책임을 가지고 있습니다.
+
+- Model: medicine, vendingmachine, user, order 패키지 내의 데이터 및 비즈니스 로직을 처리하며, 애플리케이션의 핵심 기능을 담당합니다.
+- 예를 들어, Medicine 모델은 약의 정보와 재고를 관리하고, VendingMachine 모델은 자판기의 위치와 운영 상태를 처리합니다.
+
+- View: 사용자 인터페이스는 Activity와 Fragment로 구성되어 있으며, 각 패키지에 맞는 UI 요소들을 포함하여 사용자 경험을 극대화합니다.
+- User 패키지의 UI는 로그인 및 회원 가입을 쉽게 할 수 있도록 설계되었으며, Medicine과 VendingMachine의 UI는 사용자가 원하는 정보를 손쉽게 조회하고 선택할 수 있도록 구성되어 있습니다.
+
+- ViewModel: 각 패키지에 대한 ViewModel이 존재하여 UI와 Model 간의 데이터 연결 및 비즈니스 로직 처리를 담당합니다.
+- UserViewModel은 로그인 및 사용자 정보 관리를, VendingMachineViewModel은 자판기 데이터 제공을, MedicineViewModel은 약 정보 조회를, OrderViewModel은 주문 상태 관리를 담당합니다.
+
 
 #### Model
 ![image](https://github.com/user-attachments/assets/7e9645f4-512f-4ea9-b3a2-2f4e47434111)
