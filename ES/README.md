@@ -48,7 +48,7 @@
  	- threading
  	- subprocess
   	- os
-* QR코드 처리 및및 카메라 제어
+* QR코드 처리 및 카메라 제어
   	- cv2(OpenCV)
  	- pyzbar
  	- Picamera2
