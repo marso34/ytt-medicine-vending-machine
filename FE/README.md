@@ -88,10 +88,16 @@
 #### 약 주문하기 및 취소하기 기능
 
 ![image](https://github.com/user-attachments/assets/193652aa-bb4d-4901-88cd-39955200bf69)
-- 사용자가 선택한 약을 주문할수 있는 기능입니다. 
+- 사용자가 선택한 약을 주문할수 있는 기능입니다.
+
+![image](https://github.com/user-attachments/assets/829ae24f-bcd8-4676-86db-4367c8405d4a)
 - 약 이름, 가격, 주문 수량을 확인할 수 있으며 주문하기 버튼을 누르면 자판기에 입력할 수 있는 QR 코드가 생성됩니다.
 - 주문한 약을 취소할 수 있는 기능도 포함되어 있습니다.
-        
+
+#### 주문 실패 시 사유 확인 기능
+![image](https://github.com/user-attachments/assets/6c61b66a-f923-4ebb-a10c-706fdcf52327)
+-주문에 실패했을 때 그 이유를 다이얼로그로 확인 할 수 있습니다.
+
 #### 주문 목록 확인 기능
         
 ![image](https://github.com/user-attachments/assets/61ab7178-897b-40bc-8c3f-2782fb40b7e2)
