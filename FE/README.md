@@ -84,6 +84,7 @@ SubUrl = "your websocket url"
 
 #### 즐겨찾기 기능
 <img src="https://github.com/user-attachments/assets/69156160-657a-4afd-817c-33eb1d57fa7e" width="300" height="600">
+<img src="https://github.com/user-attachments/assets/16498e49-a7fc-4878-8972-ffabd6c2c501" width="300" height="600">
 <br>
        
 - 사용자는 자판기 목록에서 하트를 눌러 즐겨찾기에 추가할 수 있으며, 즐겨찾기한 자판기는 별도의 탭에서 쉽게 확인할 수 있습니다.
