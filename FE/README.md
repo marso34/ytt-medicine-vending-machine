@@ -111,7 +111,7 @@ SubUrl = "your websocket url"
 
 - 주문이 실패했을 경우, 사용자는 그 이유를 다이얼로그로 확인할 수 있습니다.      
 이를 통해 사용자는 문제를 빠르게 인지하고 해결할 수 있습니다.
-- 
+
 #### 주문 목록 확인 기능  
 <img src="https://github.com/user-attachments/assets/46fc9ba5-1a40-447f-86e4-61621863b314" width="300" height="600">  
 <br>
