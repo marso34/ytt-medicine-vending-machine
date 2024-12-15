@@ -77,13 +77,16 @@ SubUrl = "your websocket url"
 - 검색 기능을 통해 원하는 약을 더욱 쉽게 찾을 수 있습니다.
 
 #### 즐겨찾기 기능
-<img src="https://github.com/user-attachments/assets/69156160-657a-4afd-817c-33eb1d57fa7e" width="300" height="600">             
+<img src="https://github.com/user-attachments/assets/69156160-657a-4afd-817c-33eb1d57fa7e" width="300" height="600">
+<br>
+       
 - 사용자는 자판기 목록에서 하트를 눌러 즐겨찾기에 추가할 수 있으며, 즐겨찾기한 자판기는 별도의 탭에서 쉽게 확인할 수 있습니다.
 - 이 기능은 사용자가 자주 이용하는 자판기를 빠르게 찾을 수 있도록 도와줍니다.
 - 즐겨찾기 목록은 사용자의 선호에 따라 쉽게 관리할 수 있습니다.
 
 #### 약 선택 및 약 상세 기능 설명 기능
-<img src="https://github.com/user-attachments/assets/cd87700e-2b30-4828-8987-0aea0196a8a0" width="300" height="600">         
+<img src="https://github.com/user-attachments/assets/cd87700e-2b30-4828-8987-0aea0196a8a0" width="300" height="600">   
+      
 - 사용자가 원하는 약을 선택하면 해당 약에 대한 상세 정보를 제공하며, 원하는 수량을 조절하여 구매 목록에 추가할 수 있습니다.
 - UI는 선택된 약이 구매할 목록에 추가되는 모습을 직관적으로 보여주어 사용자 편의성을 높입니다. 상세 정보 페이지에는 복용 방법 및 주의 사항도 포함되어 있습니다.
 
