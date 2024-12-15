@@ -2,26 +2,22 @@
 
 <!-- ABOUT THE PROJECT -->
 ## 프로젝트 개요
-<br>
-### 개발 환경
-<br>
 
-- IDE: Android Studio
-- 프로그래밍 언어: Kotlin
-- SDK: compileSdk 34, minSdk 30
-- 버전: Android 5.0 이상
-- 기타 도구: Git (버전 관리)
- 
+br> ### 개발 환경 <br>
+- IDE: Android Studio - 안드로이드 애플리케이션 개발을 위한 통합 개발 환경입니다. 다양한 플러그인과 도구를 지원하여 효율적인 개발이 가능합니다.
+- 프로그래밍 언어: Kotlin - 현대적이고 간결한 문법을 제공하여 안드로이드 개발에 최적화된 언어입니다. 코틀린은 자바와의 호환성이 뛰어나 기존 자바 코드를 쉽게 통합할 수 있습니다.
+- SDK: compileSdk 34, minSdk 30 - 최신 안드로이드 API를 사용하여 기능을 구현하며, 최소 안드로이드 버전은 5.0 이상입니다. 이를 통해 다양한 기기에서의 호환성을 확보합니다.
+- 기타 도구: Git - 버전 관리를 통해 코드 변경 사항을 효율적으로 관리합니다. 협업 시에도 코드 충돌을 최소화할 수 있도록 도와줍니다.
 
 
 ### 개발 기술
 
-- 지도 API: 네이버 지도를 사용하기 위해 Naver Cloud Api를 사용하여 지도 개발
-- UI 설계: XML 레이아웃 파일을 사용하여 사용자 인터페이스 디자인
-- 네트워킹: Retrofit 라이브러리를 이용한 API 호출
-- 데이터 관리: SharedPreference를 사용하여 데이터 관리
-- 암호화: HashKey로 암호화하여 비밀번호 외부 유출 방지
-- 서버에서 사용되는 엔드포인트 주소를 local.properties에서 다음과 같이 사용
+- 지도 API: 네이버 지도를 사용하기 위해 Naver Cloud API를 적용하여 사용자에게 위치 기반 서비스를 제공합니다. 이는 사용자 경험을 극대화하고, 실시간 정보 제공을 가능하게 합니다.
+- UI 설계: XML 레이아웃 파일을 사용하여 직관적이고 반응형 사용자 인터페이스를 디자인합니다. 사용자 피드백을 반영하여 지속적으로 개선해 나갑니다.
+- 네트워킹: Retrofit 라이브러리를 이용해 RESTful API를 호출하고, 원활한 데이터 통신을 구현합니다. 이로 인해 사용자에게 신속하고 정확한 정보를 제공합니다.
+- 데이터 관리: SharedPreference를 사용하여 사용자 설정 및 간단한 데이터를 안전하게 저장합니다. 이를 통해 앱의 성능을 최적화하고, 사용자의 편리함을 증대시킵니다.
+- 암호화: HashKey로 비밀번호를 암호화하여 외부 유출 방지 및 보안을 강화합니다. 사용자 데이터 보호를 최우선으로 생각하여 설계하였습니다.
+- 서버 엔드포인트 주소 관리: local.properties 파일을 통해 서버 주소 관리하여 보안성을 높이고 유연성을 제공합니다. 이를 통해 개발 및 배포 환경에 맞춰 쉽게 조정할 수 있습니다.
 ```
 NAVERMAP_CLIENT_ID = aipi7vjj4g
 BaseUrl = "http://13.125.128.15:8080"
@@ -30,27 +26,29 @@ SubUrl = "ws://13.125.128.15:8080"
 <p align="right">(<a href="#프로젝트-개요">back to top</a>)</p>
 
 ## 프로젝트 구조 (Architecture)
-- 아키텍처 (프로젝트 전체 구조)
-- MVVM 아키텍처: Model-View-ViewModel 패턴을 적용하여 코드의 유지보수성과 테스트 용이성을 향상
-- Model: 데이터 및 비즈니스 로직 처리
-- View: UI 구성 요소 (Activity, Fragment)
-- ViewModel: UI와 Model 간의 데이터 연결 및 비즈니스 로직 처리
+- 아키텍처 (프로젝트 전체 구조): MVVM 아키텍처를 적용하여 코드의 유지보수성과 테스트 용이성을 향상시킵니다. 각 컴포넌트는 명확한 책임을 가지고 있어 시스템의 복잡성을 줄입니다.
+- Model: 데이터 및 비즈니스 로직을 처리하며, 애플리케이션의 핵심 기능을 담당합니다. 데이터의 일관성을 유지하기 위해 다양한 검증 로직을 포함하고 있습니다.
+- View: 사용자 인터페이스를 구성하는 Activity와 Fragment로 이루어져 있으며, 사용자 경험을 극대화합니다. 각 UI 요소는 사용자의 입력을 쉽게 받을 수 있도록 설계되었습니다.
+- ViewModel: UI와 Model 간의 데이터 연결 및 비즈니스 로직 처리를 담당하여, 애플리케이션의 흐름을 관리합니다. 이를 통해 사용자 인터페이스의 반응성을 높이고, 코드의 재사용성을 극대화합니다.
 
 #### Model
 ![image](https://github.com/user-attachments/assets/c6886721-c1b0-4e91-9859-ffd60df6b158)
-- user, medicine, vendingmachine, order로 나누어져있습니다.
+- 데이터는 user, medicine, vendingmachine, order로 나누어져 있어 각 기능별로 관리됩니다. 이를 통해 코드의 가독성과 유지보수성이 향상됩니다. 
+- 각 모델은 API와의 상호작용을 통해 실시간으로 데이터를 업데이트합니다.
 #### network
 ![image](https://github.com/user-attachments/assets/ce91867b-d9fc-44c1-ab6e-0df281f43d83)
-- ApiService에는 서버 경로, RetrofitAPI에는 Retrofit 관련 라이브러리 관련 파일이 저장되어 있습니다.
-- 토큰, 웹소켓 관련 클래스가 포함되어 있습니다.
+- ApiService에는 서버 경로가 정의되어 있으며, RetrofitAPI에는 Retrofit 관련 라이브러리 파일이 저장되어 있습니다.
+- 이외에도 토큰 및 웹소켓 관련 클래스가 포함되어 있어 실시간 데이터 통신이 가능합니다. 네트워크 오류 처리를 통해 안정적인 데이터 통신을 보장합니다.
 
 #### repository
 ![image](https://github.com/user-attachments/assets/756bd6c5-f9da-4cc2-8180-91b672959aa2)
-- repository에는 auth, medicine, Order, Vendingmachine Repository로 관련 메서드들을 관리합니다.
+- Repository에는 auth, medicine, order, vendingmachine에 관한 메서드들이 관리되고 있어, 데이터 접근을 통합적으로 처리합니다. 이를 통해 데이터 관리의 일관성을 보장합니다. 
+- 각 Repository는 필요한 데이터 소스에 따라 적절한 메서드를 호출하여 정보를 가져옵니다.
 
 #### View
 ![image](https://github.com/user-attachments/assets/3ca8dd91-915a-478a-aea5-91764b6ee56a)
-- user, medicine, order, vendingmachine 과 하단 4개 탭과 관련한 Fragment로 구성되어 있습니다.
+- View는 user, medicine, order, vendingmachine 관련 Fragment로 구성되어 있으며, 각 탭에서 사용자가 원하는 정보를 쉽게 조회할 수 있도록 설계되었습니다. 
+- UI 요소는 사용자 친화적으로 배치되어 있어 직관적인 조작이 가능합니다.
 
 #### ViewModel
 ![image](https://github.com/user-attachments/assets/d65d18c6-9eef-4809-918e-f071d3a6ead3)
