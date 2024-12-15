@@ -1,5 +1,4 @@
-#![1](https://github.com/user-attachments/assets/d2a0b38a-4617-4d2b-bca6-2c4a35477b44)
- 약톡톡 프론트엔드 (ytt Front-End)
+# 약톡톡 프론트엔드 (ytt Front-End)
 
 <!-- ABOUT THE PROJECT -->
 ## 프로젝트 개요
@@ -60,8 +59,7 @@ SubUrl = "your websocket url"
 ## 상세 기능
 
 ##### 회원 로그인 기능
-![1](https://github.com/user-attachments/assets/cd87700e-2b30-4828-8987-0aea0196a8a0)
-
+<img src="https://github.com/user-attachments/assets/cd87700e-2b30-4828-8987-0aea0196a8a0" width="80" height="80">
 - 사용자는 회원 가입 시 등록한 아이디와 비밀번호를 이용하여 손쉽게 로그인할 수 있습니다.
 - 로그인 과정에서 발생하는 오류 메시지를 통해 사용자 경험을 개선할 수 있도록 하였습니다.
 - 로그인 후 사용자는 개인화된 서비스를 제공받을 수 있습니다.
