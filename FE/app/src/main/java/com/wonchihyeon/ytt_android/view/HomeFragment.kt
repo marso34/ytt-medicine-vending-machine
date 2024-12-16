@@ -25,7 +25,6 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.wonchihyeon.ytt_android.R
 import com.wonchihyeon.ytt_android.databinding.FragmentHomeBinding
-import com.wonchihyeon.ytt_android.viewmodel.MainViewModel
 import java.io.IOException
 import java.util.Locale
 
@@ -34,7 +33,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var naverMap: NaverMap
     private lateinit var marker: Marker
-    private val viewModel by activityViewModels<MainViewModel>()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,10 +86,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 val location = addresses[0]
                 val latLng = LatLng(location.latitude, location.longitude)
 
-                // 마커 위치 설정 및 지도에 추가
-                marker.position = latLng
-                marker.map = naverMap
-
                 // 지도 위치 이동
                 naverMap.moveCamera(com.naver.maps.map.CameraUpdate.scrollTo(latLng))
             } else {
@@ -107,39 +101,25 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         naverMap = map
 
         // 마커 초기화
-        marker = Marker()
+        var marker1 = Marker() // 강릉원주대 자판기 마커
+        var marker2 = Marker() // 흥업면사무소 자판기 마커
 
-        // 지도 클릭 이벤트 처리
-        naverMap.setOnMapClickListener { _, latLng ->
-            handleMapClick(latLng)
-        }
+        // 첫 번째 마커 위치 설정
+        val preset1LatLng = LatLng(37.305121, 127.922653) // 강릉원주대 자판기 위치
+        marker1.position = preset1LatLng
+        marker1.map = naverMap
+        marker1.captionText = "강릉원주대 자판기" // 첫 번째 마커 이름 설정
+
+        // 두 번째 마커 위치 설정
+        val preset2LatLng = LatLng(37.3025817, 127.9211587) // 흥업면사무소 자판기 위치
+        marker2.position = preset2LatLng
+        marker2.map = naverMap
+        marker2.captionText = "흥업면사무소 자판기" // 두 번째 마커 이름 설정
+
+        // 두 마커를 추가한 후 지도 위치 이동
+        naverMap.moveCamera(com.naver.maps.map.CameraUpdate.scrollTo(preset1LatLng))
     }
 
-    // 지도 클릭 시 처리하는 함수
-    private fun handleMapClick(latLng: LatLng) {
-        // 마커 위치 설정 및 지도에 추가
-        marker.position = latLng
-        marker.map = naverMap
-
-        // 주소 가져오기
-        getAddressFromLatLng(latLng)
-    }
-
-    // 좌표를 주소로 변환하는 함수
-    private fun getAddressFromLatLng(latLng: LatLng) {
-        val geocoder = Geocoder(requireContext(), Locale.getDefault())
-        try {
-            val addresses: List<Address>? =
-                geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-            if (addresses != null && addresses.isNotEmpty()) {
-                val address: Address = addresses[0]
-                val addressText = address.getAddressLine(0) ?: "주소를 찾을 수 없습니다."
-                Log.d("HomeFragment", "주소: $addressText")
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
 
     // 현재 위치로 이동하는 함수
     private fun moveToCurrentLocation() {
