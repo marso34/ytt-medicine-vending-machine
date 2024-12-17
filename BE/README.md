@@ -3,7 +3,7 @@
 <!-- ABOUT THE PROJECT -->
 ## 프로젝트 개요
 
-*내용 입력*
+> 약톡톡 백엔드 Spring Boot 서버
 
 <br>
 
@@ -11,7 +11,7 @@
 
 - Spring Boot 3.3.4
 - JDK 17
-- Gradle
+- Gradle 8.10.2
 - AWS - EC2 (`Ubuntu`), RDS (`MySQL`)
 - IntelliJ IDEA
 
@@ -20,9 +20,9 @@
 - Spring MVC
 - Spring Data JPA
 - Spring Security
+- JWT - Authentication, Authorization
 - Swagger
 - WebSocket
-- JWT - Authentication, Authorization
 - QueryDSL
 - MySQL GIS
 - Spring Actuator & Prometheus & Grafana
