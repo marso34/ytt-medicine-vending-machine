@@ -3,26 +3,136 @@
 <!-- ABOUT THE PROJECT -->
 ## 프로젝트 개요
 
-*내용 입력*
+> 약톡톡 백엔드 Spring Boot 서버
 
 <br>
 
 ### 개발 환경
 
-
+- Spring Boot 3.3.4
+- JDK 17
+- Gradle 8.10.2
+- AWS - EC2 (`Ubuntu`), RDS (`MySQL`)
+- IntelliJ IDEA
 
 ### 개발 기술
 
+- Spring MVC
+- Spring Data JPA
+- Spring Security
+- JWT - Authentication, Authorization
+- Swagger
+- WebSocket
+- QueryDSL
+- MySQL GIS
+- Spring Actuator & Prometheus & Grafana
 
 
-<p align="right">(<a href="#프로젝트-개요">back to top</a>)</p>
+<p align="right">(<a href="#약톡톡-백엔드-ytt-back-end">back to top</a>)</p>
 
 ## 프로젝트 구조 (Architecture)
 
+<!-- 프로젝트 아키텍처 추가 -->
 
-<p align="right">(<a href="#프로젝트-개요">back to top</a>)</p>
+*내용 입력*
+
+<br>
+
+<details>
+  <summary>패키지 구조</summary>
+  
+```
+└── src  
+    └── main  
+        ├── java  
+        │   └── com  
+        │       └── example  
+        │           └── ytt  
+        │               ├── App.java  
+        │               ├── domain
+        │               │   ├── favorite
+        │               │   ├── inventory
+        │               │   ├── management
+        │               │   ├── medicine
+        │               │   ├── model        # 공통 Enum, Embeddable 등
+        │               │   ├── order
+        │               │   ├── user
+        │               │   └── vendingmachine  
+        │               └── global  
+        │               │   ├── common 
+        │               │   ├── config 
+        │               │   ├── error 
+        │               │   └── util
+        │               └──YttApplication
+        └── resources
+            ├── application.yml
+            ├── application-common.yml
+            ├── application-local.yml  
+            ├── application-prod.yml  
+            └── application-secret.yml
+```
+
+- 도메인 상세
+```
+└── vendingmachine
+    ├── controller
+    ├── domain      # Entity, Enum, Embeddable 등
+    ├── dto
+    ├── exception
+    ├── repository
+    └── service
+```
+
+</details>
+
+<details>
+  <summary>데이터베이스 모델링 (ERD)</summary>
+
+  ![YTT_ERD](https://github.com/user-attachments/assets/fede486b-7f2e-4811-8e39-46b16ed4b3fe)
+  
+</details>
+<details>
+  <summary>Getting Started</summary>
+
+  `application-common.yml` - 로깅 등 공통 환경 설정  
+  `application-local.yml` - 로컬 개발을 위한 H2 DB 설정  
+  `application-prod.yml` - 운영 환경 설정. 운영 DB(MySQL) 설정  
+  `application-secret.yml` - jwt, 공공데이터 키 설정
+  ```yml
+  jwt:
+    secret: {{your_jwt_key}}
+    expiration:
+      authorization; {{your_expiration}}
+      refresh: {{your_refresh_expiration}}
+
+  open-api: # 의약품 허가정보 기준
+    url:
+      base-url: http://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService06
+      dtl-url: /getDrugPrdtPrmsnDtlInq05
+      list-url: /getDrugPrdtPrmsnInq06
+
+    serviceKey: {{your_open_api_key}}
+  ```
+
+  H2 DB 사용 시 아래 sql 추가
+  ```sql
+  CREATE ALIAS IF NOT EXISTS H2GIS_SPATIAL FOR
+  "org.h2gis.functions.factory.H2GISFunctions.load";
+  
+  CALL H2GIS_SPATIAL();
+  ```
+
+  *프로메테우스, 그라파나 설정 추가*
+    
+</details>
+
+
+<p align="right">(<a href="#약톡톡-백엔드-ytt-back-end">back to top</a>)</p>
+
+<!-- 기능은 나중에 수정 -->
 
 ## 메인 기능
+
 📌 회원가입, 로그인
 
 📌 JWT 토큰기반 사용자 인증
@@ -40,6 +150,10 @@
 📌 입고 기록 관리
 
 📌 자판기 즐겨찾기 기능
+
+
+<p align="right">(<a href="#약톡톡-백엔드-ytt-back-end">back to top</a>)</p>
+
 ## 상세 기능
 
 <details>
@@ -118,4 +232,3 @@
 1. [DELETE]favorites/{machineId} API : 즐겨찾기 리스트에서 해당 자판기를 삭제
 2. [GET]favorites API : 사용자의 즐겨찾기 자판기 리스트 조회
 3. [POST]favorites/{machineId} API : 즐겨찾기 리스트에 해당 자판기 추가
-
