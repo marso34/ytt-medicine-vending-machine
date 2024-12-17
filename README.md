@@ -11,7 +11,7 @@
     <img src="info/logo.png" alt="Logo" width="80" height="80">
   </a> -->
 
-  ## 약톡톡 - 쉽고 빠른 약 공급
+  ## 약톡톡 - 빠르고 안전한 약 공급
   <p align="center">
     <a href="https://github.com/marso34/ytt-medicine-vending-machine/graphs/contributors">
       <img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/marso34/ytt-medicine-vending-machine" />
@@ -30,7 +30,7 @@
   <br>
 
   <p align="center">
-    medicine vending machine  *내용 입력*  
+    안드로이드 앱으로 주문 가능한 약 IoT 자판기
     <br>
     <br>
   </p>
@@ -41,7 +41,7 @@
 <!-- ABOUT THE PROJECT -->
 ## 프로젝트 개요
 
-*내용 입력*
+'약톡톡'은 안드로이드 앱으로 주문 가능한 약 자판기 프로젝트로 앱을 통한 재고 파악, 정보 확인, 주문 등의 기능을 제공합니다.
 
 <br>
 
@@ -49,11 +49,10 @@
 
 ## 프로젝트 구조 (Architecture)
 
-*내용 입력*
+- **BE**: [Back-End  (Spring Boot)](./BE)
+- **ES**: [Embdded System  (Raspberry Pi)](./ES)
+- **FE**: [Android](./FE)
 
-- [BE (Spring Boot)](./BE)
-- [ES (Raspberry Pi)](./ES)
-- [FE (Android)](./FE)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -65,15 +64,15 @@
 
 **이정원 LEE JEONGWON : BE**
 - GitHub: [@Eeeegarden](https://github.com/Eeeegarden)
-- Mail: <a href="mailto:???">???</a>
+- Mail: <a href="mailto:wjddnjs3333@naver.com">wjddnjs3333@naver.com</a>
 
 **윤종훈 YUN JONGHUN : ES**
 - GitHub: [@JongNim](https://github.com/JongNim)
-- Mail: <a href="mailto:???">???</a>
+- Mail: <a href="mailto:yuiop0012@naver.com">yuiop0012@naver.com</a>
 
 **원치현 WON CHIHYEON : FE**
 - GitHub: [@chihyunwon](https://github.com/chihyunwon) 
-- Mail: <a href="mailto:???">???</a>
+- Mail: <a href="mailto:heungeob1003@gmail.com">heungeob1003@gmail.com</a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
