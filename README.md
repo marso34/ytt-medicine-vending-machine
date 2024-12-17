@@ -76,5 +76,5 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## License
-*내용 입력*
+## License 
+This project is licensed under the terms of the <a href=".\LICENSE.md">MIT</a> license.  
