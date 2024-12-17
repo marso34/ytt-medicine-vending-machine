@@ -1,30 +1,37 @@
-<!-- item_medicine.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/iv_medicine_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/medicine_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/pill_3d" />
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_medicine_name"
+        android:id="@+id/medicine_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tv_price"
+        android:id="@+id/medicine_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/tv_manufacturer"
+        android:id="@+id/productCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp" />

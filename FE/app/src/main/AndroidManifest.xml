@@ -18,13 +18,20 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".auth.FindPasswordActivity"
+            android:name=".view.user.FindPasswordActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".view.vendingmachine.VendingMachineDetailActivity"
+            android:exported="false" />
+
+        <activity android:name=".view.order.OrderActivity" />
+
+        <activity
+            android:name=".view.user.FindIdActivity"
             android:exported="false" />
         <activity
-            android:name=".auth.FindIdActivity"
-            android:exported="false" />
-        <activity
-            android:name=".auth.JoinActivity"
+            android:name=".view.user.JoinActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -32,29 +39,35 @@
 
         </activity>
 
-        <activity android:name=".ui.OrderActivity" /> <!-- OrderActivity 추가 -->
-        <activity android:name=".ui.VendingMachineDetailActivity"></activity>
+        <activity
+            android:name=".view.medicine.DetailMedicineActivity"
+            android:exported="true" />
 
-    <activity
-        android:name=".auth.LoginActivity"
-        android:exported="true">
-
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-
-    </activity>
-    <activity
-        android:name=".view.MyFragment"
-        android:exported="false" />
-
-    <meta-data
-        android:name="com.naver.maps.map.CLIENT_ID"
-        android:value="${NAVERMAP_CLIENT_ID}" />
+        <activity
+            android:name="MyApplication"
+            android:exported="true" />
 
 
-</application>
+        <activity
+            android:name=".view.user.LoginActivity"
+            android:exported="true">
 
-    </manifest>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".view.MyFragment"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="${NAVERMAP_CLIENT_ID}" />
+
+
+    </application>
+
+</manifest>

@@ -79,7 +79,7 @@
     </fragment>
     <fragment
         android:id="@+id/talkFragment"
-        android:name="com.wonchihyeon.ytt_android.view.OrderListFragment"
+        android:name="com.wonchihyeon.ytt_android.view.order.OrderListFragment"
         android:label="fragment_talk"
         tools:layout="@layout/fragment_order" >
         <action

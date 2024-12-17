@@ -1,0 +1,77 @@
+# 사용할 데이터베이스
+USE order_system;
+
+# 생성된 테이블 확인
+SHOW TABLES;
+
+# 주문 로그 테이블
+CREATE TABLE order_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,        -- 고유 ID
+    order_uuid VARCHAR(36) NOT NULL UNIQUE,   -- 주문 UUID (클라이언트에서 전송된 값), UNIQUE 추가
+    order_time DATETIME NOT NULL,              -- 주문 시간
+    items LONGTEXT NOT NULL,                   -- 주문된 항목들 (JSON 형식으로 저장)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 생성일자
+    status VARCHAR(20) DEFAULT '대기 중'       -- 주문 상태 (대기 중으로 기본값 설정)
+);
+
+# 물품 및 모터, 수량 정보 테이블
+CREATE TABLE items (
+    id INT NOT NULL PRIMARY KEY,          -- 고유 ID (수동 관리)
+    item_name VARCHAR(255) NOT NULL,      -- 물품 이름
+    product_code VARCHAR(50) NOT NULL,    -- 제품 코드
+    price INT NOT NULL,                   -- 가격
+    motor_id INT NOT NULL,                -- 연관된 모터 ID
+    stock_quantity INT NOT NULL           -- 재고 수량
+);
+
+# 보관함 상태 정보 테이블
+CREATE TABLE lockers (
+    locker_id INT AUTO_INCREMENT PRIMARY KEY,    -- 보관함 고유 ID
+    locker_number INT NOT NULL UNIQUE,           -- 보관함 번호, UNIQUE 제약 추가
+    is_available TINYINT(1) NOT NULL DEFAULT 1,  -- 사용 가능 여부 (1: 사용 가능, 0: 사용 중)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- 업데이트 타임스탬프
+);
+
+# 보관함 로그 테이블
+CREATE TABLE locker_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_uuid VARCHAR(36) NOT NULL,             -- 주문 UUID (외래키)
+    locker_number INT NOT NULL,                  -- 보관함 번호 (외래키)
+    assigned_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- 보관함 배정 시간
+    status TINYINT(1) DEFAULT 0,                 -- 상태 (0: 보관함 할당, 1: 보관 중, 2: 수령 완료)
+    status_updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- 상태 변경 시간
+
+    -- 외래 키 제약
+    CONSTRAINT fk_order_logs FOREIGN KEY (order_uuid) REFERENCES order_logs (order_uuid),
+    CONSTRAINT fk_lockers FOREIGN KEY (locker_number) REFERENCES lockers (locker_number)
+);
+
+--------------------------------
+
+INSERT INTO items (id, item_name, product_code, price, motor_id, stock_quantity)
+VALUES 
+    (1, '코메키나캡슐', '201706199', 2000, 1, 10),
+    (2, '타이레놀콜드-에스정', '202106954', 1500, 2, 20),
+    (6, '콜드엔정', '202300670', 3000, 3, 10),
+    (8, '우루큐백정', '201307342', 5500, 4, 10);
+
+-- 물품 수량 변경
+SET SQL_SAFE_UPDATES = 0;   -- 안전모드 비활성화
+UPDATE items
+SET stock_quantity = 30
+WHERE item_name = '타이레놀';
+SET SQL_SAFE_UPDATES = 1;
+
+-- 락커번호 1~4번 데이터 저장
+INSERT INTO lockers (locker_number, is_available)
+VALUES
+(1, 1),
+(2, 1),
+(3, 0),
+(4, 0);
+(5, 1);
+
+-- 보관함 오픈으로 바꾸기
+UPDATE lockers 
+SET is_available = 1 
+WHERE locker_number = 1;

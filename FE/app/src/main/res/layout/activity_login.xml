@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.wonchihyeon.ytt_android.viewmodel.SignInViewModel" />
+            type="com.wonchihyeon.ytt_android.viewmodel.user.SignInViewModel" />
     </data>
 
     <LinearLayout
@@ -26,6 +26,7 @@
             android:background="@drawable/background_radius"
             android:hint="이메일"
             android:text="@={viewModel.email}" />
+
 
         <EditText
             android:id="@+id/password"

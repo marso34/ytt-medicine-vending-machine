@@ -31,7 +31,7 @@ android {
         }
 
         buildConfigField("String", "BaseUrl", properties.getProperty("BaseUrl"))
-
+        buildConfigField("String", "SubUrl", properties.getProperty("SubUrl"))
         addManifestPlaceholders(mapOf("NAVERMAP_CLIENT_ID" to properties.getProperty("NAVERMAP_CLIENT_ID")))
     }
 
@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.firebase.crashlytics.buildtools)
     implementation(libs.play.services.maps)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -104,5 +105,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:19.0.1")
 
     implementation("com.github.bumptech.glide:glide:4.12.0")
+
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+
 
 }
