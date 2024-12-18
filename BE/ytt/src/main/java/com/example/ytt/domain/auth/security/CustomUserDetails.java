@@ -1,4 +1,4 @@
-package com.example.ytt.domain.user.auth.security;
+package com.example.ytt.domain.auth.security;
 
 import com.example.ytt.domain.user.dto.Role;
 import com.example.ytt.domain.user.dto.UserDto;

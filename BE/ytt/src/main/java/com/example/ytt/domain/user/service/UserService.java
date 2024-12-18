@@ -1,5 +1,6 @@
 package com.example.ytt.domain.user.service;
 
+import com.example.ytt.domain.auth.service.AuthService;
 import com.example.ytt.domain.user.domain.User;
 import com.example.ytt.domain.user.dto.*;
 import com.example.ytt.domain.user.exception.UserException;

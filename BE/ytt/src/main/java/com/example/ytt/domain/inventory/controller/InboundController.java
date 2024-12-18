@@ -4,7 +4,7 @@ import com.example.ytt.domain.inventory.dto.InboundLogDto;
 import com.example.ytt.domain.inventory.dto.InboundReqDto;
 import com.example.ytt.domain.inventory.service.InboundService;
 import com.example.ytt.domain.medicine.dto.MedicineDto;
-import com.example.ytt.domain.user.auth.security.CustomUserDetails;
+import com.example.ytt.domain.auth.security.CustomUserDetails;
 import com.example.ytt.domain.user.dto.Role;
 import com.example.ytt.global.common.annotation.SwaggerApi;
 import com.example.ytt.global.common.response.ResponseDto;

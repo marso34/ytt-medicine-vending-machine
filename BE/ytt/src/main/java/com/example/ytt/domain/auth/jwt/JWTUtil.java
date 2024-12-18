@@ -1,4 +1,4 @@
-package com.example.ytt.domain.user.auth.jwt;
+package com.example.ytt.domain.auth.jwt;
 
 import com.example.ytt.domain.user.dto.Role;
 import io.jsonwebtoken.Jwts;

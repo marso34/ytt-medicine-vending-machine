@@ -3,7 +3,7 @@ package com.example.ytt.domain.vendingmachine.controller;
 import com.example.ytt.domain.inventory.service.InventoryService;
 import com.example.ytt.domain.medicine.dto.MedicineDetailDto;
 import com.example.ytt.domain.medicine.dto.MedicineDto;
-import com.example.ytt.domain.user.auth.security.CustomUserDetails;
+import com.example.ytt.domain.auth.security.CustomUserDetails;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDetailDto;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDto;
 import com.example.ytt.domain.favorite.service.FavoriteService;

@@ -1,13 +1,13 @@
 package com.example.ytt.global.config;
 
-import com.example.ytt.domain.user.auth.jwt.*;
-import com.example.ytt.domain.user.auth.security.CustomLogoutFilter;
-import com.example.ytt.domain.user.auth.security.LoginFailHandler;
-import com.example.ytt.domain.user.auth.security.LoginFilter;
-import com.example.ytt.domain.user.auth.security.LoginSuccessHandler;
-import com.example.ytt.domain.user.repository.RefreshRepository;
+import com.example.ytt.domain.auth.jwt.JWTFilter;
+import com.example.ytt.domain.auth.jwt.JWTUtil;
+import com.example.ytt.domain.auth.security.CustomLogoutFilter;
+import com.example.ytt.domain.auth.security.LoginFailHandler;
+import com.example.ytt.domain.auth.security.LoginFilter;
+import com.example.ytt.domain.auth.security.LoginSuccessHandler;
+import com.example.ytt.domain.auth.repository.RefreshRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +32,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final String[] allowedUrls ={"/user/signUp","/user/signIn", "/h2-console/**","/auth/**", "/api-docs/**", "/swagger-ui/**", "/v3/api-docs/**", "/error-docs/**", "/actuator/**", "/ws/**", "/websocket-vm-test","/websocket-user-test"};
+    private final String[] allowedUrls ={"/auth/signUp","/auth/signIn","/auth/reissue", "/h2-console/**", "/api-docs/**", "/swagger-ui/**", "/v3/api-docs/**", "/error-docs/**", "/actuator/**", "/ws/**", "/websocket-vm-test","/websocket-user-test"};
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
     private final LoginSuccessHandler loginSuccessHandler;

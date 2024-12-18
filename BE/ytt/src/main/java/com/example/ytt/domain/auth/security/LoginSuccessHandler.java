@@ -1,10 +1,10 @@
-package com.example.ytt.domain.user.auth.security;
+package com.example.ytt.domain.auth.security;
 
-import com.example.ytt.domain.user.auth.jwt.JWTUtil;
-import com.example.ytt.domain.user.domain.JwtRefresh;
+import com.example.ytt.domain.auth.domain.JwtRefresh;
+import com.example.ytt.domain.auth.jwt.JWTUtil;
 import com.example.ytt.domain.user.domain.User;
 import com.example.ytt.domain.user.dto.Role;
-import com.example.ytt.domain.user.repository.RefreshRepository;
+import com.example.ytt.domain.auth.repository.RefreshRepository;
 import com.example.ytt.domain.user.repository.UserRepository;
 import com.example.ytt.global.common.response.ResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,6 +35,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final RefreshRepository refreshRepository;
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
+
 
 
     // [로그인 실행 5] 인증 성공하여 로그인 성공하면 실행하는 핸들러

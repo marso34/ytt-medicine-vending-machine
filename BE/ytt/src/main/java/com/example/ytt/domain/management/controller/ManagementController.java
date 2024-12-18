@@ -1,7 +1,7 @@
 package com.example.ytt.domain.management.controller;
 
 import com.example.ytt.domain.management.service.ManagementService;
-import com.example.ytt.domain.user.auth.security.CustomUserDetails;
+import com.example.ytt.domain.auth.security.CustomUserDetails;
 import com.example.ytt.domain.user.dto.Role;
 import com.example.ytt.domain.user.dto.UserDto;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDto;

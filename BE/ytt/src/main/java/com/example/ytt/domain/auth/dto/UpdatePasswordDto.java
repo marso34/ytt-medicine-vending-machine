@@ -1,4 +1,4 @@
-package com.example.ytt.domain.user.dto;
+package com.example.ytt.domain.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

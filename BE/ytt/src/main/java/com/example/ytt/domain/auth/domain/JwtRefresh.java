@@ -1,5 +1,6 @@
-package com.example.ytt.domain.user.domain;
+package com.example.ytt.domain.auth.domain;
 
+import com.example.ytt.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

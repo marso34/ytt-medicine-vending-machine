@@ -1,4 +1,4 @@
-package com.example.ytt.domain.user.dto;
+package com.example.ytt.domain.auth.dto;
 
 import lombok.Getter;
 

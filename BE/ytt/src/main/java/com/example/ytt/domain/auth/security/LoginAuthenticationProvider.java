@@ -1,4 +1,4 @@
-package com.example.ytt.domain.user.auth.security;
+package com.example.ytt.domain.auth.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

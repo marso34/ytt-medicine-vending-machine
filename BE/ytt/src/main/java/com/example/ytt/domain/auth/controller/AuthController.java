@@ -1,9 +1,9 @@
-package com.example.ytt.domain.user.controller;
+package com.example.ytt.domain.auth.controller;
 
-import com.example.ytt.domain.user.dto.SignInDto;
-import com.example.ytt.domain.user.dto.SignUpDto;
-import com.example.ytt.domain.user.dto.TokenResponseDto;
-import com.example.ytt.domain.user.service.AuthService;
+import com.example.ytt.domain.auth.dto.SignInDto;
+import com.example.ytt.domain.auth.dto.SignUpDto;
+import com.example.ytt.domain.auth.dto.TokenResponseDto;
+import com.example.ytt.domain.auth.service.AuthService;
 import com.example.ytt.global.common.annotation.SwaggerApi;
 import com.example.ytt.global.common.response.ResponseDto;
 import io.swagger.v3.oas.annotations.Parameter;

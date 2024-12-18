@@ -1,5 +1,6 @@
-package com.example.ytt.domain.user.dto;
+package com.example.ytt.domain.auth.dto;
 
+import com.example.ytt.domain.user.dto.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

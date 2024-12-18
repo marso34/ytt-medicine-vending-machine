@@ -1,15 +1,15 @@
-package com.example.ytt.domain.user.service;
+package com.example.ytt.domain.auth.service;
 
-import com.example.ytt.domain.user.auth.jwt.JWTUtil;
-import com.example.ytt.domain.user.auth.security.CustomUserDetails;
-import com.example.ytt.domain.user.domain.JwtRefresh;
+import com.example.ytt.domain.auth.domain.JwtRefresh;
+import com.example.ytt.domain.auth.dto.SignUpDto;
+import com.example.ytt.domain.auth.dto.TokenResponseDto;
+import com.example.ytt.domain.auth.exception.AuthException;
+import com.example.ytt.domain.auth.jwt.JWTUtil;
+import com.example.ytt.domain.auth.repository.RefreshRepository;
+import com.example.ytt.domain.auth.security.CustomUserDetails;
 import com.example.ytt.domain.user.domain.User;
 import com.example.ytt.domain.user.dto.Role;
-import com.example.ytt.domain.user.dto.SignUpDto;
-import com.example.ytt.domain.user.dto.TokenResponseDto;
 import com.example.ytt.domain.user.dto.UserDto;
-import com.example.ytt.domain.user.exception.UserException;
-import com.example.ytt.domain.user.repository.RefreshRepository;
 import com.example.ytt.domain.user.repository.UserRepository;
 import com.example.ytt.global.error.code.ExceptionType;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,7 +37,7 @@ public class AuthService implements UserDetailsService {
 
 
     // 회원가입
-    public void signUp(SignUpDto signUpDto) throws UserException {
+    public void signUp(SignUpDto signUpDto) throws AuthException {
 
         signUpDto.setPassword(bCryptPasswordEncoder.encode(signUpDto.getPassword()));
         User user = User.builder()
@@ -50,19 +50,19 @@ public class AuthService implements UserDetailsService {
 
         // 아이디 중복 검사
         if(userRepository.existsByEmail(signUpDto.getEmail())){
-            throw new UserException(ExceptionType.ALREADY_EXIST_USER);
+            throw new AuthException(ExceptionType.ALREADY_EXIST_USER);
         }
 
         // 폰번호 중복 검사
         if(userRepository.existsByPhoneNumber(signUpDto.getPhoneNumber())){
-            throw new UserException(ExceptionType.ALREADY_EXIST_PHONENUMBER);
+            throw new AuthException(ExceptionType.ALREADY_EXIST_PHONENUMBER);
         }
 
         userRepository.save(user);
     }
 
     // 토큰 재발급 요청 확인
-    public TokenResponseDto reissueTokens(HttpServletRequest request, HttpServletResponse response) throws UserException {
+    public TokenResponseDto reissueTokens(HttpServletRequest request, HttpServletResponse response) throws AuthException {
         String refresh = request.getHeader("refresh");
 
         validateRefreshToken(refresh);
@@ -73,7 +73,7 @@ public class AuthService implements UserDetailsService {
     private TokenResponseDto generateNewTokens(String refresh, HttpServletResponse response) {
         String email = jwtUtil.getEmail(refresh);
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserException(ExceptionType.NOT_FOUND_USER));
+                .orElseThrow(() -> new AuthException(ExceptionType.NOT_FOUND_USER));
 
         String roleString = jwtUtil.getRole(refresh); // 역할 문자열 가져오기
         Role role = Role.valueOf(roleString.toUpperCase());
@@ -129,26 +129,26 @@ public class AuthService implements UserDetailsService {
     }
 
     // 리프레시 토큰 유효성 검사
-    private void validateRefreshToken(String refresh) throws UserException {
+    private void validateRefreshToken(String refresh) throws AuthException {
         if (refresh == null || refresh.trim().isEmpty()) {
-            throw new UserException(ExceptionType.BLANK_REFRESH_TOKEN);
+            throw new AuthException(ExceptionType.BLANK_REFRESH_TOKEN);
         }
 
         try {
             if (jwtUtil.isExpired(refresh)) {
-                throw new UserException(ExceptionType.EXPIRED_REFRESH_TOKEN);
+                throw new AuthException(ExceptionType.EXPIRED_REFRESH_TOKEN);
             }
         }catch (Exception e) {
-            throw new UserException(ExceptionType.INVALID_REFRESH_TOKEN);
+            throw new AuthException(ExceptionType.INVALID_REFRESH_TOKEN);
         }
 
         String category = jwtUtil.getCategory(refresh);
         if (!category.equals("refresh")) {
-            throw new UserException(ExceptionType.INVALID_TOKEN_CATEGORY);
+            throw new AuthException(ExceptionType.INVALID_TOKEN_CATEGORY);
         }
 
         if (!refreshRepository.existsByRefresh(refresh)) {
-            throw new UserException(ExceptionType.INVALID_REFRESH_TOKEN);
+            throw new AuthException(ExceptionType.INVALID_REFRESH_TOKEN);
         }
     }
 }

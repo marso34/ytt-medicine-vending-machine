@@ -1,7 +1,7 @@
-package com.example.ytt.domain.user.auth.security;
+package com.example.ytt.domain.auth.security;
 
-import com.example.ytt.domain.user.auth.jwt.JWTUtil;
-import com.example.ytt.domain.user.repository.RefreshRepository;
+import com.example.ytt.domain.auth.jwt.JWTUtil;
+import com.example.ytt.domain.auth.repository.RefreshRepository;
 import com.example.ytt.global.error.code.ExceptionType;
 import com.example.ytt.global.util.ResponseUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;

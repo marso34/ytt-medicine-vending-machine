@@ -1,6 +1,6 @@
-package com.example.ytt.domain.user.auth.jwt;
+package com.example.ytt.domain.auth.jwt;
 
-import com.example.ytt.domain.user.auth.security.CustomUserDetails;
+import com.example.ytt.domain.auth.security.CustomUserDetails;
 import com.example.ytt.domain.user.dto.Role;
 import com.example.ytt.domain.user.dto.UserDto;
 import com.example.ytt.global.error.code.ExceptionType;

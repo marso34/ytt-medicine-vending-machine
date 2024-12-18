@@ -1,6 +1,6 @@
-package com.example.ytt.domain.user.repository;
+package com.example.ytt.domain.auth.repository;
 
-import com.example.ytt.domain.user.domain.JwtRefresh;
+import com.example.ytt.domain.auth.domain.JwtRefresh;
 import com.example.ytt.domain.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

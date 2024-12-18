@@ -1,7 +1,7 @@
 package com.example.ytt.domain.favorite.controller;
 
 import com.example.ytt.domain.favorite.service.FavoriteService;
-import com.example.ytt.domain.user.auth.security.CustomUserDetails;
+import com.example.ytt.domain.auth.security.CustomUserDetails;
 import com.example.ytt.domain.vendingmachine.dto.VendingMachineDto;
 import com.example.ytt.global.common.annotation.SwaggerApi;
 import com.example.ytt.global.common.response.ResponseDto;

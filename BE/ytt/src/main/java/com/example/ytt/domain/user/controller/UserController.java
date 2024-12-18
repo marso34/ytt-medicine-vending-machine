@@ -1,6 +1,6 @@
 package com.example.ytt.domain.user.controller;
 
-import com.example.ytt.domain.user.dto.UpdatePasswordDto;
+import com.example.ytt.domain.auth.dto.UpdatePasswordDto;
 import com.example.ytt.domain.user.dto.UserDto;
 import com.example.ytt.domain.user.service.UserService;
 import com.example.ytt.global.common.annotation.SwaggerApi;

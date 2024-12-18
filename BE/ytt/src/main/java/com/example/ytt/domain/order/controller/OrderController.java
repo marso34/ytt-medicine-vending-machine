@@ -3,7 +3,7 @@ package com.example.ytt.domain.order.controller;
 import com.example.ytt.domain.order.dto.OrderDto;
 import com.example.ytt.domain.order.dto.OrderReqDto;
 import com.example.ytt.domain.order.service.OrderService;
-import com.example.ytt.domain.user.auth.security.CustomUserDetails;
+import com.example.ytt.domain.auth.security.CustomUserDetails;
 import com.example.ytt.global.common.annotation.SwaggerApi;
 import com.example.ytt.global.common.response.ResponseDto;
 import com.example.ytt.global.util.ResponseUtil;
