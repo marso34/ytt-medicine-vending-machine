@@ -1,7 +1,7 @@
-package com.example.ytt.domain.user.auth.security;
+package com.example.ytt.domain.auth.security;
 
-import com.example.ytt.domain.user.auth.jwt.JWTUtil;
-import com.example.ytt.domain.user.dto.SignInDto;
+import com.example.ytt.domain.auth.jwt.JWTUtil;
+import com.example.ytt.domain.auth.dto.SignInDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -57,7 +57,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     // [로그인 실행 4] security 인증 성공 시 실행하는 메서드
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
-        System.out.println("Security Login >> 인증 성공");
+        log.info("Security Login >> 인증 성공");
 
         // 로그인 성공 핸들러 호출
         AuthenticationSuccessHandler handler = this.getSuccessHandler();
@@ -67,7 +67,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     // [로그인 실행 4] security 인증 실패 시 실행하는 메서드
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        System.out.println("Security Login >> 인증 실패");
+        log.info("Security Login >> 인증 실패");
 
         // 로그인 실패 핸들러 호출
         AuthenticationFailureHandler handler = this.getFailureHandler();
